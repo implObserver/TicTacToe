@@ -52,26 +52,26 @@ const MoveHundler = (() => {
             : checkVertical(x, y) === lengthLine ? true
                 : checkLeftDiagonal(x, y) === lengthLine ? true
                     : checkRightDiagonal(x, y) === lengthLine ? true
-                    :false;
+                        : false;
     }
 
     const checkHorizontal = (x, y) => {
-        let result = check([x, y, minE, minE, 0, decrement, neutral], [++x, y, maxE, minE, 0, increment, neutral]);
+        let result = check([x, y, minE, minE, decrement, unchanged], [++x, y, maxE, minE, increment, unchanged]);
         return result;
     }
 
     const checkVertical = (x, y) => {
-        let result = check([x, y, minE, minE, 0, neutral, decrement], [x, ++y, maxE, maxE, 0, neutral, increment]);
+        let result = check([x, y, minE, minE, unchanged, decrement], [x, ++y, maxE, maxE, unchanged, increment]);
         return result;
     }
 
     const checkLeftDiagonal = (x, y) => {
-        let result = check([x, y, minE, minE, 0, decrement, decrement], [++x, ++y, maxE, maxE, 0, increment, increment]);
+        let result = check([x, y, minE, minE, decrement, decrement], [++x, ++y, maxE, maxE, increment, increment]);
         return result;
     }
 
     const checkRightDiagonal = (x, y) => {
-        let result = check([x, y, maxE, minE, 0, increment, decrement], [--x, ++y, minE, maxE, 0, decrement, increment]);
+        let result = check([x, y, maxE, minE, increment, decrement], [--x, ++y, minE, maxE, decrement, increment]);
         return result;
     }
 
@@ -81,11 +81,11 @@ const MoveHundler = (() => {
         return part1 + part2;
     }
 
-    const measuringDeviceFabric = (x, y, xBool, yBool, score = 0, functionX, functionY) => {
+    const measuringDeviceFabric = (x, y, xBool, yBool, functionX, functionY, score = 0) => {
         if (xBool(x) && yBool(y)) {
             if (gameBoard[y][x] === playerMark) {
                 ++score;
-                return measuringDeviceFabric(functionX(x), functionY(y), xBool, yBool, score, functionX, functionY);
+                return measuringDeviceFabric(functionX(x), functionY(y), xBool, yBool, functionX, functionY, score);
             }
         }
         return score;
@@ -99,7 +99,7 @@ const MoveHundler = (() => {
         return --e;
     }
 
-    const neutral = (e) => {
+    const unchanged = (e) => {
         return e;
     }
 
@@ -114,3 +114,13 @@ const MoveHundler = (() => {
     return { checkWinnable }
 
 })();
+
+GameBoard.getGameBoard()[0][0] = 1;
+GameBoard.getGameBoard()[0][1] = 1;
+GameBoard.getGameBoard()[0][2] = 1;
+
+console.log(GameBoard.getGameBoard())
+
+let player = Player();
+player.setMark(1);
+console.log(MoveHundler.checkWinnable(0, 0, player.getMark()));
