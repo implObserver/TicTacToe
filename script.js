@@ -27,3 +27,16 @@ const GameBoard = (() => {
 
     return { getGameBoard, resetGameBoard, setGameBoardVal }
 })();
+
+const Player = () => {
+    let mark = 1;
+    const setMark = (mrk) => {
+        mark = mrk;
+    }
+
+    const getMark = () => {
+        return mark;
+    }
+
+    return { getMark, setMark };
+}
