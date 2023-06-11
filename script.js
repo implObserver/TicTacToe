@@ -1,3 +1,9 @@
+import { Tools } from './modules/tools.js';
+import { DomElements, DynamicDomElements} from './modules/domElements.js';
+import { Selectors } from './modules/selectors.js';
+import * as exports from './modules/listeners.js';
+
+
 const GameBoard = (() => {
     const fillGameBoard = (witdh, height) => {
         let gameBoard = [];
@@ -123,4 +129,6 @@ console.log(GameBoard.getGameBoard())
 
 let player = Player();
 player.setMark(1);
-console.log(MoveHundler.checkWinnable(0, 0, player.getMark()));
+
+
+let burgerMenu = DomElements.burgerMenu();
