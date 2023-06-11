@@ -19,4 +19,4 @@ const Tools = (() => {
     return { createNode, appendChilds, addClasses };
 })();
 
-export {Tools};
+export {Tools}

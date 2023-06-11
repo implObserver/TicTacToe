@@ -1,5 +1,5 @@
 import { Tools } from './modules/tools.js';
-import { DomElements, DynamicDomElements} from './modules/domElements.js';
+import { DomElements, DynamicDomElements } from './modules/domElements.js';
 import { Selectors } from './modules/selectors.js';
 import * as exports from './modules/listeners.js';
 
@@ -130,5 +130,7 @@ console.log(GameBoard.getGameBoard())
 let player = Player();
 player.setMark(1);
 
-
-let burgerMenu = DomElements.burgerMenu();
+for (let i = 0; i < 2; i++) {
+    let score = DynamicDomElements.playerScore();
+    Selectors.container.appendChild(score);
+}

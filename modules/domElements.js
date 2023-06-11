@@ -1,26 +1,36 @@
 import { Tools } from './tools.js';
 
 const DomElements = (() => {
-    const burgerMenu = () => {
+    const burgerMenu = (() => {
         let burgerMenu = Tools.createNode('div', 'burger__menu');
         const header = () => {
             let header = Tools.createNode('div', 'burger__menu-header');
+            const closer = () => {
+                return Tools.createNode('div', 'close');
+            }
+            Tools.appendChilds(header, closer());
+            return header;
+        }
+        const mainTitle = () => {
+            let mainTitle = Tools.createNode('div', 'main__title');
             const logo = () => {
-                return Tools.createNode('div', 'icon__wrapper');
+                return Tools.createNode('div', 'logo');
             }
             const title = () => {
                 let title = Tools.createNode('div', 'title');
                 title.textContent = 'TicTacToe';
                 return title;
             }
-            Tools.appendChilds(header, logo(), title());
-            return header;
+
+            Tools.appendChilds(mainTitle, logo(), title());
+            return mainTitle;
         }
+
         const scoreBoard = () => {
             let scoreBoard = Tools.createNode('div', 'score__board');
             const title = () => {
                 let title = Tools.createNode('div', 'title');
-                title.textContent = 'Score Board';
+                title.textContent = 'Score Board:';
                 return title;
             }
             const container = () => {
@@ -32,13 +42,13 @@ const DomElements = (() => {
             Tools.appendChilds(scoreBoard, title(), container(), counter());
             return scoreBoard;
         }
-        Tools.appendChilds(burgerMenu, header(), scoreBoard());
+        Tools.appendChilds(burgerMenu, header(), mainTitle(), scoreBoard());
         return burgerMenu;
-    }
+    })();
     return { burgerMenu };
 })()
 
-const DynamicDomElements = () => {
+const DynamicDomElements = (() => {
     const playerScore = (name) => {
         let playerScore = Tools.createNode('div', 'player__score');
         const title = () => {
@@ -53,6 +63,6 @@ const DynamicDomElements = () => {
         return playerScore;
     }
     return { playerScore };
-}
+})();
 
-export {DomElements, DynamicDomElements};
+export { DomElements, DynamicDomElements };

@@ -18,51 +18,75 @@ html {
     grid-template-columns: min-content 1fr;
 }
 
-.unchecked{
+.menu {
     background-color: aqua;
-    transition: visibility 0s, opacity 0.5s linear;
+    border: 0.4vh rgb(99, 205, 247) solid;
 }
 
-.checked {
-    background-color: rgb(175, 175, 175);
+.burger__menu {
+    font-size: 100%;
+    background-color: aqua;
+    border: 0.4vh rgb(99, 205, 247) solid;
     width: 40vh;
     display: grid;
-    grid-template-rows: min-content 1fr;
+    grid-template-rows: min-content min-content 1fr;
+    gap: 1vh;
 }
 
 .visible-on {
-    position:static;
+    position: static;
     visibility: visible;
     opacity: 1;
 }
 
 .visible-off {
-    position:fixed;
+    position: fixed;
     visibility: hidden;
     opacity: 0;
 }
 
 .burger__menu-header {
     display: grid;
-    grid-template-columns: min-content 1fr;
-    justify-items: left;
     align-items: center;
+    grid-template-columns: minmax(10px,100%);
+    justify-items: right;
 }
 
-.burger__menu-header>.title {
+.logo {
+    background-image: url(./images/burgerMenu/logo.png);
+    background-size: 100% 100%;
+}
+
+.close {
+    background-image: url(./images/menu.svg);
+}
+
+.main__title {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    justify-items: center;
+    font-size: 3rem;
+    padding: 1vh;
+    gap: 1vh;
+}
+
+.main__title>.title {
     height: min-content;
 }
 
 .score__board {
     display: grid;
-    grid-template-rows: 5vh 1fr 10vh;
+    grid-template-rows: 10vh 1fr 10vh;
+    border-top: 0.4vh rgb(99, 205, 247) solid;
 }
 
 .score__board>.title {
     display: flex;
-    border: 1px black solid;
     justify-content: center;
     align-items: center;
+    font-size: 2rem;
+    border-bottom: 0.4vh rgb(99, 205, 247) solid;
 }
 
 span {
@@ -74,13 +98,16 @@ span {
     grid-template-columns: repeat(auto-fit, 30vh);
     align-content: center;
     justify-content: center;
+    padding: 1vh;
     gap: 2vh;
 }
 
 .player__score {
     display: grid;
     grid-template-rows: 0.5fr 1fr;
-    border: 1px black solid;
+    
+    
+    border-radius: 1vh;
     height: 20vh;
     width: 30vh;
 }
@@ -90,18 +117,21 @@ span {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px black solid;
+    border: 0.4vh rgb(99, 205, 247) solid;
+    background-color: aliceblue;
+    border-radius: 1vh;
+
 }
 
 .round__counter {
-    border: 1px red solid;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    border-top: 0.4vh rgb(99, 205, 247) solid;
 }
 
-.icon__wrapper {
+.icon__wrapper, .close, .logo {
     width: 6vh;
     height: 6vh;
 }
@@ -112,6 +142,7 @@ span {
 
 .board {
     background-color: azure;
+    text-align: center;
 }
 
 @media screen and (max-aspect-ratio:1/1.0001) {}
