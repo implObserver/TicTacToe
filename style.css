@@ -1,3 +1,6 @@
+@import url(./styles/gamePage.css);
+@import url(./styles/mainPage.css);
+
 *,
 *::before,
 *::after {
@@ -15,136 +18,18 @@ html {
 
 .wrapper {
     display: grid;
-    grid-template-columns: min-content 1fr;
 }
 
-.menu {
-    background-color: aqua;
-    border: 0.4vh rgb(99, 205, 247) solid;
-}
-
-.burger__menu {
-    font-size: 100%;
-    background-color: aqua;
-    border: 0.4vh rgb(99, 205, 247) solid;
-    width: 40vh;
-    display: grid;
-    grid-template-rows: min-content min-content 1fr;
-    gap: 1vh;
-}
-
-.visible-on {
-    position: static;
-    visibility: visible;
-    opacity: 1;
-}
-
-.visible-off {
-    position: fixed;
-    visibility: hidden;
-    opacity: 0;
-}
-
-.burger__menu-header {
-    display: grid;
-    align-items: center;
-    grid-template-columns: minmax(10px,100%);
-    justify-items: right;
-}
-
-.logo {
-    background-image: url(./images/burgerMenu/logo.png);
-    background-size: 100% 100%;
-}
-
-.close {
-    background-image: url(./images/menu.svg);
-}
-
-.main__title {
-    display: grid;
-    grid-template-columns: min-content 1fr;
-    align-items: center;
-    justify-items: center;
-    font-size: 3rem;
-    padding: 1vh;
-    gap: 1vh;
-}
-
-.main__title>.title {
-    height: min-content;
-}
-
-.score__board {
-    display: grid;
-    grid-template-rows: 10vh 1fr 10vh;
-    border-top: 0.4vh rgb(99, 205, 247) solid;
-}
-
-.score__board>.title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    border-bottom: 0.4vh rgb(99, 205, 247) solid;
+.icon-wrapper {
+    width: 6vh;
+    height: 6vh;
 }
 
 span {
     height: min-content;
 }
 
-.score__board-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 30vh);
-    align-content: center;
-    justify-content: center;
-    padding: 1vh;
-    gap: 2vh;
+.logo {
+    background-image: url(../images/burgerMenu/logo.png);
+    background-size: 100% 100%;
 }
-
-.player__score {
-    display: grid;
-    grid-template-rows: 0.5fr 1fr;
-    
-    
-    border-radius: 1vh;
-    height: 20vh;
-    width: 30vh;
-}
-
-.player__score>.title,
-.score {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 0.4vh rgb(99, 205, 247) solid;
-    background-color: aliceblue;
-    border-radius: 1vh;
-
-}
-
-.round__counter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    border-top: 0.4vh rgb(99, 205, 247) solid;
-}
-
-.icon__wrapper, .close, .logo {
-    width: 6vh;
-    height: 6vh;
-}
-
-.icon__menu {
-    background-image: url(./images/menu.svg);
-}
-
-.board {
-    background-color: azure;
-    text-align: center;
-}
-
-@media screen and (max-aspect-ratio:1/1.0001) {}
-
-@media screen and (min-aspect-ratio: 1/1) {}

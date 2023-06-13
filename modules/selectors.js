@@ -1,12 +1,14 @@
 import { DomElements } from "./domElements.js";
 
 const Selectors = (() => {
-    const iconMenu = document.querySelector('.select');
-    const wrapper = document.querySelector('.wrapper');
-    const menu = document.querySelector('.menu');
-    const burgerMenuCloser = DomElements.burgerMenu.querySelector('.close');
-    const container = DomElements.burgerMenu.querySelector('.score__board-container');
-    return { iconMenu, wrapper, menu, burgerMenuCloser, container };
+    const gpWrapper = document.querySelector('.game-page');
+    const gpClosedBurger = document.querySelector('.game-page__burger--closed');
+    const gpOpenedBurger = DomElements.gpBurgerMenu;
+    const gpOpenButton = document.querySelector('.game-page__burger__button--open');
+    const gpCloseButton = DomElements.gpBurgerMenu.querySelector('.game-page__burger__button--close');
+    const gpGameBoard = document.querySelector('.game-page__gameboard');
+    const gpScoresContainer = DomElements.gpBurgerMenu.querySelector('.game-page__burger__score-board__container');
+    return { gpOpenButton, gpCloseButton, gpWrapper, gpClosedBurger, gpOpenedBurger, gpScoresContainer, gpGameBoard };
 })();
 
 export { Selectors };

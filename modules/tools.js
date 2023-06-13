@@ -1,7 +1,7 @@
 const Tools = (() => {
-    const createNode = (nodeName, className) => {
+    const createNode = (nodeName, ...className) => {
         let node = document.createElement(nodeName);
-        addClasses(node, className);
+        addClasses(node, ...className);
         return node;
     }
 
@@ -16,7 +16,13 @@ const Tools = (() => {
             node.classList.add(curClass);
         }
     }
-    return { createNode, appendChilds, addClasses };
+
+    const setUpSpan = (text) => {
+        let span = createNode('span');
+        span.textContent = text;
+        return span;
+    }
+    return { createNode, appendChilds, setUpSpan };
 })();
 
-export {Tools}
+export { Tools }

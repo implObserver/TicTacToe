@@ -1,0 +1,126 @@
+@import url(../style.css);
+
+.game-page {
+    grid-template-columns: min-content 1fr;
+}
+
+.game-page__burger--closed {
+    background-color: aqua;
+    border: 0.4vh rgb(99, 205, 247) solid;
+}
+
+.game-page__burger--opened {
+    font-size: 100%;
+    background-color: aqua;
+    border: 0.4vh rgb(99, 205, 247) solid;
+    width: 40vh;
+    display: grid;
+    grid-template-rows: min-content min-content 1fr;
+    gap: 1vh;
+}
+
+.game-page__burger__button--open {
+    background-image: url(../images/menu.svg);
+}
+
+.game-page__burger__button--close {
+    background-image: url(../images/menu.svg);
+}
+
+.game-page__burger__header {
+    display: grid;
+    align-items: center;
+    grid-template-columns: minmax(10px, 100%);
+    justify-items: right;
+}
+
+.game-page__burger__main-title {
+    display: grid;
+    grid-template-columns: min-content 1fr;
+    align-items: center;
+    justify-items: center;
+    font-size: 3rem;
+    padding: 1vh;
+    gap: 1vh;
+}
+
+.game-page__burger__score-board {
+    display: grid;
+    grid-template-rows: 10vh 1fr 10vh;
+    border-top: 0.4vh rgb(99, 205, 247) solid;
+}
+
+.game-page__burger__score-board__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border-bottom: 0.4vh rgb(99, 205, 247) solid;
+}
+
+.game-page__burger__score-board__container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 30vh);
+    align-content: center;
+    justify-content: center;
+    padding: 1vh;
+    gap: 2vh;
+}
+
+.game-page__burger__score-board__player-score {
+    display: grid;
+    grid-template-rows: 0.5fr 1fr;
+    font-size: 1.5rem;
+    border-radius: 1vh;
+    height: 20vh;
+    width: 30vh;
+}
+
+.game-page__burger__score-board__player-score__name,
+.game-page__burger__score-board__player-score__score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.4vh rgb(99, 205, 247) solid;
+    background-color: aliceblue;
+    border-radius: 1vh;
+    padding: 1vh;
+}
+
+.game-page__burger__score-board__round-counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border-top: 0.4vh rgb(99, 205, 247) solid;
+}
+
+.game-page__body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: azure;
+}
+
+.game-page__gameboard {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(3vh, 18vh));
+    grid-template-rows: repeat(6, minmax(3vh, 18vh));
+    align-content: center;
+    justify-content: center;
+    gap: 1vh;
+    padding: 1vh;
+}
+
+.cell {
+    display: flex;
+    min-height: 3vh;
+    min-width: 3vh;
+    background-color: rgb(209, 238, 236);
+    opacity: 0.7;
+    border-radius: 0.2rem;
+}
+
+@media screen and (max-aspect-ratio:1/1.0001) {}
+
+@media screen and (min-aspect-ratio: 1/1) {}

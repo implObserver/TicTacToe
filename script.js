@@ -5,6 +5,34 @@ import * as exports from './modules/listeners.js';
 
 
 const GameBoard = (() => {
+    let width;
+    let height;
+    let cells;
+
+    const setWidth = (number) => {
+        width = number;
+    }
+
+    const setHeigth = (number) => {
+        height = number;
+    }
+
+    const setCells = (number) => {
+        cells = number
+    }
+
+    const getWidth = (number) => {
+        return width;
+    }
+
+    const getHeigth = (number) => {
+        return height;
+    }
+
+    const getCells = (number) => {
+        return cells;
+    }
+
     const fillGameBoard = (witdh, height) => {
         let gameBoard = [];
         for (let i = 0; i < witdh; i++) {
@@ -31,7 +59,7 @@ const GameBoard = (() => {
         gameBoard[y][x] = val;
     }
 
-    return { getGameBoard, resetGameBoard, setGameBoardVal }
+    return { getGameBoard, resetGameBoard, setGameBoardVal, setWidth, setHeigth, setCells, getWidth, getHeigth, getCells }
 })();
 
 const Player = () => {
@@ -132,5 +160,17 @@ player.setMark(1);
 
 for (let i = 0; i < 2; i++) {
     let score = DynamicDomElements.playerScore();
-    Selectors.container.appendChild(score);
+    Selectors.gpScoresContainer.appendChild(score);
+}
+
+let length = 4;
+Selectors.gpGameBoard.style.width = `${(length * 12) + 10}vh`;
+Selectors.gpGameBoard.style.height = `${(length * 12) + 10}vh`;
+console.log(Selectors.gpGameBoard.style.height);
+for (let i = 0; i < 36; i++) {
+    let cell = DynamicDomElements.cell();
+    if (i === 0) {
+        cell.style.border = '1px red solid';
+    }
+    Selectors.gpGameBoard.appendChild(cell);
 }
