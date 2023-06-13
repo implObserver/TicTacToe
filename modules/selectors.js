@@ -5,6 +5,7 @@ const Selectors = (() => {
     const gpClosedBurger = document.querySelector('.game-page__burger--closed');
     const gpOpenedBurger = DomElements.gpBurgerMenu;
     const gpOpenButton = document.querySelector('.game-page__burger__button--open');
+    console.log(gpOpenButton);
     const gpCloseButton = DomElements.gpBurgerMenu.querySelector('.game-page__burger__button--close');
     const gpGameBoard = document.querySelector('.game-page__gameboard');
     const gpScoresContainer = DomElements.gpBurgerMenu.querySelector('.game-page__burger__score-board__container');

@@ -2,5 +2,9 @@
 
 .logo {
    width: 10vh;
-   height: 10vh;
+   height: 10vh; 
+}
+
+.main-page {
+   grid-template-rows: 1fr 1fr 1fr;
 }
