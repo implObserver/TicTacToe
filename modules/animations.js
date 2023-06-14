@@ -2,31 +2,31 @@ import { Selectors } from './selectors.js';
 
 const Animations = (() => {
     const transform = (() => {
-        const x = (e, x0, x1, dur, dir = 'normal', fill = 'none') => {
-            e.animate([{ transform: `translateX(${x0})` }, { transform: `translateX(${x1})` }], { duration: dur, direction: dir });
+        const x = (e, x0, x1, dur, fill = 'none') => {
+            return e.animate([{ left: `${x0}` }, { left: `${x1}` }], { duration: dur, fill: fill });
         }
 
-        const y = (e, y0, y1, dur, dir) => {
-            e.animate([{ transform: `translateY(${y0})` }, { transform: `translateY(${y1})` }], { duration: dur, direction: dir, fill: fill });
+        const y = (e, y0, y1, dur, fill = 'none') => {
+            return e.animate([{ top: `${y0}` }, { top: `${y1}` }], { duration: dur, fill: fill });
         }
 
-        const rotate = (e, rotate1, rotate2, dur, dir = 'normal', fill = 'none') => {
-            e.animate([{ transform: `rotate(${rotate1}deg)` }, { transform: `rotate(${rotate2}deg)` }], { duration: dur, direction: dir, fill: fill });
+        const rotate = (e, rotate1, rotate2, dur, fill = 'none') => {
+            return e.animate([{ transform: `rotate(${rotate1}deg)` }, { transform: `rotate(${rotate2}deg)` }], { duration: dur, fill: fill });
         }
 
         return { x, y, rotate };
     })();
 
-    const background = (e, color1, color2, dur, dir = 'normal', fill = 'none') => {
-        e.animate([{ background: color1 }, { background: color2 }], { duration: dur, direction: dir, fill: fill });
+    const background = (e, color1, color2, dur, fill = 'none') => {
+        return e.animate([{ background: color1 }, { background: color2 }], { duration: dur, fill: fill });
     };
 
-    const opacity = (e, opacity1, opacity2, dur, dir = 'normal', fill = 'none') => {
-        e.animate([{ opacity: opacity1 }, { opacity: opacity2 }], { duration: dur, direction: dir, fill: fill });
+    const opacity = (e, opacity1, opacity2, dur, fill = 'none') => {
+        return e.animate([{ opacity: opacity1 }, { opacity: opacity2 }], { duration: dur, fill: fill });
     };
 
-    const custom = (e, dur, dir = 'normal', fill = 'none', ...keyFrames) => {
-        e.animate(...keyFrames, { duration: dur, direction: dir, fill: fill });
+    const custom = (e, dur, fill = 'none', ...keyFrames) => {
+        return e.animate(...keyFrames, { duration: dur, fill: fill });
     };
 
     return { transform, background, opacity, custom };
@@ -35,34 +35,37 @@ const Animations = (() => {
 const AnimationsPreset = (() => {
     const gamePage = (() => {
         const burgerMenu = (() => {
-            const open = () => {
-                gpAnimations.burgerMenu.open();
-                gpAnimations.closeButton.transition();
-                gpAnimations.mainTitle.opacity();
-                gpAnimations.scoreBoard.opacity();
-                gpAnimations.closeButton.line.up().finished.then(() => {
-                    gpAnimations.closeButton.line.rotate('.up', 0, -45);
+            const open = (duration) => {
+                gpAnimations.burgerMenu.resize(duration, 'none', [{ width: '9vh' }, { width: '45vh' }]);
+                gpAnimations.closeButton.transition('0vh', '36vh', duration);
+
+                gpAnimations.mainTitle.opacity('0', '1', duration);
+                gpAnimations.scoreBoard.opacity('0', '1', duration);
+                gpAnimations.closeButton.linesInButton.middle.opacity('1', '0', duration, 'forwards');
+
+                gpAnimations.closeButton.linesInButton.up.transition('0vh', '1.3vh', duration / 2).finished.then(() => {
+                    gpAnimations.closeButton.linesInButton.up.rotate(0, -45, duration / 2, 'forwards')
                 });
-                gpAnimations.closeButton.line.middle();
-                gpAnimations.closeButton.line.down().finished.then(() => {
-                    gpAnimations.closeButton.line.rotate('.down', 0, 45);
+                gpAnimations.closeButton.linesInButton.down.transition('0vh', '-1.3vh', duration / 2).finished.then(() => {
+                    gpAnimations.closeButton.linesInButton.down.rotate(0, 45, duration / 2, 'forwards')
                 });
-                gpAnimations.closeButton.background();
+
+                gpAnimations.closeButton.background('#663399', '#E94141', duration, 'forwards');
             }
 
-            const close = () => {
-                gpAnimations.closeButton.transition('reverse');
-                gpAnimations.mainTitle.opacity('reverse');
-                gpAnimations.scoreBoard.opacity('reverse');
-                gpAnimations.closeButton.line.rotate('.up', -45, 0).finished.then(() => {
-                    gpAnimations.closeButton.line.up('reverse');
+            const close = (duration) => {
+                gpAnimations.closeButton.transition('36vh', '0vh', duration);
+                gpAnimations.mainTitle.opacity('1', '0', duration);
+                gpAnimations.scoreBoard.opacity('1', '0', duration);
+                gpAnimations.closeButton.linesInButton.middle.opacity('0', '1', duration, 'forwards');
+                gpAnimations.closeButton.linesInButton.up.rotate(-45, 0, duration / 2, 'forwards').finished.then(() => {
+                    gpAnimations.closeButton.linesInButton.up.transition('1.3vh', '0vh', duration / 2);
                 });
-                gpAnimations.closeButton.line.middle('reverse');
-                gpAnimations.closeButton.line.rotate('.down', 45, 0).finished.then(() => {
-                    gpAnimations.closeButton.line.down('reverse');
+                gpAnimations.closeButton.linesInButton.down.rotate(45, 0, duration / 2, 'forwards').finished.then(() => {
+                    gpAnimations.closeButton.linesInButton.down.transition('-1.3vh', '0vh', duration / 2);
                 });
-                gpAnimations.closeButton.background('reverse');
-                return gpAnimations.burgerMenu.open('reverse');
+                gpAnimations.closeButton.background('#E94141', '#663399', duration);
+                return gpAnimations.burgerMenu.resize(duration, 'none', [{ width: '45vh' }, { width: '9vh' }]);
             }
             return { open, close };
         })();
@@ -73,58 +76,72 @@ const AnimationsPreset = (() => {
 
 const gpAnimations = (() => {
     const burgerMenu = (() => {
-        const open = (param = 'normal', fill = 'none') => {
-            return Selectors.gpOpenedBurger.animate([{ width: '9vh' }, { width: '45vh' }], { duration: 500, direction: param });
+        const resize = (dur, fill, ...keyFrames) => {
+            return Animations.custom(Selectors.gpOpenedBurger, dur, fill, ...keyFrames);
+
         };
-        return { open };
+        return { resize };
     })();
 
     const closeButton = (() => {
-        const transition = (param = 'normal') => {
-            Selectors.gpCloseButton.animate([{ left: '0vh' }, { left: '36vh' }], { duration: 500, direction: param });
+        const transition = (x0, x1, dur, fill = 'none') => {
+            return Animations.transform.x(Selectors.gpCloseButton, x0, x1, dur, fill);
         };
 
-        const line = (() => {
-            const up = (param = 'normal') => {
+        const linesInButton = (() => {
+            const up = (() => {
                 let ln = Selectors.gpCloseButton.querySelector('.up');
-                return ln.animate([{ top: '0vh' }, { top: '1.3vh' }], { duration: 250, direction: param });
-            };
+                const transition = (y0, y1, dur, fill = 'none') => {
+                    return Animations.transform.y(ln, y0, y1, dur, fill);
+                }
+                const rotate = (rotate1, rotate2, dur, fill = 'none') => {
+                    return Animations.transform.rotate(ln, rotate1, rotate2, dur, fill);
+                }
+                return { transition, rotate };
+            })();
 
-            const middle = (param = 'normal') => {
-                Selectors.gpCloseButton.querySelector('.middle').animate([{ opacity: '1' }, { opacity: '0' }], { duration: 250, fill: 'forwards', direction: param });
-            };
+            const middle = (() => {
+                let ln = Selectors.gpCloseButton.querySelector('.middle');
+                const opacity = (op0, op1, dur, fill = 'none') => {
+                    return Animations.opacity(ln, op0, op1, dur, fill);
+                }
+                return { opacity };
+            })();
 
-            const down = (param = 'normal') => {
+            const down = (() => {
                 let ln = Selectors.gpCloseButton.querySelector('.down');
-                return ln.animate([{ top: '0vh' }, { top: '-1.3vh' }], { duration: 250, direction: param });
-            };
-
-            const rotate = (selector, rotate1, rotate2, param = 'normal') => {
-                return Selectors.gpCloseButton.querySelector(selector).animate([{ transform: `rotate(${rotate1}deg)` }, { transform: `rotate(${rotate2}deg)` }], { duration: 250, fill: 'forwards', direction: param });
-            }
-            return { up, middle, down, rotate };
+                const transition = (y0, y1, dur, fill = 'none') => {
+                    return Animations.transform.y(ln, y0, y1, dur, fill);
+                }
+                const rotate = (rotate1, rotate2, dur, fill = 'none') => {
+                    return Animations.transform.rotate(ln, rotate1, rotate2, dur, fill);
+                }
+                return { transition, rotate };
+            })();
+            return { up, middle, down };
         })();
 
-        const background = (param = 'normal') => {
-            Selectors.gpCloseButton.animate([{ background: '#663399' }, { background: '#E94141' }], { duration: 500, fill: 'forwards', direction: param });
+        const background = (color0, color1, dur, fill = 'none') => {
+            return Animations.background(Selectors.gpCloseButton, color0, color1, dur, fill);
         }
 
-        return { transition, line, background };
+        return { transition, linesInButton, background };
     })();
 
     const mainTitle = (() => {
-        const opacity = (param = 'normal') => {
-            Selectors.gpMainTitle.animate([{ opacity: '0' }, { opacity: '1' }], { duration: 500, direction: param });
+        const opacity = (op0, op1, dur, fill = 'none') => {
+            return Animations.opacity(Selectors.gpMainTitle, op0, op1, dur, fill);
         }
         return { opacity };
     })();
 
     const scoreBoard = (() => {
-        const opacity = (param = 'normal') => {
-            Selectors.gpScoreBoard.animate([{ opacity: '0' }, { opacity: '1' }], { duration: 500, direction: param });
+        const opacity = (op0, op1, dur, fill = 'none') => {
+            return Animations.opacity(Selectors.gpScoreBoard, op0, op1, dur, fill);
         }
         return { opacity };
     })();
+
 
     return { scoreBoard, closeButton, burgerMenu, mainTitle };
 })();
