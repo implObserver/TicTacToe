@@ -6,7 +6,12 @@ const DomElements = (() => {
         const header = () => {
             let header = Tools.createNode('div', 'game-page__burger__header');
             const closure = () => {
-                return Tools.createNode('div', 'icon-wrapper', 'game-page__burger__button--close');
+                let closure = Tools.createNode('div', 'icon-wrapper', 'game-page__burger__button--close');
+                let spanUp = Tools.createNode('span', 'up');
+                let spanMiddle = Tools.createNode('span', 'middle');
+                let spanDown = Tools.createNode('span', 'down');
+                Tools.appendChilds(closure, spanUp, spanMiddle, spanDown);
+                return closure;
             }
             Tools.appendChilds(header, closure());
             return header;

@@ -1,16 +1,16 @@
 import { Selectors } from './selectors.js';
+import { AnimationsPreset, gpAnimations } from './animations.js';
 
 const Listeners = (() => {
     const gpBurgerOpen = Selectors.gpOpenButton.addEventListener('click', e => {
         Selectors.gpWrapper.replaceChild(Selectors.gpOpenedBurger, Selectors.gpClosedBurger);
-        Selectors.gpOpenedBurger.animate([{ width: '6vh' }, { width: '40vh' }], { duration: 100 });
+        AnimationsPreset.gamePage.burgerMenu.open();
     });
 
     const gpBurgerClose = Selectors.gpCloseButton.addEventListener('click', e => {
-        Selectors.gpOpenedBurger.animate([{ width: '40vh' }, { width: '6vh' }], { duration: 100 }).finished.then(() => {
+        AnimationsPreset.gamePage.burgerMenu.close().finished.then(() => {
             Selectors.gpWrapper.replaceChild(Selectors.gpClosedBurger, Selectors.gpOpenedBurger);
         });
-
     });
 
     return { gpBurgerOpen, gpBurgerClose };

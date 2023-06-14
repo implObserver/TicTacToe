@@ -1,10 +1,51 @@
 @import url(../style.css);
 
-.logo {
-   width: 10vh;
-   height: 10vh; 
-}
-
 .main-page {
    grid-template-rows: 1fr 1fr 1fr;
+   justify-items: center;
 }
+
+.main-page__title {
+   display: flex;
+   align-items: center;
+   font-size: 5.4rem;
+}
+
+.logo {
+   width: 32vh;
+   height: 32vh;
+}
+
+.tic {
+   color: #E94141;
+}
+
+.tac {
+   color: #629ACC;
+}
+
+.toe {
+   color: #0086F4;
+}
+
+.main-page__play__button {
+   display: flex;
+   align-items: center;
+}
+
+.play {
+   width: 43vh;
+   height: 14vh;
+   border: #629ACC 0.4vh solid;
+   border-radius: 2vh;
+   background-color: white;
+   font-size: 5rem;
+}
+
+a {
+   color: #629ACC;
+}
+
+@media screen and (max-aspect-ratio:1/1.0001) {}
+
+@media screen and (min-aspect-ratio: 1/1) {}

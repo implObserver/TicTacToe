@@ -5,33 +5,60 @@
 }
 
 .game-page__burger--closed {
-    background-color: aqua;
-    border: 0.4vh rgb(99, 205, 247) solid;
+    background-color: #4fadff;
+    border: 0.4vh #0086F4 solid;
+    padding: 1vh;
+    width: 9vh;
 }
 
 .game-page__burger--opened {
     font-size: 100%;
-    background-color: aqua;
-    border: 0.4vh rgb(99, 205, 247) solid;
-    width: 40vh;
+    background-color: #4fadff;
+    border: 0.4vh #0086F4 solid;
+    width: 45vh;
     display: grid;
     grid-template-rows: min-content min-content 1fr;
     gap: 1vh;
+    overflow: hidden;
 }
 
+.game-page__burger__button--close,
 .game-page__burger__button--open {
-    background-image: url(../images/menu.svg);
+    position: relative;
+    display: grid;
+    padding: 1vh;
+    justify-items: center;
+    align-items: center;
+    background-color: rgb(102, 51, 153);
 }
 
 .game-page__burger__button--close {
-    background-image: url(../images/menu.svg);
+    right: -36vh;
+}
+
+.up,
+.middle,
+.down {
+    position: relative;
+    width: 4vh;
+    height: 0.5vh;
+    background-color: white;
+    content: "";
+}
+
+.game-page__burger__button--close .up {
+    top: 1.3vh;  
+}
+
+.game-page__burger__button--close .down {
+    top: -1.3vh; 
+    
 }
 
 .game-page__burger__header {
     display: grid;
-    align-items: center;
-    grid-template-columns: minmax(10px, 100%);
-    justify-items: right;
+    grid-template-columns: 1fr;
+    padding: 1vh;
 }
 
 .game-page__burger__main-title {
@@ -47,7 +74,7 @@
 .game-page__burger__score-board {
     display: grid;
     grid-template-rows: 10vh 1fr 10vh;
-    border-top: 0.4vh rgb(99, 205, 247) solid;
+    border-top: 0.4vh #0086F4 solid;
 }
 
 .game-page__burger__score-board__title {
@@ -55,7 +82,7 @@
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    border-bottom: 0.4vh rgb(99, 205, 247) solid;
+    border-bottom: 0.4vh #0086F4 solid;
 }
 
 .game-page__burger__score-board__container {
@@ -81,7 +108,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 0.4vh rgb(99, 205, 247) solid;
+    border: 0.4vh #0086F4 solid;
     background-color: aliceblue;
     border-radius: 1vh;
     padding: 1vh;
@@ -92,14 +119,14 @@
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    border-top: 0.4vh rgb(99, 205, 247) solid;
+    border-top: 0.4vh #0086F4 solid;
 }
 
 .game-page__body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: azure;
+
 }
 
 .game-page__gameboard {

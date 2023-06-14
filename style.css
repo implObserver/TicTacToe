@@ -16,6 +16,11 @@ html {
     font-size: 2vh;
 }
 
+a {
+    outline: none;
+    text-decoration: none;
+}
+
 .wrapper {
     display: grid;
 }
