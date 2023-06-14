@@ -1,15 +1,15 @@
-import { Selectors } from './selectors.js';
-import { AnimationsPreset, gpAnimations } from './animations.js';
+import { GamePage } from './selectors/gamePage.js';
+import { AnimationsPresets } from './animations/gamePage.js';
 
 const Listeners = (() => {
-    const gpBurgerOpen = Selectors.gpOpenButton.addEventListener('click', e => {
-        Selectors.gpWrapper.replaceChild(Selectors.gpOpenedBurger, Selectors.gpClosedBurger);
-        AnimationsPreset.gamePage.burgerMenu.open(400);
+    const gpBurgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
+        GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.opened, GamePage.BurgerMenu.closed);
+        AnimationsPresets.ForGamePage.ForBurgerMenu.open(400);
     });
 
-    const gpBurgerClose = Selectors.gpCloseButton.addEventListener('click', e => {
-        AnimationsPreset.gamePage.burgerMenu.close(400).finished.then(() => {
-            Selectors.gpWrapper.replaceChild(Selectors.gpClosedBurger, Selectors.gpOpenedBurger);
+    const gpBurgerClose = GamePage.BurgerMenu.closeButton.addEventListener('click', e => {
+        AnimationsPresets.ForGamePage.ForBurgerMenu.close(400).finished.then(() => {
+            GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
         });
     });
 

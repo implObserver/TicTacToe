@@ -1,6 +1,6 @@
 import { Tools } from './modules/tools.js';
-import { DomElements, DynamicDomElements } from './modules/domElements.js';
-import { Selectors } from './modules/selectors.js';
+import { BurgerMenu, DynamicDomElements } from './modules/dom/gamePage.js';
+import { GamePage } from './modules/selectors/gamePage.js';
 import * as exports from './modules/listeners.js';
 
 
@@ -160,17 +160,17 @@ player.setMark(1);
 
 for (let i = 0; i < 2; i++) {
     let score = DynamicDomElements.playerScore();
-    Selectors.gpScoresContainer.appendChild(score);
+    GamePage.BurgerMenu.scoresContainer.appendChild(score);
 }
 
 let length = 4;
-Selectors.gpGameBoard.style.width = `${(length * 12) + 10}vh`;
-Selectors.gpGameBoard.style.height = `${(length * 12) + 10}vh`;
-console.log(Selectors.gpGameBoard.style.height);
+GamePage.Body.gameBoard.style.width = `${(length * 12) + 10}vh`;
+GamePage.Body.gameBoard.style.height = `${(length * 12) + 10}vh`;
+console.log(GamePage.Body.gameBoard.style.height);
 for (let i = 0; i < 36; i++) {
     let cell = DynamicDomElements.cell();
     if (i === 0) {
         cell.style.border = '1px red solid';
     }
-    Selectors.gpGameBoard.appendChild(cell);
+    GamePage.Body.gameBoard.appendChild(cell);
 }
