@@ -81,7 +81,7 @@ const gpAnimations = (() => {
 
     const closeButton = (() => {
         const transition = (param = 'normal') => {
-            Selectors.gpCloseButton.animate([{ transform: 'translateX(-36vh)' }, { transform: 'translateX(0vh)' }], { duration: 500, direction: param });
+            Selectors.gpCloseButton.animate([{ left: '0vh' }, { left: '36vh' }], { duration: 500, direction: param });
         };
 
         const line = (() => {
