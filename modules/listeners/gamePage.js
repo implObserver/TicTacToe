@@ -1,5 +1,5 @@
-import { GamePage } from './selectors/gamePage.js';
-import { AnimationsPresets } from './animations/gamePage.js';
+import { GamePage } from '../selectors/gamePage.js';
+import { AnimationsPresets } from '../animations/gamePage.js';
 
 const Listeners = (() => {
     const gpBurgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
@@ -12,7 +12,7 @@ const Listeners = (() => {
             GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
         });
     });
-
+    
     return { gpBurgerOpen, gpBurgerClose };
 })();
 

@@ -1,7 +1,7 @@
 import { Tools } from './modules/tools.js';
 import { BurgerMenu, DynamicDomElements } from './modules/dom/gamePage.js';
 import { GamePage } from './modules/selectors/gamePage.js';
-import * as exports from './modules/listeners.js';
+import { MainPage } from './modules/selectors/mainPage.js';
 
 
 const GameBoard = (() => {
@@ -158,7 +158,7 @@ console.log(GameBoard.getGameBoard())
 let player = Player();
 player.setMark(1);
 
-for (let i = 0; i < 2; i++) {
+/*for (let i = 0; i < 2; i++) {
     let score = DynamicDomElements.playerScore();
     GamePage.BurgerMenu.scoresContainer.appendChild(score);
 }
@@ -173,4 +173,4 @@ for (let i = 0; i < 36; i++) {
         cell.style.border = '1px red solid';
     }
     GamePage.Body.gameBoard.appendChild(cell);
-}
+}*/
