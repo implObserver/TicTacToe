@@ -11,7 +11,6 @@ const GamePage = (() => {
         const closed = document.querySelector('.game-page__burger--closed');
         const opened = BM;
         const openButton = document.querySelector('.game-page__burger__button--open');
-        console.log(openButton);
         const closeButton = BM.querySelector('.game-page__burger__button--close');
         const scoresContainer = BM.querySelector('.game-page__burger__score-board__container');
         return { closed, opened, openButton, closeButton, mainTitle, scoreBoard, scoresContainer };
@@ -22,7 +21,14 @@ const GamePage = (() => {
         return { gameBoard };
     })();
 
-    return { Wrapper, BurgerMenu, Body };
+    const GameBoard = (() => {
+        const Cells = (() => {
+            return [];
+        })();
+        return { Cells };
+    })();
+
+    return { Wrapper, BurgerMenu, Body, GameBoard };
 })();
 
 export { GamePage };

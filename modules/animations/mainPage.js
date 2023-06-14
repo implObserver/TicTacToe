@@ -20,7 +20,7 @@ const ButtonPlay = (() => {
             return Animations.custom(MainPage.linkToGamePage, dur, fill, ...keyFrames);
         };
         return { resize };
-    })
+    })();
     return { LinkToGamePage };
 })();
 

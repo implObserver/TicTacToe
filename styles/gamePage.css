@@ -131,12 +131,14 @@
 
 .game-page__gameboard {
     display: grid;
-    grid-template-columns: repeat(6, minmax(3vh, 18vh));
-    grid-template-rows: repeat(6, minmax(3vh, 18vh));
+    grid-template-columns: repeat(var(--grid-cols), minmax(1vh, 24vh));
+    grid-template-rows: repeat(var(--grid-rows), minmax(1vh, 24vh));
     align-content: center;
     justify-content: center;
     gap: 1vh;
     padding: 1vh;
+    max-width: 70vh;
+    max-height: 70vh;
 }
 
 .cell {

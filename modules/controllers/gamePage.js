@@ -1,16 +1,25 @@
-import { Tools } from './modules/tools.js';
-import { Listeners as mainPageListeners } from './modules/listeners/mainPage.js';
-import { Listeners as gamePageListeners } from './modules/listeners/gamePage.js';
-import { fillGameBoard } from './modules/controllers/gamePage.js';
+import { GamePage } from "../selectors/gamePage.js";
+import { DynamicDomElements } from "../dom/gamePage.js";
+const fillGameBoard = (size) => {
+    GamePage.Body.gameBoard.style.width = `${(size * 12) + 12}vh`;
+    GamePage.Body.gameBoard.style.height = `${(size * 12) + 12}vh`;
+    GamePage.Body.gameBoard.style.setProperty('--grid-rows', size);
+    GamePage.Body.gameBoard.style.setProperty('--grid-cols', size);
 
-if (Tools.location() === 'gamePage.js') {
-    fillGameBoard(6);
-    gamePageListeners();
-}
+    for (let i = 0; i < size; i++) {
+        let line = [];
+        for (let j = 0; j < size; j++) {
+            let cell = DynamicDomElements.cell();
+            GamePage.Body.gameBoard.appendChild(cell);
+            line[j] = cell;
+        }
+        GamePage.GameBoard.Cells[i] = line;
+    }
 
-if (Tools.location() === 'mainPage.js') {
-    mainPageListeners();
-}
+    console.log(GamePage.GameBoard.Cells);
+    GamePage.GameBoard.Cells[1][1].style.border = '1px red solid';
+    return { fillGameBoard };
+};
 
 const GameBoard = (() => {
     let width;
@@ -157,28 +166,4 @@ const MoveHundler = (() => {
 
 })();
 
-GameBoard.getGameBoard()[0][0] = 1;
-GameBoard.getGameBoard()[0][1] = 1;
-GameBoard.getGameBoard()[0][2] = 1;
-
-console.log(GameBoard.getGameBoard())
-
-let player = Player();
-player.setMark(1);
-
-/*for (let i = 0; i < 2; i++) {
-    let score = DynamicDomElements.playerScore();
-    GamePage.BurgerMenu.scoresContainer.appendChild(score);
-}
-
-let length = 4;
-GamePage.Body.gameBoard.style.width = `${(length * 12) + 10}vh`;
-GamePage.Body.gameBoard.style.height = `${(length * 12) + 10}vh`;
-console.log(GamePage.Body.gameBoard.style.height);
-for (let i = 0; i < 36; i++) {
-    let cell = DynamicDomElements.cell();
-    if (i === 0) {
-        cell.style.border = '1px red solid';
-    }
-    GamePage.Body.gameBoard.appendChild(cell);
-}*/
+export { fillGameBoard, MoveHundler, GameBoard };
