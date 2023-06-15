@@ -4,11 +4,11 @@ import { AnimationsPresets } from '../animations/gamePage.js';
 const Listeners = () => {
     const gpBurgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
         GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.opened, GamePage.BurgerMenu.closed);
-        AnimationsPresets.ForGamePage.ForBurgerMenu.open(400);
+        AnimationsPresets.ForGamePage.ForBurgerMenu.open(600);
     });
 
     const gpBurgerClose = GamePage.BurgerMenu.closeButton.addEventListener('click', e => {
-        AnimationsPresets.ForGamePage.ForBurgerMenu.close(400).finished.then(() => {
+        AnimationsPresets.ForGamePage.ForBurgerMenu.close(600).finished.then(() => {
             GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
         });
     });

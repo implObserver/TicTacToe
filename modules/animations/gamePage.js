@@ -115,4 +115,14 @@ const BurgerMenu = (() => {
     return { resize, CloseButton, MainTitle, ScoreBoard };
 })();
 
-export { AnimationsPresets };
+const GameBoard = (() => {
+    const cell = (() => {
+        const opacity = (cell,op0, op1, dur, fill = 'none') => {
+            return Animations.opacity(cell, op0, op1, dur, fill);
+        }
+        return { opacity };
+    })();
+    return { cell };
+})();
+
+export { AnimationsPresets, GameBoard };

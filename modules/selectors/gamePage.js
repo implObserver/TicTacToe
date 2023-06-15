@@ -22,10 +22,17 @@ const GamePage = (() => {
     })();
 
     const GameBoard = (() => {
+
+       
+
+        const size = (size = 3) => {
+            return size;
+        }
+
         const Cells = (() => {
             return [];
         })();
-        return { Cells };
+        return { Cells, size };
     })();
 
     return { Wrapper, BurgerMenu, Body, GameBoard };

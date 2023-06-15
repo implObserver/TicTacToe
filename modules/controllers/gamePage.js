@@ -1,25 +1,33 @@
 import { GamePage } from "../selectors/gamePage.js";
 import { DynamicDomElements } from "../dom/gamePage.js";
-const fillGameBoard = (size) => {
-    GamePage.Body.gameBoard.style.width = `${(size * 12) + 12}vh`;
-    GamePage.Body.gameBoard.style.height = `${(size * 12) + 12}vh`;
-    GamePage.Body.gameBoard.style.setProperty('--grid-rows', size);
-    GamePage.Body.gameBoard.style.setProperty('--grid-cols', size);
+import { Tools } from "../tools.js";
+import { GameBoard as board } from "../animations/gamePage.js";
 
-    for (let i = 0; i < size; i++) {
+const fillGameBoard = (height, width) => {
+    GamePage.Body.gameBoard.style.gridTemplateColumns =`repeat(${height},${60/Math.max(width,height)}vh)`;
+    GamePage.Body.gameBoard.style.gridTemplateRows =`repeat(${width},${60/Math.max(width,height)}vh)`;
+   
+    PromiseTimeOut(width, height);
+    return { fillGameBoard };
+};
+
+function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function PromiseTimeOut(width, height) {
+    for (let i = 0; i < width; i++) {
         let line = [];
-        for (let j = 0; j < size; j++) {
+        for (let j = 0; j < height; j++) {
             let cell = DynamicDomElements.cell();
-            GamePage.Body.gameBoard.appendChild(cell);
             line[j] = cell;
+            board.cell.opacity(cell, 0, 0.7, 200, 'none');
+            GamePage.Body.gameBoard.appendChild(cell);
+            await delay(50);
         }
         GamePage.GameBoard.Cells[i] = line;
     }
-
-    console.log(GamePage.GameBoard.Cells);
-    GamePage.GameBoard.Cells[1][1].style.border = '1px red solid';
-    return { fillGameBoard };
-};
+}
 
 const GameBoard = (() => {
     let width;
@@ -77,6 +85,17 @@ const GameBoard = (() => {
     }
 
     return { getGameBoard, resetGameBoard, setGameBoardVal, setWidth, setHeigth, setCells, getWidth, getHeigth, getCells }
+})();
+
+const Settings = (() => {
+    const defaultPresets = (() => {
+        const GameBoardPreset = (() => {
+            GameBoard.setWidth(3);
+            GameBoard.setHeigth(3);
+            GameBoard.setCells(9);
+        });
+
+    })
 })();
 
 const Player = () => {
