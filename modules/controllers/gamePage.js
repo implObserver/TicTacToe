@@ -4,30 +4,22 @@ import { Tools } from "../tools.js";
 import { GameBoard as board } from "../animations/gamePage.js";
 
 const fillGameBoard = (height, width) => {
-    GamePage.Body.gameBoard.style.gridTemplateColumns =`repeat(${height},${60/Math.max(width,height)}vh)`;
-    GamePage.Body.gameBoard.style.gridTemplateRows =`repeat(${width},${60/Math.max(width,height)}vh)`;
-   
-    PromiseTimeOut(width, height);
-    return { fillGameBoard };
-};
-
-function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function PromiseTimeOut(width, height) {
+    console.log(GamePage.Body.heightRange.value)
+    GamePage.Body.gameBoard.style.gridTemplateColumns = `repeat(${height},${60 / Math.max(width, height)}vh)`;
+    GamePage.Body.gameBoard.style.gridTemplateRows = `repeat(${width},${60 / Math.max(width, height)}vh)`;
     for (let i = 0; i < width; i++) {
         let line = [];
         for (let j = 0; j < height; j++) {
             let cell = DynamicDomElements.cell();
             line[j] = cell;
-            board.cell.opacity(cell, 0, 0.7, 200, 'none');
+            //board.cell.opacity(cell, 0.3, 0.7, 200, 'none');
             GamePage.Body.gameBoard.appendChild(cell);
-            await delay(50);
         }
+
         GamePage.GameBoard.Cells[i] = line;
     }
-}
+    return { fillGameBoard };
+};
 
 const GameBoard = (() => {
     let width;
@@ -94,6 +86,8 @@ const Settings = (() => {
             GameBoard.setHeigth(3);
             GameBoard.setCells(9);
         });
+
+
 
     })
 })();

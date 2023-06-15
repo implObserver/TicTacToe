@@ -1,7 +1,7 @@
 const Tools = (() => {
     const location = () => {
         let location = window.location.href.split('/');
-        return location[location.length-1].replace('html', 'js');
+        return location[location.length - 1].replace('html', 'js');
     }
     const createNode = (nodeName, ...className) => {
         let node = document.createElement(nodeName);
@@ -26,7 +26,13 @@ const Tools = (() => {
         span.textContent = text;
         return span;
     }
-    return { createNode, appendChilds, setUpSpan, location };
+
+    const removeChilds = (node) => {
+        while (node.firstChild) {
+            node.removeChild(node.lastChild);
+        }
+    }
+    return { createNode, appendChilds, setUpSpan, location, removeChilds };
 })();
 
 export { Tools }

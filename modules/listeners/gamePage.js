@@ -1,5 +1,7 @@
 import { GamePage } from '../selectors/gamePage.js';
 import { AnimationsPresets } from '../animations/gamePage.js';
+import { fillGameBoard } from '../controllers/gamePage.js';
+import { Tools } from '../tools.js';
 
 const Listeners = () => {
     const gpBurgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
@@ -12,6 +14,16 @@ const Listeners = () => {
             GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
         });
     });
+
+    const gpChangeHeigthGameBoard = GamePage.Body.heightRange.addEventListener('input', () => {
+        Tools.removeChilds(GamePage.Body.gameBoard);
+        fillGameBoard(GamePage.Body.heightRange.value, GamePage.Body.widthRange.value);
+    })
+
+    const gpChangeWidthGameBoard = GamePage.Body.widthRange.addEventListener('input', () => {
+        Tools.removeChilds(GamePage.Body.gameBoard);
+        fillGameBoard(GamePage.Body.heightRange.value, GamePage.Body.widthRange.value);
+    })
 
     {
         for (let line of GamePage.GameBoard.Cells) {
@@ -26,7 +38,7 @@ const Listeners = () => {
     }
 
 
-    return { gpBurgerOpen, gpBurgerClose };
+    return { gpBurgerOpen, gpBurgerClose, gpChangeHeigthGameBoard };
 };
 
 export { Listeners };

@@ -18,21 +18,16 @@ const GamePage = (() => {
 
     const Body = (() => {
         const gameBoard = document.querySelector('.game-page__gameboard');
-        return { gameBoard };
+        const heightRange = document.querySelector('.heigth');
+        const widthRange = document.querySelector('.width');
+        return { gameBoard, heightRange, widthRange };
     })();
 
     const GameBoard = (() => {
-
-       
-
-        const size = (size = 3) => {
-            return size;
-        }
-
         const Cells = (() => {
             return [];
         })();
-        return { Cells, size };
+        return { Cells };
     })();
 
     return { Wrapper, BurgerMenu, Body, GameBoard };
