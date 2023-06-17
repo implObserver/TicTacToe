@@ -234,7 +234,7 @@ const Settings = (() => {
         const GameBoardPreset = (() => {
             GameBoard.setWidth(3);
             GameBoard.setHeigth(3);
-            MoveHundler.setWinLine(5);
+            MoveHundler.setWinLine(3);
         })();
         return { GameBoardPreset };
     })();

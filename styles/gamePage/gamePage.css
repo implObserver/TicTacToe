@@ -165,6 +165,24 @@
     border: 1px rgb(143, 251, 255) solid;
 }
 
+circle {
+    animation: draw 0.6s forwards;
+}
+
+line:nth-child(1) {
+    animation: draw 0.6s forwards;
+}
+
+line:nth-child(2) {
+    animation: draw 0.6s 0.6s forwards;
+}
+
+@keyframes draw {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
 @media screen and (max-aspect-ratio:1/1.0001) {}
 
 @media screen and (min-aspect-ratio: 1/1) {}

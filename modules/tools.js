@@ -27,12 +27,18 @@ const Tools = (() => {
         return span;
     }
 
+    const setAttributes = (e, atrs) => {
+        for (let atr of atrs) {
+            e.setAttribute(atr.name, atr.val);
+        }
+    }
+
     const removeChilds = (node) => {
         while (node.firstChild) {
             node.removeChild(node.lastChild);
         }
     }
-    return { createNode, appendChilds, setUpSpan, location, removeChilds };
+    return { setAttributes, createNode, appendChilds, setUpSpan, location, removeChilds };
 })();
 
 export { Tools }
