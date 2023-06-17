@@ -52,7 +52,7 @@ const BurgerMenu = (() => {
     return burgerMenu;
 })();
 
-const DynamicDomElements = (() => {
+const DynamicNodes = (() => {
     const playerScore = (name) => {
         let playerScore = Tools.createNode('div', 'game-page__burger__score-board__player-score');
         const playerName = () => {
@@ -82,4 +82,4 @@ const DynamicDomElements = (() => {
     return { playerScore, cell };
 })();
 
-export { BurgerMenu, DynamicDomElements };
+export { BurgerMenu, DynamicNodes };

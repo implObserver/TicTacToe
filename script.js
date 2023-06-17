@@ -1,11 +1,11 @@
 import { Tools } from './modules/tools.js';
 import { Listeners as mainPageListeners } from './modules/listeners/mainPage.js';
-import { Listeners as gamePageListeners } from './modules/listeners/gamePage.js';
-import { fillGameBoard } from './modules/controllers/gamePage.js';
+import { DefaultListeners as gamePageDefaultListeners } from './modules/listeners/gamePage.js';
+import { NodeGameBoard, GameBoard } from './modules/controllers/gamePage.js';
 
 if (Tools.location() === 'gamePage.js') {
-    fillGameBoard(3, 3);
-    gamePageListeners();
+    NodeGameBoard.draw();
+    gamePageDefaultListeners();
 }
 
 if (Tools.location() === 'mainPage.js') {

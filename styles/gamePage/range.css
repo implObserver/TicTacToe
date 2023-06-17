@@ -1,0 +1,8 @@
+.heigth-range, .width-range {
+    display: grid;
+    width: 80vh;
+}
+
+input[type='range'] {
+    
+}

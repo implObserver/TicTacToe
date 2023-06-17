@@ -17,15 +17,15 @@ const Animations = (() => {
 
     const background = (e, color1, color2, dur, fill = 'none') => {
         return e.animate([{ background: color1 }, { background: color2 }], { duration: dur, fill: fill });
-    };
+    }
 
     const opacity = (e, opacity1, opacity2, dur, fill = 'none') => {
         return e.animate([{ opacity: opacity1 }, { opacity: opacity2 }], { duration: dur, fill: fill });
-    };
+    }
 
     const custom = (e, dur, fill = 'none', ...keyFrames) => {
         return e.animate(...keyFrames, { duration: dur, fill: fill });
-    };
+    }
 
     return { transform, background, opacity, custom };
 })();

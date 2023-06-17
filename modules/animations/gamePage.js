@@ -50,13 +50,13 @@ const AnimationsPresets = (() => {
 const BurgerMenu = (() => {
     const resize = (dur, fill, ...keyFrames) => {
         return Animations.custom(GamePage.BurgerMenu.opened, dur, fill, ...keyFrames);
-    };
+    }
 
     const CloseButton = (() => {
         let closeButton = GamePage.BurgerMenu.closeButton;
         const transition = (x0, x1, dur, fill = 'none') => {
             return Animations.transform.x(closeButton, x0, x1, dur, fill);
-        };
+        }
 
         const LinesInButton = (() => {
             const Up = (() => {
