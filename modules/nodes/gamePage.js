@@ -53,6 +53,26 @@ const BurgerMenu = (() => {
 })();
 
 const DynamicNodes = (() => {
+
+    const playerCard = () => {
+        let playerCard = Tools.createNode('div', 'player-card');
+        const name = () => {
+            let name = Tools.createNode('div', 'name');
+            const span = () => {
+                return Tools.setUpSpan('');
+            }
+            name.appendChild(span());
+            return name;
+        }
+
+        const marker = () => {
+            return Tools.createNode('div', 'icon-wrapper', 'marker');
+        }
+
+        Tools.appendChilds(playerCard, name(), marker());
+        return playerCard;
+    }
+
     const playerScore = (name) => {
         let playerScore = Tools.createNode('div', 'game-page__burger__score-board__player-score');
         const playerName = () => {
@@ -79,7 +99,7 @@ const DynamicNodes = (() => {
         let cell = Tools.createNode('div', 'cell');
         return cell;
     }
-    return { playerScore, cell };
+    return { playerCard, playerScore, cell };
 })();
 
 export { BurgerMenu, DynamicNodes };

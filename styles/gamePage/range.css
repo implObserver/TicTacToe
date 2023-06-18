@@ -1,8 +1,10 @@
-.heigth-range, .width-range {
-    display: grid;
-    width: 80vh;
+.heigth-range,
+.width-range {
+    display: flex;
+    width: 90%;
 }
 
 input[type='range'] {
-    
+    display:flex;
+    width: 100%;
 }

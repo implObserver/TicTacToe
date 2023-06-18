@@ -17,20 +17,14 @@ const GamePage = (() => {
     })();
 
     const Body = (() => {
+        const playerCards = document.querySelector('.player-cards');
         const gameBoard = document.querySelector('.game-page__gameboard');
         const heightRange = document.querySelector('.heigth');
         const widthRange = document.querySelector('.width');
-        return { gameBoard, heightRange, widthRange };
+        return { gameBoard, heightRange, widthRange, playerCards };
     })();
 
-    const GameBoard = (() => {
-        const Cells = (() => {
-            return [];
-        })();
-        return { Cells };
-    })();
-
-    return { Wrapper, BurgerMenu, Body, GameBoard };
+    return { Wrapper, BurgerMenu, Body };
 })();
 
 export { GamePage };

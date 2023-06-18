@@ -38,7 +38,24 @@ const Tools = (() => {
             node.removeChild(node.lastChild);
         }
     }
-    return { setAttributes, createNode, appendChilds, setUpSpan, location, removeChilds };
+
+    const Queue = (length) => {
+        let prototype = [];
+        const add = (e) => {
+            if (prototype.length === length) {
+                prototype.shift()
+            }
+            prototype.push(e);
+        }
+
+        const shift = () => {
+            prototype.shift();
+        }
+
+        return Object.assign(prototype, { add });
+    }
+
+    return { Queue, setAttributes, createNode, appendChilds, setUpSpan, location, removeChilds };
 })();
 
 export { Tools }

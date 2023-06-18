@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../styles/gamePage/gamePage.css">
 </head>
 
-<body>
+<body class="body_hide">
     <div class="wrapper game-page">
         <div class="game-page__burger--closed">
             <div class="icon-wrapper game-page__burger__button--open">
@@ -20,18 +20,30 @@
         </div>
 
         <div class="game-page__body">
+            <div class="player-cards">
+                <div class="player-card">
+                    <div class="name">
+                        <span>Observer</span>
+                    </div>
+                    <div class="icon-wrapper marker">
+
+                    </div>
+                </div>
+            </div>
             <div class="gameboard-wrapper">
                 <div class="game-page__gameboard">
                   
                 </div>
             </div>
-            <div class="width-range">
-                <label>Width</label>
-                <input type="range" class="width" name="cowbell" min="3" max="10" value="3" step="1">
-            </div>
-            <div class="heigth-range">
-                <label>Heigth</label>
-                <input type="range" class="heigth" name="cowbell" min="3" max="10" value="3" step="1">
+            <div class="rangers">
+                <div class="width-range">
+                    <label>Width</label>
+                    <input type="range" class="width" name="cowbell" min="3" max="10" value="3" step="1">
+                </div>
+                <div class="heigth-range">
+                    <label>Heigth</label>
+                    <input type="range" class="heigth" name="cowbell" min="3" max="10" value="3" step="1">
+                </div>
             </div>
         </div>
     </div>

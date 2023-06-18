@@ -1,8 +1,9 @@
 import { GamePage } from '../selectors/gamePage.js';
 import { AnimationsPresets } from '../animations/gamePage.js';
 import { NodeGameBoard, GameBoard, MoveHundler } from '../controllers/gamePage.js';
-import { Markers } from '../svg/markers/markers.js';
+import { Templates } from '../svg/markers/markers.js';
 import { Tools } from '../tools.js';
+import { DynamicNodes } from '../nodes/gamePage.js';
 
 const DefaultListeners = () => {
     const gpBurgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
@@ -39,7 +40,8 @@ const AddListener = (() => {
 
             GameBoard.getGameBoard()[y][x] = 'red';
             console.log(MoveHundler.checkWinnable(x, y, 'red'));
-            let circle = Markers.getCircle();
+
+            let circle = Templates.getCircle();
             console.log(circle)
             Tools.removeChilds(node);
             node.appendChild(circle);

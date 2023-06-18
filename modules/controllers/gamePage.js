@@ -79,12 +79,22 @@ const NodeGameBoard = (() => {
 
     const fill = () => {
         GameBoard.setGameBoard();
-        for (let i = 0; i < height; i++) {
+        /*for (let i = 0; i < height; i++) {
             for (let j = 0; j < width; j++) {
                 let cell = createCell(j, i);
                 GamePage.Body.gameBoard.appendChild(cell.getNode());
                 drawnCells.push(cell);
             }
+        }*/
+
+        for (let i = 0; i < height; i++) {
+            let line = []
+            for (let j = 0; j < width; j++) {
+                let cell = createCell(j, i);
+                GamePage.Body.gameBoard.appendChild(cell.getNode());
+                line[j] = cell;
+            }
+            drawnCells[i] = line;
         }
     }
 
@@ -148,24 +158,32 @@ const Player = () => {
 const MoveHundler = (() => {
     let playerMark;
     let winLine = 3;
+    const buff = Tools.Queue(winLine);
 
     const setWinLine = (length) => {
         winLine = length;
     }
 
     const checkWinnable = (x, y, mark) => {
-
-        console.log(GameBoard.getGameBoard());
         playerMark = mark;
-        return checkHorizontal(x, y) === winLine ? true
-            : checkVertical(x, y) === winLine ? true
-                : checkLeftDiagonal(x, y) === winLine ? true
-                    : checkRightDiagonal(x, y) === winLine ? true
+        return checkHorizontal(x, y) === winLine ? win()
+            : checkVertical(x, y) === winLine ? win()
+                : checkLeftDiagonal(x, y) === winLine ? win()
+                    : checkRightDiagonal(x, y) === winLine ? win()
                         : false;
+    }
+
+    const win = () => {
+        console.log(buff);
+        let drawnCells = NodeGameBoard.getDrawnCells();
+        for (let xy of buff) {
+            drawnCells[xy.y][xy.x].getNode().style.backgroundColor = 'green';
+        }
     }
 
     const checkHorizontal = (x, y) => {
         let result = check([x, y, minE, minE, decrement, unchanged], [++x, y, maxX, minE, increment, unchanged]);
+        console.log(buff);
         return result;
     }
 
@@ -186,6 +204,9 @@ const MoveHundler = (() => {
 
     const check = (args1, args2) => {
         let part1 = measuringDeviceFabric(...args1);
+        if (part1 == winLine) {
+            return part1;
+        }
         let part2 = measuringDeviceFabric(...args2);
         return part1 + part2;
     }
@@ -195,6 +216,7 @@ const MoveHundler = (() => {
         if (xBool(x) && yBool(y)) {
             if (gameBoard[y][x] === playerMark) {
                 ++score;
+                buff.add({ x: x, y: y });
                 return measuringDeviceFabric(functionX(x), functionY(y), xBool, yBool, functionX, functionY, score);
             }
         }

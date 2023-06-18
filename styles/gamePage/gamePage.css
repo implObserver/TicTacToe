@@ -126,18 +126,49 @@
 
 .game-page__body {
     display: grid;
-    grid-template-rows: min-content min-content min-content;
+    grid-template-rows: 4vh 70vh min-content;
     justify-items: center;
-    align-content: center;
     gap: 3vh;
     transition: all ease 200ms;
+    padding: 1vh;
+}
+
+.player-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(2vh,25vh));
+    width: 106vh;
+    border: 1px red solid;
+    gap: 1vh;
+    justify-content: center;
+    height: min-content;
+}
+
+.player-card {
+    border: 0.4vh blue solid;
+    display: grid;
+    grid-template-columns: 1fr 6vh;
+}
+
+.name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.7rem;
+    background-color: blue;
+    color: white;
+}
+
+.marker {
+    
+    background-image: url(../../images/menu.svg);
+
 }
 
 .gameboard-wrapper {
     display: grid;
     height: min-content;
-    width: 70vh;
-    height: 70vh;
+    width: min-content;
+    align-self: center;
 }
 
 .game-page__gameboard {
@@ -151,8 +182,8 @@
 
 .cell {
     display: flex;
-    min-height: 3vh;
-    min-width: 3vh;
+    min-height: 1vh;
+    min-width: 1vh;
     background-color: rgb(209, 238, 236);
     opacity: 0.7;
     border-radius: 0.2rem;
@@ -161,8 +192,15 @@
 
 .cell:hover {
     transition: 0.1s;
-    opacity: 1;
-    border: 1px rgb(143, 251, 255) solid;
+    opacity: 0.8;
+    border: 0.4vh rgb(143, 251, 255) solid;
+}
+
+.rangers {
+    display: grid;
+    gap: 1vh;
+    width: 50%;
+    justify-items: center;
 }
 
 circle {
@@ -170,11 +208,11 @@ circle {
 }
 
 line:nth-child(1) {
-    animation: draw 0.6s forwards;
+    animation: draw 0.3s forwards;
 }
 
 line:nth-child(2) {
-    animation: draw 0.6s 0.6s forwards;
+    animation: draw 0.3s 0.3s forwards;
 }
 
 @keyframes draw {

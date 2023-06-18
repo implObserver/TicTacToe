@@ -5,7 +5,7 @@ const AnimationsPresets = (() => {
     const ForMainPage = (() => {
         const ForButtonPlay = (() => {
             const open = (duration) => {
-                ButtonPlay.LinkToGamePage.resize(duration, 'none', [{ width: '0vh' }, { width: '100vh' }]);
+               
             }
             return { open };
         })();
