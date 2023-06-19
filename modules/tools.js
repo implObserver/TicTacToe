@@ -55,7 +55,7 @@ const Tools = (() => {
         return Object.assign(prototype, { add });
     }
 
-    return { Queue, setAttributes, createNode, appendChilds, setUpSpan, location, removeChilds };
+    return { Queue, setAttributes, createNode, appendChilds, setUpSpan, location, removeChilds, addClasses };
 })();
 
 export { Tools }

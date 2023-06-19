@@ -2,6 +2,7 @@ import { GamePage } from "../selectors/gamePage.js";
 import { DynamicNodes } from "../nodes/gamePage.js";
 import { Tools } from "../tools.js";
 import { AddListener } from "../listeners/gamePage.js";
+import { Marker, Templates } from "../svg/markers/markers.js";
 
 const GameBoard = (() => {
     let width = 0;
@@ -41,7 +42,7 @@ const GameBoard = (() => {
     }
 
     const resetGameBoard = () => {
-        gameBoard = fillGameBoard(3, 3);
+        gameBoard = fillGameBoard();
     }
 
     const setGameBoardVal = (x, y, val) => {
@@ -53,64 +54,6 @@ const GameBoard = (() => {
     }
 
     return { getGameBoard, resetGameBoard, setGameBoard, setGameBoardVal, setWidth, setHeigth, getWidth, getHeigth }
-})();
-
-const NodeGameBoard = (() => {
-    let width = 0;
-    let height = 0;
-    let drawnCells = [];
-
-    const draw = () => {
-        width = GameBoard.getWidth();
-        height = GameBoard.getHeigth();
-        clear();
-        setSize();
-        fill();
-    }
-
-    const clear = () => {
-        Tools.removeChilds(GamePage.Body.gameBoard);
-    }
-
-    const setSize = () => {
-        GamePage.Body.gameBoard.style.gridTemplateColumns = `repeat(${width},${60 / Math.max(width, height)}vh)`;
-        GamePage.Body.gameBoard.style.gridTemplateRows = `repeat(${height},${60 / Math.max(width, height)}vh)`;
-    }
-
-    const fill = () => {
-        GameBoard.setGameBoard();
-        /*for (let i = 0; i < height; i++) {
-            for (let j = 0; j < width; j++) {
-                let cell = createCell(j, i);
-                GamePage.Body.gameBoard.appendChild(cell.getNode());
-                drawnCells.push(cell);
-            }
-        }*/
-
-        for (let i = 0; i < height; i++) {
-            let line = []
-            for (let j = 0; j < width; j++) {
-                let cell = createCell(j, i);
-                GamePage.Body.gameBoard.appendChild(cell.getNode());
-                line[j] = cell;
-            }
-            drawnCells[i] = line;
-        }
-    }
-
-    const createCell = (x, y) => {
-        let cell = Cell();
-        cell.setCoordinates(x, y);
-        cell.setNode(DynamicNodes.cell());
-        AddListener.cell(cell);
-        return cell;
-    }
-
-    const getDrawnCells = () => {
-        return drawnCells;
-    }
-
-    return { draw, getDrawnCells };
 })();
 
 const Cell = () => {
@@ -142,23 +85,95 @@ const Cell = () => {
     return { setCoordinates, setNode, getX, getY, getNode };
 }
 
-const Player = () => {
-    let mark = 1;
-    const setMark = (mrk) => {
-        mark = mrk;
+const NodeGameBoard = (() => {
+    let width = 0;
+    let height = 0;
+    let drawnCells = [];
+
+    const draw = () => {
+        width = GameBoard.getWidth();
+        height = GameBoard.getHeigth();
+        clear();
+        setSize();
+        fill();
     }
 
-    const getMark = () => {
-        return mark;
+    const clear = () => {
+        Tools.removeChilds(GamePage.Body.gameBoard);
     }
 
-    return { getMark, setMark };
-}
+    const setSize = () => {
+        GamePage.Body.gameBoard.style.gridTemplateColumns = `repeat(${width},${60 / Math.max(width, height)}vh)`;
+        GamePage.Body.gameBoard.style.gridTemplateRows = `repeat(${height},${60 / Math.max(width, height)}vh)`;
+    }
+
+    const fill = () => {
+        GameBoard.setGameBoard();
+
+        for (let i = 0; i < height; i++) {
+            let line = []
+            for (let j = 0; j < width; j++) {
+                let cell = createCell(j, i, true);
+                GamePage.Body.gameBoard.appendChild(cell.getNode());
+                line[j] = cell;
+            }
+            drawnCells[i] = line;
+        }
+    }
+
+    const createCell = (x, y, addlistener = false) => {
+        let cell = Cell();
+        cell.setCoordinates(x, y);
+        cell.setNode(DynamicNodes.cell());
+        if (addlistener) {
+            AddListener.cell(cell);
+        }
+        return cell;
+    }
+
+    const getDrawnCells = () => {
+        return drawnCells;
+    }
+
+    return { draw, getDrawnCells, createCell };
+})();
+
+const winlineBar = (() => {
+    const fill = () => {
+        Tools.removeChilds(GamePage.Body.winlineBar);
+        for (let i = 0; i < 1; i++) {
+            for (let j = 0; j < 10; j++) {
+                let cell = NodeGameBoard.createCell(j, i);
+                Tools.addClasses(cell.getNode(), 'optional');
+                AddListener.optionalCell(cell);
+                GamePage.Body.winlineBar.appendChild(cell.getNode());
+            }
+        }
+    };
+
+    const setting = (ind) => {
+        clear();
+        let cells = document.querySelectorAll('.optional');
+        for (let i = 0; i <= ind; i++) {
+            cells[i].style.backgroundColor = 'green';
+            cells[i].appendChild(Templates.getCross());
+        }
+    }
+
+    const clear = (ind = 9) => {
+        let cells = document.querySelectorAll('.optional');
+        for (let i = 0; i <= ind; i++) {
+            cells[i].style.backgroundColor = '#d1eeec';
+            Tools.removeChilds(cells[i]);
+        }
+    }
+    return { fill, setting };
+})();
 
 const MoveHundler = (() => {
     let playerMark;
     let winLine = 3;
-    const buff = Tools.Queue(winLine);
+    let buff = [];
 
     const setWinLine = (length) => {
         winLine = length;
@@ -166,10 +181,10 @@ const MoveHundler = (() => {
 
     const checkWinnable = (x, y, mark) => {
         playerMark = mark;
-        return checkHorizontal(x, y) === winLine ? win()
-            : checkVertical(x, y) === winLine ? win()
-                : checkLeftDiagonal(x, y) === winLine ? win()
-                    : checkRightDiagonal(x, y) === winLine ? win()
+        return checkHorizontal(x, y) >= winLine ? win()
+            : checkVertical(x, y) >= winLine ? win()
+                : checkLeftDiagonal(x, y) >= winLine ? win()
+                    : checkRightDiagonal(x, y) >= winLine ? win()
                         : false;
     }
 
@@ -179,11 +194,11 @@ const MoveHundler = (() => {
         for (let xy of buff) {
             drawnCells[xy.y][xy.x].getNode().style.backgroundColor = 'green';
         }
+
     }
 
     const checkHorizontal = (x, y) => {
         let result = check([x, y, minE, minE, decrement, unchanged], [++x, y, maxX, minE, increment, unchanged]);
-        console.log(buff);
         return result;
     }
 
@@ -203,12 +218,10 @@ const MoveHundler = (() => {
     }
 
     const check = (args1, args2) => {
-        let part1 = measuringDeviceFabric(...args1);
-        if (part1 == winLine) {
-            return part1;
-        }
-        let part2 = measuringDeviceFabric(...args2);
-        return part1 + part2;
+        buff = [];
+        let step1 = measuringDeviceFabric(...args1);
+        let step2 = measuringDeviceFabric(...args2);
+        return step1 + step2;
     }
 
     const measuringDeviceFabric = (x, y, xBool, yBool, functionX, functionY, score = 0) => {
@@ -216,7 +229,7 @@ const MoveHundler = (() => {
         if (xBool(x) && yBool(y)) {
             if (gameBoard[y][x] === playerMark) {
                 ++score;
-                buff.add({ x: x, y: y });
+                buff.push({ x: x, y: y });
                 return measuringDeviceFabric(functionX(x), functionY(y), xBool, yBool, functionX, functionY, score);
             }
         }
@@ -263,4 +276,5 @@ const Settings = (() => {
     return { DefaultPresets };
 })();
 
-export { Settings, NodeGameBoard, MoveHundler, GameBoard, Cell };
+
+export { Settings, NodeGameBoard, MoveHundler, GameBoard, Cell, winlineBar };

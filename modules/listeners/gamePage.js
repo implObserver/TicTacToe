@@ -1,6 +1,6 @@
 import { GamePage } from '../selectors/gamePage.js';
 import { AnimationsPresets } from '../animations/gamePage.js';
-import { NodeGameBoard, GameBoard, MoveHundler } from '../controllers/gamePage.js';
+import { NodeGameBoard, GameBoard, MoveHundler, winlineBar } from '../controllers/gamePage.js';
 import { Templates } from '../svg/markers/markers.js';
 import { Tools } from '../tools.js';
 import { DynamicNodes } from '../nodes/gamePage.js';
@@ -48,7 +48,14 @@ const AddListener = (() => {
         })
     }
 
-    return { cell };
+    const optionalCell = (cell) => {
+        cell.getNode().addEventListener('click', e => {
+            winlineBar.setting(cell.getX());
+            MoveHundler.setWinLine(cell.getX()+1);
+        });
+    }
+
+    return { cell, optionalCell };
 })();
 
 export { DefaultListeners, AddListener };

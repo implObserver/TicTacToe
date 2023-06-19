@@ -126,7 +126,7 @@
 
 .game-page__body {
     display: grid;
-    grid-template-rows: 4vh 70vh min-content;
+    grid-template-rows: 4vh 70vh min-content min-content;
     justify-items: center;
     gap: 3vh;
     transition: all ease 200ms;
@@ -135,17 +135,34 @@
 
 .player-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(2vh,25vh));
+    grid-template-columns: repeat(auto-fit, minmax(2vh, 25vh));
     width: 106vh;
-    border: 1px red solid;
     gap: 1vh;
     justify-content: center;
     height: min-content;
 }
 
+.template-card,
 .player-card {
-    border: 0.4vh blue solid;
     display: grid;
+}
+
+.template-card {
+    height: 6.5vh;
+    grid-template-columns: min-content 1fr;
+}
+
+.plus {
+    background-image: url(../../images/plus.svg);
+}
+
+.template-card>.title {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.player-card {
     grid-template-columns: 1fr 6vh;
 }
 
@@ -159,15 +176,11 @@
 }
 
 .marker {
-    
     background-image: url(../../images/menu.svg);
-
 }
 
 .gameboard-wrapper {
     display: grid;
-    height: min-content;
-    width: min-content;
     align-self: center;
 }
 
@@ -219,6 +232,14 @@ line:nth-child(2) {
     100% {
         stroke-dashoffset: 0;
     }
+}
+
+.win-option {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    width: 60vh;
+    height: 5vh;
+    gap: 1vh
 }
 
 @media screen and (max-aspect-ratio:1/1.0001) {}

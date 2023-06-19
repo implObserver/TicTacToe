@@ -21,7 +21,8 @@ const GamePage = (() => {
         const gameBoard = document.querySelector('.game-page__gameboard');
         const heightRange = document.querySelector('.heigth');
         const widthRange = document.querySelector('.width');
-        return { gameBoard, heightRange, widthRange, playerCards };
+        const winlineBar = document.querySelector('.win-option');
+        return { gameBoard, heightRange, widthRange, playerCards, winlineBar };
     })();
 
     return { Wrapper, BurgerMenu, Body };
