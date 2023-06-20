@@ -37,7 +37,6 @@
     display: grid;
     grid-template-rows: min-content min-content 1fr;
     gap: 1vh;
-    overflow: hidden;
     transition: linear;
 }
 
@@ -196,7 +195,7 @@
 
 .marker {
     display: flex;
-    background-color: #d1eeec; 
+    background-color: #d1eeec;
     opacity: 0.7;
     transition: 1s;
 }
@@ -289,8 +288,9 @@ line:nth-child(2) {
 }
 
 .close-popup>span {
-    font-size: 1.5rem;
-
+    font-size: 1.8rem;
+    color: red;
+    padding-right: 1vh;
 }
 
 .add-player {
@@ -307,6 +307,7 @@ line:nth-child(2) {
 .close-popup>h1 {
     height: min-content;
 }
+
 .field {
     display: flex;
     justify-content: center;
@@ -317,6 +318,7 @@ line:nth-child(2) {
 .field>input {
     appearance: none;
     border-radius: 0.4vh;
+    width: 28vh;
 }
 
 .add-player-btn {
@@ -325,6 +327,10 @@ line:nth-child(2) {
     border-radius: 0.4vh;
     font-size: 0.8rem;
 }
+
+.tutor {}
+
+
 
 @media screen and (max-aspect-ratio:1/1.0001) {}
 

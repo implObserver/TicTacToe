@@ -1,10 +1,7 @@
-import { GamePage } from "../selectors/gamePageSelectors.js";
-import { DynamicNode } from "./playerCardModel.js";
 import { Tools } from "../../helper/tools.js";
 import { AddListener } from "../../controllers/listeners/gamePage.js";
-import { Marker, Templates } from "../../views/images/markers/markers.js";
-import { gamePage as stateGamePage } from "./states.js";
-import { Profiles } from "./playerModel.js";
+import { Templates } from "../../views/images/markers/markers.js";
+import { GamePage } from "../selectors/gamePageSelectors.js";
 
 const GameBoard = (() => {
     let width = 0;
@@ -238,8 +235,8 @@ const winlineBar = (() => {
         for (let i = 0; i < 1; i++) {
             for (let j = 0; j < 10; j++) {
                 let cell = NodeGameBoard.createCell(j, i);
-                Tools.addClasses(cell.getNode(), 'optional');
                 AddListener.optionalCell(cell);
+                Tools.addClasses(cell.getNode(), 'optional');
                 GamePage.Body.winlineBar.appendChild(cell.getNode());
             }
         }
@@ -264,36 +261,4 @@ const winlineBar = (() => {
     return { fill, setting };
 })();
 
-const Settings = (() => {
-    const DefaultPresets = (() => {
-        const GameBoardPreset = (() => {
-            GameBoard.setWidth(3);
-            GameBoard.setHeigth(3);
-            MoveHundler.setWinLine(3);
-        })();
-        return { GameBoardPreset };
-    })();
-    return { DefaultPresets };
-})();
-
-const addPlayer = (player, name) => {
-    player.setName(name);
-    if (stateGamePage.getPlayers().length === 3) {
-        GamePage.Body.templateCard.style.display = 'none';
-    }
-    player.setId(stateGamePage.getPlayers().length);
-    player.setScore(0);
-    stateGamePage.addPlayer(player);
-    let card = addCard(player.getId(), name);
-    GamePage.Body.playerCards.appendChild(card);
-}
-
-const addCard = (id, name) => {
-    let card = DynamicNode.playerCard();
-    card.querySelector('.name').style.backgroundColor = Profiles.getColor(id);
-    card.querySelector('span').textContent = name;
-    card.querySelector('.marker').appendChild(Profiles.getMarker(id));
-    return card;
-}
-
-export { GameBoard, NodeGameBoard, MoveHundler, Settings, winlineBar, addPlayer }
+export { GameBoard, NodeGameBoard, MoveHundler, winlineBar }

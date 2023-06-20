@@ -17,14 +17,18 @@ const GamePage = (() => {
     })();
 
     const Body = (() => {
+        const playWrapper = document.querySelector('.play-wrapper');
         const playerCards = document.querySelector('.player-cards');
         const templateCard = document.querySelector('.template-card');
         const gameBoard = document.querySelector('.game-page__gameboard');
+        const rangers = document.querySelector('.rangers');
         const heightRange = document.querySelector('.heigth');
         const widthRange = document.querySelector('.width');
         const winlineBar = document.querySelector('.win-option');
         const closePopup = document.querySelector('.close-popup');
-        return { templateCard, gameBoard, heightRange, widthRange, playerCards, winlineBar, closePopup };
+        const play = document.querySelector('.game-page__play');
+        const tutorials = document.querySelectorAll('.tutor');
+        return { playWrapper, templateCard, gameBoard, heightRange, widthRange, playerCards, winlineBar, closePopup, play, tutorials, rangers };
     })();
 
     const Popups = (() => {

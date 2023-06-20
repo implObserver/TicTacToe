@@ -18,7 +18,7 @@ const AnimationsPresets = (() => {
                     BurgerMenu.CloseButton.LinesInButton.Down.rotate(0, 45, duration / 2, 'forwards')
                 });
 
-                BurgerMenu.CloseButton.background('#663399', '#E94141', duration, 'forwards');
+                return BurgerMenu.CloseButton.background('#663399', '#E94141', duration, 'forwards');
             }
 
             const close = (duration) => {

@@ -1,17 +1,24 @@
 import { GamePage } from '../../models/selectors/gamePageSelectors.js';
 import { AnimationsPresets } from '../../views/animations/gamePage.js';
-import { NodeGameBoard, GameBoard, MoveHundler, winlineBar, addPlayer} from '../../models/gamePageModels/gameBoardModel.js';
 import { Templates } from '../../views/images/markers/markers.js';
 import { Tools } from '../../helper/tools.js';
 import { DynamicNode } from '../../models/gamePageModels/burgerMenuModel.js';
 import { Player } from '../../models/gamePageModels/playerModel.js';
+import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
+import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay } from '../../models/gamePageModels/states.js';
+import { NodeGameBoard, GameBoard, MoveHundler, winlineBar } from '../../models/gamePageModels/gameBoardModel.js';
+
 const DefaultListeners = () => {
     const burgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
+        GamePage.BurgerMenu.opened.style.overflow = 'hidden';
         GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.opened, GamePage.BurgerMenu.closed);
-        AnimationsPresets.ForGamePage.ForBurgerMenu.open(300);
+        AnimationsPresets.ForGamePage.ForBurgerMenu.open(300).finished.then(e => {
+            GamePage.BurgerMenu.opened.style.overflow = 'visible';
+        });
     });
 
     const burgerClose = GamePage.BurgerMenu.closeButton.addEventListener('click', e => {
+        GamePage.BurgerMenu.opened.style.overflow = 'hidden';
         AnimationsPresets.ForGamePage.ForBurgerMenu.close(300).finished.then(() => {
             GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
         });
@@ -46,6 +53,14 @@ const DefaultListeners = () => {
         GamePage.Popups.addPlayer.popup.style.opacity = 0;
         GamePage.Popups.addPlayer.popup.style.visibility = 'hidden';
     });
+
+    const startPlay = GamePage.Body.play.addEventListener('click', e => {
+        if (stateGamePage.getPlayers().length < 2) {
+            alert('Добавьте минимум 2 игроков');
+        } else {
+            AfterStartPlay();
+        }
+    })
 };
 
 const AddListener = (() => {
@@ -76,4 +91,23 @@ const AddListener = (() => {
     return { cell, optionalCell };
 })();
 
-export { DefaultListeners, AddListener };
+const Settings = (() => {
+    const DefaultPresets = (() => {
+        const GameBoardPreset = (() => {
+            GameBoard.setWidth(3);
+            GameBoard.setHeigth(3);
+            MoveHundler.setWinLine(3);
+        })();
+        return { GameBoardPreset };
+    })();
+    return { DefaultPresets };
+})();
+
+const DrawPage = (() => {
+    NodeGameBoard.draw();
+    winlineBar.fill();
+    winlineBar.setting(2);
+    BeforeStartPlay();
+})();
+
+export { DefaultListeners, AddListener, Settings };

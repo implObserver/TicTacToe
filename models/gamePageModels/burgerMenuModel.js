@@ -1,4 +1,6 @@
 import { Tools } from "../../helper/tools.js";
+import { gamePage as stateGamePage } from "./states.js";
+import { GamePage } from "../selectors/gamePageSelectors.js";
 
 const BurgerMenu = (() => {
     let burgerMenu = Tools.createNode('div', 'game-page__burger--opened');
@@ -53,7 +55,7 @@ const BurgerMenu = (() => {
 })();
 
 const DynamicNode = (() => {
-    const playerScore = (name) => {
+    const playerScore = (name, number) => {
         let playerScore = Tools.createNode('div', 'game-page__burger__score-board__player-score');
         const playerName = () => {
             let playerName = Tools.createNode('div', 'game-page__burger__score-board__player-score__name');
@@ -63,7 +65,7 @@ const DynamicNode = (() => {
             Tools.appendChilds(playerName, span());
             return playerName;
         }
-        const score = (number) => {
+        const score = () => {
             let score = Tools.createNode('div', 'game-page__burger__score-board__player-score__score');
             const span = () => {
                 return Tools.setUpSpan(number);
@@ -77,4 +79,12 @@ const DynamicNode = (() => {
     return { playerScore };
 })();
 
-export { BurgerMenu, DynamicNode }
+const addPlayScore = () => {
+    let players = stateGamePage.getPlayers();
+    for (let player of players) {
+        let playScore = DynamicNode.playerScore(player.getName(), player.getScore());
+        GamePage.BurgerMenu.scoresContainer.appendChild(playScore);
+    }
+}
+
+export { BurgerMenu, DynamicNode, addPlayScore }

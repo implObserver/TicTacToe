@@ -1,5 +1,4 @@
-import { MainPage } from "../../models/selectors/mainPage.js";
-import { AnimationsPresets } from "../../views/animations/gamePage.js";
+import { MainPage } from "../../models/selectors/mainPageSelectors.js";
 
 const Listeners = () => {
    
