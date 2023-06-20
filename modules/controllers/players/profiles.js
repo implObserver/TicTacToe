@@ -1,7 +1,23 @@
 import { Marker, Templates } from "../../svg/markers/markers.js";
 
 const Player = () => {
-    let name, score;
+    let name, score, id, marker;
+
+    const setId = (val) => {
+        id = val;
+    }
+
+    const getId = () => {
+        return id;
+    }
+
+    const getMarker = () => {
+        return marker;
+    }
+
+    const setMarker = (val) => {
+        marker = val;
+    }
 
     const setName = (val) => {
         name = val;
@@ -18,71 +34,29 @@ const Player = () => {
     const getScore = () => {
         return score;
     }
-    return { setName, getName, setScore, getScore };
+    return { setId, getId, setMarker, getMarker, setName, getName, setScore, getScore };
 }
 
-const Player1 = (() => {
-    const prototype = Player();
-    const id = 1;
-    const marker = Marker.getMarker(Templates.getCross(), []);
+const Profiles = ((id) => {
+    const markers = [
+        Marker.getMarker(Templates.getCross(), []),
+        Marker.getMarker(Templates.getCircle(), []),
+        Marker.getMarker(Templates.getCross(), [{ name: 'stroke', val: 'yellow' }]),
+        Marker.getMarker(Templates.getCircle(), [{ name: 'stroke', val: 'green' }])
+    ];
 
-    const getId = () => {
-        return id;
+    const colors = ['red', 'blue', 'yellow', 'green'];
+
+    const getMarker = (id) => {
+        console.log(markers[id])
+        return markers[id];
     }
 
-    const getMarker = () => {
-        return marker;
+    const getColor = (id) => {
+        return colors[id];
     }
 
-    return Object.assign({}, prototype, { getId }, { getMarker });
+    return { getMarker, getColor };
 })();
 
-const Player2 = (() => {
-    const prototype = Player();
-    const id = 2;
-    const marker = Marker.getMarker(Templates.getCircle, []);
-
-    const getId = () => {
-        return id;
-    }
-
-    const getMarker = () => {
-        return marker;
-    }
-
-    return Object.assign({}, prototype, { getId }, { getMarker });
-})();
-
-const Player3 = (() => {
-    const prototype = Player();
-    const id = 2;
-    const marker = Marker.getMarker(Templates.getCircle(), [{ name: 'stroke', val: 'yellow' }]);
-
-    const getId = () => {
-        return id;
-    }
-
-    const getMarker = () => {
-        return marker;
-    }
-
-    return Object.assign({}, prototype, { getId }, { getMarker });
-})();
-
-const Player4 = (() => {
-    const prototype = Player();
-    const id = 2;
-    const marker = Marker.getMarker(Templates.getCircle(), [{ name: 'stroke', val: 'green' }]);
-
-    const getId = () => {
-        return id;
-    }
-
-    const getMarker = () => {
-        return marker;
-    }
-
-    return Object.assign({}, prototype, { getId }, { getMarker });
-})();
-
-export { Player1 }
+export { Player, Profiles }

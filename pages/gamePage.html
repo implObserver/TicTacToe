@@ -11,6 +11,9 @@
 
 <body class="body_hide">
     <div class="wrapper game-page">
+        <div class="play-wrapper">
+            <button class="game-page__play"></button>
+        </div>
         <div class="game-page__burger--closed">
             <div class="icon-wrapper game-page__burger__button--open">
                 <span class="up"></span>
@@ -30,7 +33,7 @@
             </div>
             <div class="gameboard-wrapper">
                 <div class="game-page__gameboard">
-                  
+
                 </div>
             </div>
             <div class="win-option">
@@ -47,6 +50,20 @@
             </div>
         </div>
     </div>
+
+    <div class="popup">
+        <form class="add-player" action="" method="">
+            <div class="close-popup">
+                <h1>Nickname:</h1>
+                <span>x</span>
+            </div>
+            <div class="field">
+                <input id="name" type="text" name="name" class="nickname" maxlength="50" required>
+            </div>
+            <input class="add-player-btn" type="submit" value="OK">
+        </form>
+    </div>
+
 </body>
 
 </html>

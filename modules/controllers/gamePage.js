@@ -3,6 +3,8 @@ import { DynamicNodes } from "../nodes/gamePage.js";
 import { Tools } from "../tools.js";
 import { AddListener } from "../listeners/gamePage.js";
 import { Marker, Templates } from "../svg/markers/markers.js";
+import { gamePage as stateGamePage } from "../states/states.js"
+import { Profiles } from "./players/profiles.js";
 
 const GameBoard = (() => {
     let width = 0;
@@ -276,5 +278,23 @@ const Settings = (() => {
     return { DefaultPresets };
 })();
 
+const addPlayer = (player, name) => {
+    player.setName(name);
+    if (stateGamePage.getPlayers().length === 3) {
+        GamePage.Body.templateCard.style.display = 'none';
+    }
+    player.setId(stateGamePage.getPlayers().length);
+    player.setScore(0);
+    stateGamePage.addPlayer(player);
+    let card = DynamicNodes.playerCard();
+    card.querySelector('.name').style.backgroundColor = Profiles.getColor(player.getId());
+    card.querySelector('span').textContent = name;
+    card.querySelector('.marker').appendChild(Profiles.getMarker(player.getId()));
+    GamePage.Body.playerCards.appendChild(card);
+}
 
-export { Settings, NodeGameBoard, MoveHundler, GameBoard, Cell, winlineBar };
+const addCard = () => {
+
+}
+
+export { Settings, NodeGameBoard, MoveHundler, GameBoard, Cell, winlineBar, addPlayer };

@@ -18,14 +18,26 @@ const GamePage = (() => {
 
     const Body = (() => {
         const playerCards = document.querySelector('.player-cards');
+        const templateCard = document.querySelector('.template-card');
         const gameBoard = document.querySelector('.game-page__gameboard');
         const heightRange = document.querySelector('.heigth');
         const widthRange = document.querySelector('.width');
         const winlineBar = document.querySelector('.win-option');
-        return { gameBoard, heightRange, widthRange, playerCards, winlineBar };
+        const closePopup = document.querySelector('.close-popup');
+        return { templateCard, gameBoard, heightRange, widthRange, playerCards, winlineBar, closePopup };
     })();
 
-    return { Wrapper, BurgerMenu, Body };
+    const Popups = (() => {
+        const addPlayer = (() => {
+            const popup = document.querySelector('.popup');
+            const form = document.querySelector('.add-player');
+            const buttonOK = document.querySelector('.add-player-btn');
+            return { popup, buttonOK, form };
+        })();
+        return { addPlayer };
+    })();
+
+    return { Wrapper, BurgerMenu, Body, Popups };
 })();
 
 export { GamePage };

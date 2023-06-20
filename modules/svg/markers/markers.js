@@ -25,8 +25,11 @@ const Templates = (() => {
 
 const Marker = (() => {
     const getMarker = (template, ...atrs) => {
-        let child = template.firstChild;
-        Tools.setAttributes(child, ...atrs);
+        let childs = Array.from(template.children);
+        for (let child of childs) {
+            Tools.setAttributes(child, ...atrs);
+        }
+
         return template;
     }
     return { getMarker };

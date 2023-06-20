@@ -1,32 +1,51 @@
 import { GamePage } from '../selectors/gamePage.js';
 import { AnimationsPresets } from '../animations/gamePage.js';
-import { NodeGameBoard, GameBoard, MoveHundler, winlineBar } from '../controllers/gamePage.js';
+import { NodeGameBoard, GameBoard, MoveHundler, winlineBar, addPlayer } from '../controllers/gamePage.js';
 import { Templates } from '../svg/markers/markers.js';
 import { Tools } from '../tools.js';
 import { DynamicNodes } from '../nodes/gamePage.js';
+import { Player } from '../controllers/players/profiles.js';
 
 const DefaultListeners = () => {
-    const gpBurgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
+    const burgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
         GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.opened, GamePage.BurgerMenu.closed);
         AnimationsPresets.ForGamePage.ForBurgerMenu.open(300);
     });
 
-    const gpBurgerClose = GamePage.BurgerMenu.closeButton.addEventListener('click', e => {
+    const burgerClose = GamePage.BurgerMenu.closeButton.addEventListener('click', e => {
         AnimationsPresets.ForGamePage.ForBurgerMenu.close(300).finished.then(() => {
             GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
         });
     });
 
-    const gpChangeWidthGameBoard = GamePage.Body.widthRange.addEventListener('input', () => {
+    const changeWidthGameBoard = GamePage.Body.widthRange.addEventListener('input', () => {
         let width = GamePage.Body.widthRange.value;
         GameBoard.setWidth(width);
         NodeGameBoard.draw();
     });
 
-    const gpChangeHeigthGameBoard = GamePage.Body.heightRange.addEventListener('input', () => {
+    const changeHeigthGameBoard = GamePage.Body.heightRange.addEventListener('input', () => {
         let height = GamePage.Body.heightRange.value;
         GameBoard.setHeigth(height);
         NodeGameBoard.draw();
+    });
+
+    const openPopupAddPlayer = GamePage.Body.templateCard.addEventListener('click', e => {
+        GamePage.Popups.addPlayer.popup.style.opacity = 1;
+        GamePage.Popups.addPlayer.popup.style.visibility = 'visible';
+    });
+
+    const closePopupAddPlayer = GamePage.Body.closePopup.addEventListener('click', e => {
+        GamePage.Popups.addPlayer.popup.style.opacity = 0;
+        GamePage.Popups.addPlayer.popup.style.visibility = 'hidden';
+    });
+
+    const addPlayerCard = GamePage.Popups.addPlayer.popup.addEventListener('submit', e => {
+        e.preventDefault();
+        let name = document.querySelector('.nickname');
+        addPlayer(Player(), name.value);
+        GamePage.Popups.addPlayer.popup.style.opacity = 0;
+        GamePage.Popups.addPlayer.popup.style.visibility = 'hidden';
     });
 };
 
@@ -51,7 +70,7 @@ const AddListener = (() => {
     const optionalCell = (cell) => {
         cell.getNode().addEventListener('click', e => {
             winlineBar.setting(cell.getX());
-            MoveHundler.setWinLine(cell.getX()+1);
+            MoveHundler.setWinLine(cell.getX() + 1);
         });
     }
 
