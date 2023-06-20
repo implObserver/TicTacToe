@@ -1,5 +1,5 @@
-@import url(./styles/gamePage/gamePage.css);
-@import url(./styles/mainPage.css);
+@import url(./views/styles/gamePage/gamePage.css);
+@import url(./views/styles/mainPage.css);
 
 *,
 *::before,

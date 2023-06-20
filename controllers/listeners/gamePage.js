@@ -1,4 +1,4 @@
-import { GamePage } from '../../models/selectors/gamePage.js';
+import { GamePage } from '../../models/selectors/gamePageSelectors.js';
 import { AnimationsPresets } from '../../views/animations/gamePage.js';
 import { NodeGameBoard, GameBoard, MoveHundler, winlineBar, addPlayer} from '../../models/gamePageModels/gameBoardModel.js';
 import { Templates } from '../../views/images/markers/markers.js';

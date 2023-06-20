@@ -1,4 +1,4 @@
-import { GamePage } from "../selectors/gamePage.js";
+import { GamePage } from "../selectors/gamePageSelectors.js";
 import { DynamicNode } from "./playerCardModel.js";
 import { Tools } from "../../helper/tools.js";
 import { AddListener } from "../../controllers/listeners/gamePage.js";

@@ -1,5 +1,5 @@
 import { Animations } from "./animations.js";
-import { GamePage } from "../../models/selectors/gamePage.js";
+import { GamePage } from "../../models/selectors/gamePageSelectors.js";
 const AnimationsPresets = (() => {
     const ForGamePage = (() => {
         const ForBurgerMenu = (() => {
