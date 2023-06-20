@@ -1,4 +1,4 @@
-@import url(../../style.css);
+@import url(../../../style.css);
 @import url(./range.css);
 
 .game-page {
@@ -196,7 +196,7 @@
 
 .marker {
     display: flex;
-    background-color: #d1eeec;
+    background-color: #d1eeec; 
     opacity: 0.7;
     transition: 1s;
 }

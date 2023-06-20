@@ -1,11 +1,10 @@
-import { GamePage } from '../selectors/gamePage.js';
-import { AnimationsPresets } from '../animations/gamePage.js';
-import { NodeGameBoard, GameBoard, MoveHundler, winlineBar, addPlayer } from '../controllers/gamePage.js';
-import { Templates } from '../svg/markers/markers.js';
-import { Tools } from '../tools.js';
-import { DynamicNodes } from '../nodes/gamePage.js';
-import { Player } from '../controllers/players/profiles.js';
-
+import { GamePage } from '../../models/selectors/gamePage.js';
+import { AnimationsPresets } from '../../views/animations/gamePage.js';
+import { NodeGameBoard, GameBoard, MoveHundler, winlineBar, addPlayer} from '../../models/gamePageModels/gameBoardModel.js';
+import { Templates } from '../../views/images/markers/markers.js';
+import { Tools } from '../../helper/tools.js';
+import { DynamicNode } from '../../models/gamePageModels/burgerMenuModel.js';
+import { Player } from '../../models/gamePageModels/playerModel.js';
 const DefaultListeners = () => {
     const burgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
         GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.opened, GamePage.BurgerMenu.closed);

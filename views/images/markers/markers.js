@@ -1,4 +1,4 @@
-import { Tools } from "../../tools.js";
+import { Tools } from "../../../helper/tools.js";
 import { Attributes } from "./attributes.js";
 
 const Templates = (() => {

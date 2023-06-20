@@ -1,5 +1,4 @@
-import { Marker, Templates } from "../../svg/markers/markers.js";
-
+import { Marker, Templates } from "../../views/images/markers/markers.js";
 const Player = () => {
     let name, score, id, marker;
 
@@ -59,4 +58,4 @@ const Profiles = ((id) => {
     return { getMarker, getColor };
 })();
 
-export { Player, Profiles }
+export {Player, Profiles}

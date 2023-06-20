@@ -1,4 +1,4 @@
-import { BurgerMenu as BM } from "../nodes/gamePage.js";
+import { BurgerMenu as BM } from "../gamePageModels/burgerMenuModel.js";
 
 const GamePage = (() => {
     const Wrapper = (() => {

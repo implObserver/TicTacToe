@@ -1,10 +1,10 @@
 import { GamePage } from "../selectors/gamePage.js";
-import { DynamicNodes } from "../nodes/gamePage.js";
-import { Tools } from "../tools.js";
-import { AddListener } from "../listeners/gamePage.js";
-import { Marker, Templates } from "../svg/markers/markers.js";
-import { gamePage as stateGamePage } from "../states/states.js"
-import { Profiles } from "./players/profiles.js";
+import { DynamicNode } from "./playerCardModel.js";
+import { Tools } from "../../helper/tools.js";
+import { AddListener } from "../../controllers/listeners/gamePage.js";
+import { Marker, Templates } from "../../views/images/markers/markers.js";
+import { gamePage as stateGamePage } from "./states.js";
+import { Profiles } from "./playerModel.js";
 
 const GameBoard = (() => {
     let width = 0;
@@ -116,6 +116,7 @@ const NodeGameBoard = (() => {
             let line = []
             for (let j = 0; j < width; j++) {
                 let cell = createCell(j, i, true);
+                AddListener.cell(cell);
                 GamePage.Body.gameBoard.appendChild(cell.getNode());
                 line[j] = cell;
             }
@@ -123,13 +124,10 @@ const NodeGameBoard = (() => {
         }
     }
 
-    const createCell = (x, y, addlistener = false) => {
+    const createCell = (x, y) => {
         let cell = Cell();
         cell.setCoordinates(x, y);
-        cell.setNode(DynamicNodes.cell());
-        if (addlistener) {
-            AddListener.cell(cell);
-        }
+        cell.setNode(Tools.createNode('div', 'cell'));
         return cell;
     }
 
@@ -138,38 +136,6 @@ const NodeGameBoard = (() => {
     }
 
     return { draw, getDrawnCells, createCell };
-})();
-
-const winlineBar = (() => {
-    const fill = () => {
-        Tools.removeChilds(GamePage.Body.winlineBar);
-        for (let i = 0; i < 1; i++) {
-            for (let j = 0; j < 10; j++) {
-                let cell = NodeGameBoard.createCell(j, i);
-                Tools.addClasses(cell.getNode(), 'optional');
-                AddListener.optionalCell(cell);
-                GamePage.Body.winlineBar.appendChild(cell.getNode());
-            }
-        }
-    };
-
-    const setting = (ind) => {
-        clear();
-        let cells = document.querySelectorAll('.optional');
-        for (let i = 0; i <= ind; i++) {
-            cells[i].style.backgroundColor = 'green';
-            cells[i].appendChild(Templates.getCross());
-        }
-    }
-
-    const clear = (ind = 9) => {
-        let cells = document.querySelectorAll('.optional');
-        for (let i = 0; i <= ind; i++) {
-            cells[i].style.backgroundColor = '#d1eeec';
-            Tools.removeChilds(cells[i]);
-        }
-    }
-    return { fill, setting };
 })();
 
 const MoveHundler = (() => {
@@ -266,6 +232,38 @@ const MoveHundler = (() => {
 
 })();
 
+const winlineBar = (() => {
+    const fill = () => {
+        Tools.removeChilds(GamePage.Body.winlineBar);
+        for (let i = 0; i < 1; i++) {
+            for (let j = 0; j < 10; j++) {
+                let cell = NodeGameBoard.createCell(j, i);
+                Tools.addClasses(cell.getNode(), 'optional');
+                AddListener.optionalCell(cell);
+                GamePage.Body.winlineBar.appendChild(cell.getNode());
+            }
+        }
+    };
+
+    const setting = (ind) => {
+        clear();
+        let cells = document.querySelectorAll('.optional');
+        for (let i = 0; i <= ind; i++) {
+            cells[i].style.backgroundColor = 'green';
+            cells[i].appendChild(Templates.getCross());
+        }
+    }
+
+    const clear = (ind = 9) => {
+        let cells = document.querySelectorAll('.optional');
+        for (let i = 0; i <= ind; i++) {
+            cells[i].style.backgroundColor = '#d1eeec';
+            Tools.removeChilds(cells[i]);
+        }
+    }
+    return { fill, setting };
+})();
+
 const Settings = (() => {
     const DefaultPresets = (() => {
         const GameBoardPreset = (() => {
@@ -286,15 +284,16 @@ const addPlayer = (player, name) => {
     player.setId(stateGamePage.getPlayers().length);
     player.setScore(0);
     stateGamePage.addPlayer(player);
-    let card = DynamicNodes.playerCard();
-    card.querySelector('.name').style.backgroundColor = Profiles.getColor(player.getId());
-    card.querySelector('span').textContent = name;
-    card.querySelector('.marker').appendChild(Profiles.getMarker(player.getId()));
+    let card = addCard(player.getId(), name);
     GamePage.Body.playerCards.appendChild(card);
 }
 
-const addCard = () => {
-
+const addCard = (id, name) => {
+    let card = DynamicNode.playerCard();
+    card.querySelector('.name').style.backgroundColor = Profiles.getColor(id);
+    card.querySelector('span').textContent = name;
+    card.querySelector('.marker').appendChild(Profiles.getMarker(id));
+    return card;
 }
 
-export { Settings, NodeGameBoard, MoveHundler, GameBoard, Cell, winlineBar, addPlayer };
+export { GameBoard, NodeGameBoard, MoveHundler, Settings, winlineBar, addPlayer }
