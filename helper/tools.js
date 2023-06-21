@@ -34,8 +34,10 @@ const Tools = (() => {
     }
 
     const removeChilds = (node) => {
-        while (node.firstChild) {
-            node.removeChild(node.lastChild);
+        if (node !== null) {
+            while (node.firstChild) {
+                node.removeChild(node.lastChild);
+            }
         }
     }
 

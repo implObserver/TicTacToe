@@ -69,18 +69,20 @@ const AddListener = (() => {
         cell.getNode().addEventListener('click', e => {
             let node = cell.getNode();
             let idPlayer = GamePage.Session.getid();
-            console.log(`${cell.getX()} ${cell.getY()}`);
+            let marker = Profiles.getMarker(idPlayer);
+            
             let x = cell.getX();
             let y = cell.getY();
-
             GameBoard.getGameBoard()[y][x] = idPlayer;
-            console.log(MoveHandler.checkWinnable(x, y, idPlayer));
 
-            let marker = Profiles.getMarker(idPlayer);
-            console.log(marker)
             Tools.removeChilds(node);
             node.appendChild(marker);
-            GameHandler.move.nextMove();
+
+            GamePage.Body.gameBoard.style.pointerEvents = 'none';
+            setTimeout(() => {
+                GameHandler.move.nextMove();
+                GamePage.Body.gameBoard.style.pointerEvents = 'auto';
+            }, 500);
         });
     }
 
@@ -94,24 +96,28 @@ const AddListener = (() => {
     return { cell, optionalCell };
 })();
 
-const Settings = (() => {
-    const DefaultPresets = (() => {
-        const GameBoardPreset = (() => {
-            GameBoard.setWidth(3);
-            GameBoard.setHeigth(3);
-            GameBoard.setOverAllSize(40);
-            MoveHandler.setWinLine(3);
+const viewPage = () => {
+    const Settings = (() => {
+        const DefaultPresets = (() => {
+            const GameBoardPreset = (() => {
+                GameBoard.setWidth(3);
+                GameBoard.setHeigth(3);
+                GameBoard.setOverAllSize(40);
+                MoveHandler.setWinLine(3);
+            })();
+            return { GameBoardPreset };
         })();
-        return { GameBoardPreset };
+        return { DefaultPresets };
     })();
-    return { DefaultPresets };
-})();
 
-const DrawPage = (() => {
-    NodeGameBoard.draw();
-    winlineBar.fill();
-    winlineBar.setting(2);
-    BeforeStartPlay();
-})();
+    const DrawPage = (() => {
+        NodeGameBoard.draw();
+        winlineBar.fill();
+        winlineBar.setting(2);
+        BeforeStartPlay();
+    })();
 
-export { DefaultListeners, AddListener, Settings };
+    return { Settings, DrawPage };
+}
+
+export { DefaultListeners, AddListener, viewPage };
