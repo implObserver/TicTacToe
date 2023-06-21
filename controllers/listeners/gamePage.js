@@ -70,13 +70,15 @@ const AddListener = (() => {
             let node = cell.getNode();
             let idPlayer = GamePage.Session.getid();
             let marker = Profiles.getMarker(idPlayer);
-            
+
             let x = cell.getX();
             let y = cell.getY();
             GameBoard.getGameBoard()[y][x] = idPlayer;
 
             Tools.removeChilds(node);
             node.appendChild(marker);
+
+            MoveHandler.checkWinnable(x, y, idPlayer);
 
             GamePage.Body.gameBoard.style.pointerEvents = 'none';
             setTimeout(() => {
