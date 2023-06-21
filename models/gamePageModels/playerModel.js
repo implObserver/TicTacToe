@@ -36,19 +36,14 @@ const Player = () => {
     return { setId, getId, setMarker, getMarker, setName, getName, setScore, getScore };
 }
 
-const Profiles = ((id) => {
-    const markers = [
-        Marker.getMarker(Templates.getCross(), []),
-        Marker.getMarker(Templates.getCircle(), []),
-        Marker.getMarker(Templates.getCross(), [{ name: 'stroke', val: 'yellow' }]),
-        Marker.getMarker(Templates.getCircle(), [{ name: 'stroke', val: 'green' }])
-    ];
-
-    const colors = ['red', 'blue', 'yellow', 'green'];
+const Profiles = (() => {
+    const colors = ['red', 'blue', '#ffc400', '#c51bdb'];
 
     const getMarker = (id) => {
-        console.log(markers[id])
-        return markers[id];
+        return id === 0 ? Marker.getMarker(Templates.getCross(), [])
+            : id === 1 ? Marker.getMarker(Templates.getCircle(), [])
+                : id === 2 ? Marker.getMarker(Templates.getCross(), [{ name: 'stroke', val: '#ffc400' }])
+                    : Marker.getMarker(Templates.getCircle(), [{ name: 'stroke', val: '#c51bdb' }]);
     }
 
     const getColor = (id) => {
@@ -58,4 +53,4 @@ const Profiles = ((id) => {
     return { getMarker, getColor };
 })();
 
-export {Player, Profiles}
+export { Player, Profiles }

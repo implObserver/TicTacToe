@@ -7,6 +7,7 @@ const GameBoard = (() => {
     let width = 0;
     let height = 0;
     let gameBoard = 0;
+    let overAllSize = 0;
 
     const setWidth = (number) => {
         width = number;
@@ -24,12 +25,20 @@ const GameBoard = (() => {
         return height;
     }
 
+    const setOverAllSize = (val) => {
+        overAllSize = val;
+    }
+
+    const getOverAllSize = (val) => {
+        return overAllSize;
+    }
+
     const fillGameBoard = () => {
         let gameBoard = [];
         for (let i = 0; i < height; i++) {
             let line = []
             for (let j = 0; j < width; j++) {
-                line[j] = 0;
+                line[j] = -1;
             }
             gameBoard[i] = line;
         }
@@ -52,7 +61,7 @@ const GameBoard = (() => {
         gameBoard = fillGameBoard();
     }
 
-    return { getGameBoard, resetGameBoard, setGameBoard, setGameBoardVal, setWidth, setHeigth, getWidth, getHeigth }
+    return { getGameBoard, resetGameBoard, setGameBoard, setGameBoardVal, setWidth, setHeigth, getWidth, getHeigth, setOverAllSize, getOverAllSize }
 })();
 
 const Cell = () => {
@@ -102,8 +111,8 @@ const NodeGameBoard = (() => {
     }
 
     const setSize = () => {
-        GamePage.Body.gameBoard.style.gridTemplateColumns = `repeat(${width},${60 / Math.max(width, height)}vh)`;
-        GamePage.Body.gameBoard.style.gridTemplateRows = `repeat(${height},${60 / Math.max(width, height)}vh)`;
+        GamePage.Body.gameBoard.style.gridTemplateColumns = `repeat(${width},${GameBoard.getOverAllSize() / Math.max(width, height)}vh)`;
+        GamePage.Body.gameBoard.style.gridTemplateRows = `repeat(${height},${GameBoard.getOverAllSize() / Math.max(width, height)}vh)`;
     }
 
     const fill = () => {
@@ -135,7 +144,7 @@ const NodeGameBoard = (() => {
     return { draw, getDrawnCells, createCell };
 })();
 
-const MoveHundler = (() => {
+const MoveHandler = (() => {
     let playerMark;
     let winLine = 3;
     let buff = [];
@@ -261,4 +270,4 @@ const winlineBar = (() => {
     return { fill, setting };
 })();
 
-export { GameBoard, NodeGameBoard, MoveHundler, winlineBar }
+export { GameBoard, NodeGameBoard, MoveHandler, winlineBar }

@@ -3,11 +3,11 @@ import { AnimationsPresets } from '../../views/animations/gamePage.js';
 import { Templates } from '../../views/images/markers/markers.js';
 import { Tools } from '../../helper/tools.js';
 import { DynamicNode } from '../../models/gamePageModels/burgerMenuModel.js';
-import { Player } from '../../models/gamePageModels/playerModel.js';
+import { Player, Profiles } from '../../models/gamePageModels/playerModel.js';
 import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
 import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay } from '../../models/gamePageModels/states.js';
-import { NodeGameBoard, GameBoard, MoveHundler, winlineBar } from '../../models/gamePageModels/gameBoardModel.js';
-
+import { NodeGameBoard, GameBoard, MoveHandler, winlineBar } from '../../models/gamePageModels/gameBoardModel.js';
+import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
 const DefaultListeners = () => {
     const burgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
         GamePage.BurgerMenu.opened.style.overflow = 'hidden';
@@ -59,6 +59,7 @@ const DefaultListeners = () => {
             alert('Добавьте минимум 2 игроков');
         } else {
             AfterStartPlay();
+            GameHandler.play();
         }
     })
 };
@@ -67,24 +68,26 @@ const AddListener = (() => {
     const cell = (cell) => {
         cell.getNode().addEventListener('click', e => {
             let node = cell.getNode();
+            let idPlayer = GamePage.Session.getid();
             console.log(`${cell.getX()} ${cell.getY()}`);
             let x = cell.getX();
             let y = cell.getY();
 
-            GameBoard.getGameBoard()[y][x] = 'red';
-            console.log(MoveHundler.checkWinnable(x, y, 'red'));
+            GameBoard.getGameBoard()[y][x] = idPlayer;
+            console.log(MoveHandler.checkWinnable(x, y, idPlayer));
 
-            let circle = Templates.getCircle();
-            console.log(circle)
+            let marker = Profiles.getMarker(idPlayer);
+            console.log(marker)
             Tools.removeChilds(node);
-            node.appendChild(circle);
-        })
+            node.appendChild(marker);
+            GameHandler.move.nextMove();
+        });
     }
 
     const optionalCell = (cell) => {
         cell.getNode().addEventListener('click', e => {
             winlineBar.setting(cell.getX());
-            MoveHundler.setWinLine(cell.getX() + 1);
+            MoveHandler.setWinLine(cell.getX() + 1);
         });
     }
 
@@ -96,7 +99,8 @@ const Settings = (() => {
         const GameBoardPreset = (() => {
             GameBoard.setWidth(3);
             GameBoard.setHeigth(3);
-            MoveHundler.setWinLine(3);
+            GameBoard.setOverAllSize(40);
+            MoveHandler.setWinLine(3);
         })();
         return { GameBoardPreset };
     })();

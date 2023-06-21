@@ -1,6 +1,10 @@
 @import url(../../../style.css);
 @import url(./range.css);
 
+:root {
+    --speed: 36s;
+}
+
 .game-page {
     grid-template-columns: min-content 1fr;
     grid-template-areas:
@@ -144,8 +148,8 @@
     display: grid;
     grid-template-rows: 4vh 70vh min-content min-content;
     justify-items: center;
+    align-content: center;
     grid-area: body;
-    gap: 3vh;
     transition: all ease 200ms;
     padding: 1vh;
 }
@@ -157,6 +161,7 @@
     gap: 1vh;
     justify-content: center;
     height: min-content;
+    position: relative;
 }
 
 .template-card,
@@ -190,7 +195,7 @@
     align-items: center;
     font-size: 1.7rem;
     background-color: blue;
-    color: rgb(204, 203, 203);
+    color: white;
 }
 
 .marker {
@@ -200,9 +205,45 @@
     transition: 1s;
 }
 
+.items-wrapper {
+    display: grid;
+    grid-template-columns: min-content min-content;
+    height: min-content;
+    width: min-content;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.timer {
+    display: flex;
+    width: 15vh;
+    height: 15vh;
+    align-items: center;
+    justify-content: center;   
+}
+
+.timer>span {
+    position: relative;
+    left: 7.5vh;
+    min-width: 5vh;
+    text-align: center;
+}
+
+.front-timer {
+    animation: draw var(--speed) forwards;
+    z-index: 100;
+}
+
+.back-timer {
+    stroke-dashoffset: 0;
+}
+
 .gameboard-wrapper {
     display: grid;
     align-self: center;
+    height: min-content;
 }
 
 .game-page__gameboard {
@@ -237,7 +278,7 @@
     justify-items: center;
 }
 
-circle {
+.move {
     animation: draw 0.6s forwards;
 }
 
@@ -250,11 +291,18 @@ line:nth-child(2) {
 }
 
 
-
 @keyframes draw {
     100% {
         stroke-dashoffset: 0;
     }
+}
+
+.win {
+    margin-bottom: 1vh;
+}
+
+.size {
+    margin-top: 2vh;
 }
 
 .win-option {
@@ -262,7 +310,8 @@ line:nth-child(2) {
     grid-template-columns: repeat(10, 1fr);
     width: 60vh;
     height: 5vh;
-    gap: 1vh
+    gap: 1vh;
+    position: relative;
 }
 
 .popup {
