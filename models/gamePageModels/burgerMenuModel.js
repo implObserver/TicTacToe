@@ -1,5 +1,5 @@
 import { Tools } from "../../helper/tools.js";
-import { gamePage as stateGamePage } from "./states.js";
+import { Session, gamePage as stateGamePage } from "./states.js";
 import { GamePage } from "../selectors/gamePageSelectors.js";
 
 const BurgerMenu = (() => {
@@ -80,7 +80,7 @@ const DynamicNode = (() => {
 })();
 
 const addPlayScore = () => {
-    let players = stateGamePage.getPlayers();
+    let players = Session.getPlayers();
     for (let player of players) {
         let playScore = DynamicNode.playerScore(player.getName(), player.getScore());
         GamePage.BurgerMenu.scoresContainer.appendChild(playScore);

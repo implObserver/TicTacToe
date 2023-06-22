@@ -2,6 +2,7 @@ import { Tools } from "../../helper/tools.js";
 import { AddListener } from "../../controllers/listeners/gamePage.js";
 import { Templates } from "../../views/images/markers/markers.js";
 import { GamePage } from "../selectors/gamePageSelectors.js";
+import { GameHandler } from "./gameHandlerModels.js";
 
 const GameBoard = (() => {
     let width = 0;
@@ -141,7 +142,13 @@ const NodeGameBoard = (() => {
         return drawnCells;
     }
 
-    return { draw, getDrawnCells, createCell };
+    const victoryLineMarking = (buff) => {
+        for (let xy of buff) {
+            drawnCells[xy.y][xy.x].getNode().style.backgroundColor = 'green';
+        }
+    }
+
+    return { draw, getDrawnCells, createCell, victoryLineMarking };
 })();
 
 const MoveHandler = (() => {
@@ -164,11 +171,8 @@ const MoveHandler = (() => {
 
     const win = () => {
         console.log(buff);
-        let drawnCells = NodeGameBoard.getDrawnCells();
-        for (let xy of buff) {
-            drawnCells[xy.y][xy.x].getNode().style.backgroundColor = 'green';
-        }
-
+        NodeGameBoard.victoryLineMarking(buff);
+        return true;
     }
 
     const checkHorizontal = (x, y) => {

@@ -221,7 +221,7 @@
     width: 15vh;
     height: 15vh;
     align-items: center;
-    justify-content: center;   
+    justify-content: center;
 }
 
 .timer>span {
@@ -229,11 +229,6 @@
     left: 7.5vh;
     min-width: 5vh;
     text-align: center;
-}
-
-.front-timer {
-    animation: draw var(--speed) forwards;
-    z-index: 100;
 }
 
 .back-timer {
@@ -314,7 +309,8 @@ line:nth-child(2) {
     position: relative;
 }
 
-.popup {
+.popup,
+.popup2 {
     position: fixed;
     display: grid;
     width: 100%;
@@ -368,6 +364,7 @@ line:nth-child(2) {
     appearance: none;
     border-radius: 0.4vh;
     width: 28vh;
+    padding: 1vh;
 }
 
 .add-player-btn {
@@ -377,7 +374,33 @@ line:nth-child(2) {
     font-size: 0.8rem;
 }
 
-.tutor {}
+.popup2 {
+
+}
+
+.gif-container {
+    width: 50vh;
+    justify-content: center;
+}
+
+.applause-round {
+    display: grid;
+    grid-template-rows: repeat(3, min-content);
+    height: min-content;
+    justify-items: center;
+}
+
+.round-results, .round-number {
+    display: grid;
+    grid-template-rows: repeat(auto-fit, min-content);
+    gap: 1vh;
+    width: 100%;
+    height: min-content;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+}
 
 
 

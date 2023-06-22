@@ -5,19 +5,6 @@ const GamePage = (() => {
         return document.querySelector('.game-page');
     })();
 
-    const Session = (() => {
-        let playerId;
-        const setId = (id) => {
-            playerId = id;
-        }
-
-        const getid = () => {
-            return playerId;
-        }
-
-        return { setId, getid };
-    })()
-
     const BurgerMenu = (() => {
         const mainTitle = BM.querySelector('.game-page__burger__main-title');
         const scoreBoard = BM.querySelector('.game-page__burger__score-board');
@@ -26,7 +13,8 @@ const GamePage = (() => {
         const openButton = document.querySelector('.game-page__burger__button--open');
         const closeButton = BM.querySelector('.game-page__burger__button--close');
         const scoresContainer = BM.querySelector('.game-page__burger__score-board__container');
-        return { closed, opened, openButton, closeButton, mainTitle, scoreBoard, scoresContainer };
+        const roundCounter = BM.querySelector('.game-page__burger__score-board__round-counter');
+        return { closed, opened, openButton, closeButton, mainTitle, scoreBoard, scoresContainer, roundCounter };
     })();
 
     const Body = (() => {
@@ -55,10 +43,16 @@ const GamePage = (() => {
             const buttonOK = document.querySelector('.add-player-btn');
             return { popup, buttonOK, form };
         })();
-        return { addPlayer };
+
+        const applouseRound = (() => {
+            const popup = document.querySelector('.popup2');
+            const scorePreView = document.querySelector('.round-results');
+            return { popup, scorePreView };
+        })();
+        return { addPlayer, applouseRound };
     })();
 
-    return { Wrapper, BurgerMenu, Body, Popups, Session };
+    return { Wrapper, BurgerMenu, Body, Popups };
 })();
 
 export { GamePage };

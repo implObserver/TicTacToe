@@ -5,7 +5,7 @@ import { Tools } from '../../helper/tools.js';
 import { DynamicNode } from '../../models/gamePageModels/burgerMenuModel.js';
 import { Player, Profiles } from '../../models/gamePageModels/playerModel.js';
 import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
-import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay } from '../../models/gamePageModels/states.js';
+import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay, Session } from '../../models/gamePageModels/states.js';
 import { NodeGameBoard, GameBoard, MoveHandler, winlineBar } from '../../models/gamePageModels/gameBoardModel.js';
 import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
 const DefaultListeners = () => {
@@ -36,6 +36,12 @@ const DefaultListeners = () => {
         NodeGameBoard.draw();
     });
 
+    const closePopupApplouseRound = GamePage.Popups.applouseRound.popup.addEventListener('click', e => {
+        GamePage.Popups.applouseRound.popup.style.opacity = 0;
+        GamePage.Popups.applouseRound.popup.style.visibility = 'hidden';
+        GameHandler.move.newRound('startRound');
+    });
+
     const openPopupAddPlayer = GamePage.Body.templateCard.addEventListener('click', e => {
         GamePage.Popups.addPlayer.popup.style.opacity = 1;
         GamePage.Popups.addPlayer.popup.style.visibility = 'visible';
@@ -55,7 +61,7 @@ const DefaultListeners = () => {
     });
 
     const startPlay = GamePage.Body.play.addEventListener('click', e => {
-        if (stateGamePage.getPlayers().length < 2) {
+        if (Session.getPlayers().length < 2) {
             alert('Добавьте минимум 2 игроков');
         } else {
             AfterStartPlay();
@@ -68,7 +74,7 @@ const AddListener = (() => {
     const cell = (cell) => {
         cell.getNode().addEventListener('click', e => {
             let node = cell.getNode();
-            let idPlayer = GamePage.Session.getid();
+            let idPlayer = Session.getid();
             let marker = Profiles.getMarker(idPlayer);
 
             let x = cell.getX();
@@ -77,14 +83,16 @@ const AddListener = (() => {
 
             Tools.removeChilds(node);
             node.appendChild(marker);
-
-            MoveHandler.checkWinnable(x, y, idPlayer);
-
-            GamePage.Body.gameBoard.style.pointerEvents = 'none';
-            setTimeout(() => {
-                GameHandler.move.nextMove();
-                GamePage.Body.gameBoard.style.pointerEvents = 'auto';
-            }, 500);
+            let isWinnable = MoveHandler.checkWinnable(x, y, idPlayer);
+            if (isWinnable) {
+                GameHandler.move.winnableMoveInit();
+            } else {
+                GamePage.Body.gameBoard.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    GameHandler.move.nextMove();
+                    GamePage.Body.gameBoard.style.pointerEvents = 'auto';
+                }, 500);
+            }
         });
     }
 
