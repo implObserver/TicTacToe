@@ -1,7 +1,7 @@
 import { Tools } from "../../helper/tools.js";
 import { Session, gamePage as stateGamePage } from "./states.js";
 import { GamePage } from "../selectors/gamePageSelectors.js";
-
+import { AnimationsPresets } from "../../views/animations/gamePage.js";
 const BurgerMenu = (() => {
     let burgerMenu = Tools.createNode('div', 'game-page__burger--opened');
     const header = () => {
@@ -44,7 +44,12 @@ const BurgerMenu = (() => {
             return Tools.createNode('div', 'game-page__burger__score-board__container');
         }
         const counter = () => {
-            return Tools.createNode('div', 'game-page__burger__score-board__round-counter');
+            let counter = Tools.createNode('div', 'game-page__burger__score-board__round-counter');
+            const gameExit = () => {
+                return Tools.createNode('div', 'icon-wrapper', 'game-exit');
+            }
+            Tools.appendChilds(counter, Tools.setUpSpan(''), gameExit());
+            return counter;
         }
         Tools.appendChilds(scoreBoard, title(), container(), counter());
         return scoreBoard;
@@ -80,6 +85,7 @@ const DynamicNode = (() => {
 })();
 
 const addPlayScore = () => {
+    Tools.removeChilds(GamePage.BurgerMenu.scoresContainer);
     let players = Session.getPlayers();
     for (let player of players) {
         let playScore = DynamicNode.playerScore(player.getName(), player.getScore());
@@ -87,4 +93,19 @@ const addPlayScore = () => {
     }
 }
 
-export { BurgerMenu, DynamicNode, addPlayScore }
+const close = () => {
+    GamePage.BurgerMenu.opened.style.overflow = 'hidden';
+    AnimationsPresets.ForGamePage.ForBurgerMenu.close(300).finished.then(() => {
+        GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
+    });
+}
+
+const open = () => {
+    GamePage.BurgerMenu.opened.style.overflow = 'hidden';
+    GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.opened, GamePage.BurgerMenu.closed);
+    AnimationsPresets.ForGamePage.ForBurgerMenu.open(300).finished.then(e => {
+        GamePage.BurgerMenu.opened.style.overflow = 'visible';
+    });
+}
+
+export { BurgerMenu, DynamicNode, addPlayScore, close, open }

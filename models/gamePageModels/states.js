@@ -6,7 +6,7 @@ import { Animations } from "../../views/animations/animations.js";
 
 const Session = (() => {
     let playerId;
-    let rounds = 3;
+    let rounds = 2;
     let currentRound = 1;
     let players = [];
     let scores = [0, 0, 0, 0];
@@ -55,7 +55,14 @@ const Session = (() => {
         ++currentRound;
     }
 
-    return { setScore, getScore, setId, getid, addPlayer, getPlayer, getPlayers, getRounds, setRounds, getCurrentRound, setCurrentRound };
+    const endSession = () => {
+        playerId = 0
+        rounds = 3;
+        currentRound = 1;
+        scores = [0, 0, 0, 0];
+    }
+
+    return { endSession, setScore, getScore, setId, getid, addPlayer, getPlayer, getPlayers, getRounds, setRounds, getCurrentRound, setCurrentRound };
 })();
 
 const gamePage = (() => {
@@ -66,6 +73,7 @@ const BeforeStartPlay = () => {
     winlineBar.setting(2);
     GamePage.Body.gameBoard.style.pointerEvents = 'none';
     document.querySelector('.gif').style.pointerEvents = 'none';
+    document.querySelector('.gif2').style.pointerEvents = 'none';
     GamePage.Body.playerCards.style.bottom = null;
     GamePage.Body.timer.style.display = 'none';
 };
@@ -80,6 +88,7 @@ const AfterStartPlay = () => {
     GamePage.Body.itemsWrapper.style.gap = '2vh';
     GamePage.Body.itemsWrapper.style.left = '9vh';
     GamePage.Body.rangers.style.display = 'none';
+    GamePage.BurgerMenu.opened.style.display = 'grid';
     GamePage.Body.playWrapper.style.display = 'none';
     GamePage.BurgerMenu.closed.style.display = 'grid';
     GamePage.Body.winlineBar.style.pointerEvents = 'none';
@@ -92,4 +101,26 @@ const AfterStartPlay = () => {
     GamePage.BurgerMenu.roundCounter.textContent = `Round:${Session.getCurrentRound()}`;
 };
 
-export { gamePage, BeforeStartPlay, AfterStartPlay, Session };
+const AfterEndPlay = () => {
+    GamePage.Body.gameBoard.style.pointerEvents = 'none';
+    let tutorials = Array.from(GamePage.Body.tutorials);
+    for (let msg of tutorials) {
+        msg.style.display = 'grid';
+    }
+    GamePage.Body.timer.style.display = 'none';
+    GamePage.Body.itemsWrapper.style.gap = null;
+    GamePage.Body.itemsWrapper.style.left = null;
+    GamePage.Body.rangers.style.display = 'grid';
+    GamePage.Body.playWrapper.style.display = 'grid';
+    GamePage.BurgerMenu.closed.style.display = 'none';
+    GamePage.BurgerMenu.opened.style.display = 'none';
+    GamePage.Body.winlineBar.style.pointerEvents = 'auto';
+    GamePage.Body.templateCard.style.display = 'grid';
+    GamePage.Body.playerCards.style.bottom = null;
+    GamePage.Body.winlineBar.style.top = null;
+    GameBoard.setOverAllSize(40);
+    NodeGameBoard.draw();
+
+}
+
+export { gamePage, BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay };

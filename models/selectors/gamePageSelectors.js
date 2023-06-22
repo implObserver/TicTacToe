@@ -13,8 +13,9 @@ const GamePage = (() => {
         const openButton = document.querySelector('.game-page__burger__button--open');
         const closeButton = BM.querySelector('.game-page__burger__button--close');
         const scoresContainer = BM.querySelector('.game-page__burger__score-board__container');
-        const roundCounter = BM.querySelector('.game-page__burger__score-board__round-counter');
-        return { closed, opened, openButton, closeButton, mainTitle, scoreBoard, scoresContainer, roundCounter };
+        const roundCounter = BM.querySelector('.game-page__burger__score-board__round-counter > span');
+        const exitGame = BM.querySelector('.game-exit');
+        return { exitGame, closed, opened, openButton, closeButton, mainTitle, scoreBoard, scoresContainer, roundCounter };
     })();
 
     const Body = (() => {
@@ -46,10 +47,18 @@ const GamePage = (() => {
 
         const applouseRound = (() => {
             const popup = document.querySelector('.popup2');
+            const roundPreview = document.querySelector('.round-number');
             const scorePreView = document.querySelector('.round-results');
-            return { popup, scorePreView };
+            const roundWinner = document.querySelector('.round-winner');
+            return { popup, scorePreView, roundPreview, roundWinner };
         })();
-        return { addPlayer, applouseRound };
+
+        const gameOver = (() => {
+            const popup = document.querySelector('.popup3');
+            const winner = document.querySelector('.winner');
+            return { popup, winner };
+        })();
+        return { addPlayer, applouseRound, gameOver };
     })();
 
     return { Wrapper, BurgerMenu, Body, Popups };

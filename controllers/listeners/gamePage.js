@@ -2,26 +2,19 @@ import { GamePage } from '../../models/selectors/gamePageSelectors.js';
 import { AnimationsPresets } from '../../views/animations/gamePage.js';
 import { Templates } from '../../views/images/markers/markers.js';
 import { Tools } from '../../helper/tools.js';
-import { DynamicNode } from '../../models/gamePageModels/burgerMenuModel.js';
+import { BurgerMenu, DynamicNode, close, open } from '../../models/gamePageModels/burgerMenuModel.js';
 import { Player, Profiles } from '../../models/gamePageModels/playerModel.js';
 import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
-import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay, Session } from '../../models/gamePageModels/states.js';
+import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay } from '../../models/gamePageModels/states.js';
 import { NodeGameBoard, GameBoard, MoveHandler, winlineBar } from '../../models/gamePageModels/gameBoardModel.js';
 import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
 const DefaultListeners = () => {
     const burgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
-        GamePage.BurgerMenu.opened.style.overflow = 'hidden';
-        GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.opened, GamePage.BurgerMenu.closed);
-        AnimationsPresets.ForGamePage.ForBurgerMenu.open(300).finished.then(e => {
-            GamePage.BurgerMenu.opened.style.overflow = 'visible';
-        });
+        open();
     });
 
     const burgerClose = GamePage.BurgerMenu.closeButton.addEventListener('click', e => {
-        GamePage.BurgerMenu.opened.style.overflow = 'hidden';
-        AnimationsPresets.ForGamePage.ForBurgerMenu.close(300).finished.then(() => {
-            GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
-        });
+        close();
     });
 
     const changeWidthGameBoard = GamePage.Body.widthRange.addEventListener('input', () => {
@@ -36,10 +29,27 @@ const DefaultListeners = () => {
         NodeGameBoard.draw();
     });
 
+    const exitGame = GamePage.BurgerMenu.exitGame.addEventListener('click', e => {
+        close();
+        setTimeout(() => {
+            Session.endSession();
+            AfterEndPlay();
+        }, 600);
+    });
+
     const closePopupApplouseRound = GamePage.Popups.applouseRound.popup.addEventListener('click', e => {
         GamePage.Popups.applouseRound.popup.style.opacity = 0;
         GamePage.Popups.applouseRound.popup.style.visibility = 'hidden';
         GameHandler.move.newRound('startRound');
+    });
+
+    const closePopupGameOver = GamePage.Popups.gameOver.popup.addEventListener('click', e => {
+        GamePage.Popups.gameOver.popup.style.opacity = 0;
+        GamePage.Popups.gameOver.popup.style.visibility = 'hidden';
+
+
+        Session.endSession();
+        AfterEndPlay();
     });
 
     const openPopupAddPlayer = GamePage.Body.templateCard.addEventListener('click', e => {
@@ -73,6 +83,7 @@ const DefaultListeners = () => {
 const AddListener = (() => {
     const cell = (cell) => {
         cell.getNode().addEventListener('click', e => {
+            cell.getNode().style.pointerEvents = 'none';
             let node = cell.getNode();
             let idPlayer = Session.getid();
             let marker = Profiles.getMarker(idPlayer);
@@ -87,11 +98,8 @@ const AddListener = (() => {
             if (isWinnable) {
                 GameHandler.move.winnableMoveInit();
             } else {
-                GamePage.Body.gameBoard.style.pointerEvents = 'none';
-                setTimeout(() => {
-                    GameHandler.move.nextMove();
-                    GamePage.Body.gameBoard.style.pointerEvents = 'auto';
-                }, 500);
+                GameHandler.move.nextMove();
+
             }
         });
     }

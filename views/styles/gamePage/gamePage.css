@@ -144,6 +144,12 @@
     border-top: 0.4vh #0086F4 solid;
 }
 
+.game-exit {
+    background-image: url(../../images/burgerMenu/exit-run.svg);
+    position: relative;
+    left: 10vh;
+}
+
 .game-page__body {
     display: grid;
     grid-template-rows: 4vh 70vh min-content min-content;
@@ -310,7 +316,8 @@ line:nth-child(2) {
 }
 
 .popup,
-.popup2 {
+.popup2,
+.popup3 {
     position: fixed;
     display: grid;
     width: 100%;
@@ -374,23 +381,19 @@ line:nth-child(2) {
     font-size: 0.8rem;
 }
 
-.popup2 {
-
-}
-
 .gif-container {
     width: 50vh;
     justify-content: center;
 }
 
-.applause-round {
+.applause-round, .game-over {
     display: grid;
     grid-template-rows: repeat(3, min-content);
     height: min-content;
     justify-items: center;
 }
 
-.round-results, .round-number {
+.round-results, .round-number, .congratulations, .winner, .round-winner {
     display: grid;
     grid-template-rows: repeat(auto-fit, min-content);
     gap: 1vh;
@@ -402,6 +405,19 @@ line:nth-child(2) {
     font-size: 2rem;
 }
 
+.round-winner {
+    font-size: 3rem;
+    padding-bottom: 2vh;
+}
+
+.winner {
+    font-size: 4rem;
+}
+
+.congratulations {
+    font-size: 4rem;
+    padding-bottom: 2vh;
+}
 
 
 @media screen and (max-aspect-ratio:1/1.0001) {}

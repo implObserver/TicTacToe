@@ -44,7 +44,9 @@ const GameHandler = (() => {
         }
 
         const winnableMoveInit = () => {
-            if (Session.getCurrentRound() === Session.getRounds()) {
+            addScores();
+            addRound();
+            if (Session.getScore(id) === Session.getRounds()) {
                 nextMove('win');
             } else {
                 nextMove('round');
@@ -90,8 +92,7 @@ const GameHandler = (() => {
                 timerState.pause();
                 GamePage.Popups.applouseRound.popup.style.opacity = 1;
                 GamePage.Popups.applouseRound.popup.style.visibility = 'visible';
-                addScores();
-                addRound();
+                GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
             }
             if (flag === 'startRound') {
                 NodeGameBoard.draw();
@@ -112,12 +113,17 @@ const GameHandler = (() => {
         }
 
         const addRound = () => {
+            GamePage.Popups.applouseRound.roundPreview.textContent = `Round: ${Session.getCurrentRound()}`;
             Session.setCurrentRound();
             GamePage.BurgerMenu.roundCounter.textContent = `Round: ${Session.getCurrentRound()}`;
         }
 
         const gameOver = () => {
-
+            timerColor.pause();
+            timerState.pause();
+            GamePage.Popups.gameOver.popup.style.opacity = 1;
+            GamePage.Popups.gameOver.popup.style.visibility = 'visible';
+            GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`
         }
 
         return { nextMove, winnableMoveInit, newRound };
