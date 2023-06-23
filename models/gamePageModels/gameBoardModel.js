@@ -69,6 +69,7 @@ const Cell = () => {
     let x = 0;
     let y = 0;
     let node = 0;
+    let empty = true;
 
     const setCoordinates = (xVal, yVal) => {
         x = xVal;
@@ -77,6 +78,14 @@ const Cell = () => {
 
     const setNode = (nodeVal) => {
         node = nodeVal;
+    }
+
+    const isEmpty = () => {
+        return empty;
+    }
+
+    const fill = () => {
+        empty = false;
     }
 
     const getX = () => {
@@ -91,7 +100,7 @@ const Cell = () => {
         return node;
     }
 
-    return { setCoordinates, setNode, getX, getY, getNode };
+    return { fill, isEmpty, setCoordinates, setNode, getX, getY, getNode };
 }
 
 const NodeGameBoard = (() => {

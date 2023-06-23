@@ -16,18 +16,27 @@ const GameHandler = (() => {
         let timerState;
 
         const nextMove = (flag = 'regular') => {
-            stopTimer();
+            resetTimer();
+
             if (flag === 'round') {
                 newRound();
             } if (flag === 'win') {
                 gameOver();
             } if (flag === 'regular') {
-                currentMove();
+                if (drawTest()) {
+                    draw();
+                } else {
+                    currentMove();
+                }
             }
         }
 
-        const stopTimer = () => {
+        const resetTimer = () => {
             clearInterval(interval);
+        }
+
+        const removeTimer = () => {
+            Tools.removeChilds(GamePage.Body.timer);
         }
 
         const currentMove = () => {
@@ -40,7 +49,7 @@ const GameHandler = (() => {
 
             Session.setId(id);
             addTimer();
-            setPlayer();
+            setPlayer(0.2, 1);
         }
 
         const winnableMoveInit = () => {
@@ -54,7 +63,7 @@ const GameHandler = (() => {
         }
 
         const addTimer = () => {
-            Tools.removeChilds(GamePage.Body.timer);
+            removeTimer();
             let timer = Templates.getTimer();
             GamePage.Body.timer.appendChild(Tools.setUpSpan('0:30'));
             timerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(timer);
@@ -74,14 +83,14 @@ const GameHandler = (() => {
             }, 1000);
         }
 
-        const setPlayer = () => {
+        const setPlayer = (op1, op2) => {
             let playerQuantity = Session.getPlayers().length;
             let cards = document.querySelectorAll('.player-card');
             for (let i = 0; i < playerQuantity; i++) {
                 if (i != id) {
-                    cards[i].style.opacity = '0.2';
+                    cards[i].style.opacity = op1;
                 } else {
-                    cards[i].style.opacity = '1';
+                    cards[i].style.opacity = op2;
                 }
             }
         }
@@ -123,10 +132,38 @@ const GameHandler = (() => {
             timerState.pause();
             GamePage.Popups.gameOver.popup.style.opacity = 1;
             GamePage.Popups.gameOver.popup.style.visibility = 'visible';
-            GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`
+            GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`;
+            GamePage.Body.gameBoard.style.pointerEvents = 'none';
         }
 
-        return { nextMove, winnableMoveInit, newRound };
+        const draw = () => {
+            timerColor.pause();
+            timerState.pause();
+            GamePage.Popups.draw.popup.style.opacity = 1;
+            GamePage.Popups.draw.popup.style.visibility = 'visible';
+        }
+
+        const drawTest = () => {
+            let draw = true;
+            let cells = NodeGameBoard.getDrawnCells();
+            for (let line of cells) {
+                for (let cell of line) {
+                    if (cell.isEmpty()) {
+                        draw = false;
+                    }
+                }
+            }
+            return draw;
+        }
+
+        const endGame = () => {
+            resetTimer();
+            removeTimer();
+            setPlayer(1, 1);
+            id = -1;
+        }
+
+        return { nextMove, winnableMoveInit, newRound, endGame };
     })();
 
     return { play, move };

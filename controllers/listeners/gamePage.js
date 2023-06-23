@@ -34,7 +34,7 @@ const DefaultListeners = () => {
         setTimeout(() => {
             Session.endSession();
             AfterEndPlay();
-        }, 600);
+        }, 400);
     });
 
     const closePopupApplouseRound = GamePage.Popups.applouseRound.popup.addEventListener('click', e => {
@@ -43,11 +43,15 @@ const DefaultListeners = () => {
         GameHandler.move.newRound('startRound');
     });
 
+    const closePopupDraw = GamePage.Popups.draw.popup.addEventListener('click', e => {
+        GamePage.Popups.draw.popup.style.opacity = 0;
+        GamePage.Popups.draw.popup.style.visibility = 'hidden';
+        GameHandler.move.newRound('startRound');
+    });
+
     const closePopupGameOver = GamePage.Popups.gameOver.popup.addEventListener('click', e => {
         GamePage.Popups.gameOver.popup.style.opacity = 0;
         GamePage.Popups.gameOver.popup.style.visibility = 'hidden';
-
-
         Session.endSession();
         AfterEndPlay();
     });
@@ -66,8 +70,8 @@ const DefaultListeners = () => {
         e.preventDefault();
         let name = document.querySelector('.nickname');
         addPlayer(Player(), name.value);
-        GamePage.Popups.addPlayer.popup.style.opacity = 0;
         GamePage.Popups.addPlayer.popup.style.visibility = 'hidden';
+        GamePage.Popups.addPlayer.popup.style.opacity = 0;
     });
 
     const startPlay = GamePage.Body.play.addEventListener('click', e => {
@@ -87,9 +91,10 @@ const AddListener = (() => {
             let node = cell.getNode();
             let idPlayer = Session.getid();
             let marker = Profiles.getMarker(idPlayer);
-
             let x = cell.getX();
             let y = cell.getY();
+
+            cell.fill();
             GameBoard.getGameBoard()[y][x] = idPlayer;
 
             Tools.removeChilds(node);

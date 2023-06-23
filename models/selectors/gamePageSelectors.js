@@ -58,7 +58,13 @@ const GamePage = (() => {
             const winner = document.querySelector('.winner');
             return { popup, winner };
         })();
-        return { addPlayer, applouseRound, gameOver };
+
+        const draw = (() => {
+            const popup = document.querySelector('.popup4');
+            return { popup };
+        })();
+
+        return { addPlayer, applouseRound, gameOver, draw };
     })();
 
     return { Wrapper, BurgerMenu, Body, Popups };

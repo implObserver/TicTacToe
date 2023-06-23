@@ -3,6 +3,7 @@ import { GameBoard, NodeGameBoard, winlineBar } from "./gameBoardModel.js";
 import { addPlayScore } from "./burgerMenuModel.js";
 import { Templates } from "../../views/images/markers/markers.js";
 import { Animations } from "../../views/animations/animations.js";
+import { GameHandler } from "./gameHandlerModels.js";
 
 const Session = (() => {
     let playerId;
@@ -56,7 +57,8 @@ const Session = (() => {
     }
 
     const endSession = () => {
-        playerId = 0
+        console.log('www');
+        playerId = 0;
         rounds = 3;
         currentRound = 1;
         scores = [0, 0, 0, 0];
@@ -74,6 +76,7 @@ const BeforeStartPlay = () => {
     GamePage.Body.gameBoard.style.pointerEvents = 'none';
     document.querySelector('.gif').style.pointerEvents = 'none';
     document.querySelector('.gif2').style.pointerEvents = 'none';
+    document.querySelector('.gif3').style.pointerEvents = 'none';
     GamePage.Body.playerCards.style.bottom = null;
     GamePage.Body.timer.style.display = 'none';
 };
@@ -102,6 +105,7 @@ const AfterStartPlay = () => {
 };
 
 const AfterEndPlay = () => {
+    GameHandler.move.endGame();
     GamePage.Body.gameBoard.style.pointerEvents = 'none';
     let tutorials = Array.from(GamePage.Body.tutorials);
     for (let msg of tutorials) {
@@ -115,9 +119,11 @@ const AfterEndPlay = () => {
     GamePage.BurgerMenu.closed.style.display = 'none';
     GamePage.BurgerMenu.opened.style.display = 'none';
     GamePage.Body.winlineBar.style.pointerEvents = 'auto';
-    GamePage.Body.templateCard.style.display = 'grid';
     GamePage.Body.playerCards.style.bottom = null;
     GamePage.Body.winlineBar.style.top = null;
+    if (Session.getPlayers().length <= 3) {
+        GamePage.Body.templateCard.style.display = 'grid';
+    }
     GameBoard.setOverAllSize(40);
     NodeGameBoard.draw();
 

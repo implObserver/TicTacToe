@@ -15,15 +15,6 @@
     padding: 1vh;
 }
 
-.game-page__play {
-    width: 10vh;
-    height: 10vh;
-    background-color: rgb(45, 255, 45);
-    opacity: 0.7;
-    border-radius: 0.5vh;
-    background-image: url(../../images/play.svg);
-}
-
 .game-page__burger--closed {
     background-color: #4fadff;
     border: 0.4vh #0086F4 solid;
@@ -152,9 +143,9 @@
 
 .game-page__body {
     display: grid;
-    grid-template-rows: 4vh 70vh min-content min-content;
+    grid-template-rows: min-content 70vh min-content min-content;
     justify-items: center;
-    align-content: center;
+    align-content:start;
     grid-area: body;
     transition: all ease 200ms;
     padding: 1vh;
@@ -163,11 +154,11 @@
 .player-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(2vh, 25vh));
-    width: 106vh;
     gap: 1vh;
     justify-content: center;
     height: min-content;
-    position: relative;
+    width: 80%;
+    border:1px red solid;
 }
 
 .template-card,
@@ -176,7 +167,6 @@
 }
 
 .template-card {
-    height: 6.5vh;
     grid-template-columns: min-content 1fr;
 }
 
@@ -212,6 +202,7 @@
 }
 
 .items-wrapper {
+    border:1px red solid;
     display: grid;
     grid-template-columns: min-content min-content;
     height: min-content;
@@ -279,25 +270,6 @@
     justify-items: center;
 }
 
-.move {
-    animation: draw 0.6s forwards;
-}
-
-line:nth-child(1) {
-    animation: draw 0.3s forwards;
-}
-
-line:nth-child(2) {
-    animation: draw 0.3s 0.3s forwards;
-}
-
-
-@keyframes draw {
-    100% {
-        stroke-dashoffset: 0;
-    }
-}
-
 .win {
     margin-bottom: 1vh;
 }
@@ -317,7 +289,8 @@ line:nth-child(2) {
 
 .popup,
 .popup2,
-.popup3 {
+.popup3,
+.popup4 {
     position: fixed;
     display: grid;
     width: 100%;
@@ -330,7 +303,6 @@ line:nth-child(2) {
     opacity: 0;
     visibility: hidden;
     padding: 1vh;
-    transition: all 0.5s ease 0s;
 }
 
 .close-popup {
@@ -386,14 +358,20 @@ line:nth-child(2) {
     justify-content: center;
 }
 
-.applause-round, .game-over {
+.applause-round,
+.game-over {
     display: grid;
     grid-template-rows: repeat(3, min-content);
     height: min-content;
     justify-items: center;
 }
 
-.round-results, .round-number, .congratulations, .winner, .round-winner {
+.round-results,
+.round-number,
+.congratulations,
+.winner,
+.round-winner,
+.draw-msg {
     display: grid;
     grid-template-rows: repeat(auto-fit, min-content);
     gap: 1vh;
@@ -419,7 +397,17 @@ line:nth-child(2) {
     padding-bottom: 2vh;
 }
 
+@media screen and (max-aspect-ratio:1/1.0001) {
+    
+}
 
-@media screen and (max-aspect-ratio:1/1.0001) {}
-
-@media screen and (min-aspect-ratio: 1/1) {}
+@media screen and (min-aspect-ratio: 1/1) {
+    .game-page__play {
+        width: 10vh;
+        height: 10vh;
+        background-color: rgb(45, 255, 45);
+        opacity: 0.7;
+        border-radius: 0.5vh;
+        background-image: url(../../images/play.svg);
+    }
+}

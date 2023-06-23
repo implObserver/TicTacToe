@@ -81,8 +81,7 @@ const Markers = (() => {
             Animations.custom(e.firstChild, dur, fill, ...keyFrames);
             setTimeout(() => {
                 Animations.custom(e.lastChild, dur, fill, ...keyFrames);
-            }, dur)
-            return Animations.custom(e, dur, fill, ...keyFrames);
+            }, dur);
         }
         return { draw };
     })();
@@ -157,11 +156,11 @@ const AnimationsPresets = (() => {
 
         const ForMarkers = (() => {
             const addCircle = (circle) => {
-                return Markers.circle.draw(circle, 600, 'none', [{ strokeDashoffset: '188.4%' }, { strokeDashoffset: '0' }]);
+                return Markers.circle.draw(circle, 400, 'forwards', [{ strokeDashoffset: '188.4%' }, { strokeDashoffset: '0' }]);
             }
 
             const addCross = (cross) => {
-                return Markers.cross.draw(cross, 600, 'none', [{ strokeDashoffset: '188.4%' }, { strokeDashoffset: '0' }]);
+                return Markers.cross.draw(cross, 200, 'forwards', [{ strokeDashoffset: '100%' }, { strokeDashoffset: '0' }]);
             }
             return { addCircle, addCross };
         })();

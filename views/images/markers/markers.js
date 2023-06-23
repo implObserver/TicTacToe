@@ -1,11 +1,12 @@
 import { Tools } from "../../../helper/tools.js";
+import { AnimationsPresets } from "../../animations/gamePage.js";
 import { Attributes } from "./attributes.js";
 
 const Templates = (() => {
-    const getCircle = (name = 'move') => {
+    const getCircle = () => {
         let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         let circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        Tools.addClasses(circle, name);
+        AnimationsPresets.ForGamePage.ForMarkers.addCircle(circle);
         svg.appendChild(circle);
         Tools.setAttributes(circle, Attributes.circle);
         return svg;
@@ -15,19 +16,30 @@ const Templates = (() => {
         let svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         let leftLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         let rightLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        Tools.appendChilds(svg, leftLine, rightLine);
+        AnimationsPresets.ForGamePage.ForMarkers.addCross(svg);
         Tools.setAttributes(leftLine, Attributes.Cross.line.concat(Attributes.Cross.leftDiag));
         Tools.setAttributes(rightLine, Attributes.Cross.line.concat(Attributes.Cross.rightDiag));
-        Tools.appendChilds(svg, leftLine, rightLine);
         return svg;
     }
 
     const getTimer = () => {
-        let timer = Marker.getMarker(getCircle('back-timer'), [{ name: 'stroke', val: 'gray' }, { name: 'opacity', val: 0.2 }]);
-        let circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        let timer = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        let circle1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        let circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');       
         Tools.addClasses(circle2, 'front-timer');
+
+        Tools.setAttributes(circle1, Attributes.circle);
+
+        Tools.setAttributes(circle1, [{ name: 'stroke-dasharray', val: '0' },
+        { name: 'stroke-dashoffset', val: '0' },
+        { name: 'stroke', val: 'grey' },
+        { name: 'opacity', val: 0.2 }]);
+
         Tools.setAttributes(circle2, Attributes.circle);
+        
         Tools.setAttributes(circle2, [{ name: 'stroke', val: 'green' }]);
-        timer.appendChild(circle2);
+        Tools.appendChilds(timer, circle1, circle2);
         return timer;
     }
 
