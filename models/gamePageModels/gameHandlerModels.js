@@ -65,7 +65,6 @@ const GameHandler = (() => {
         const addTimer = () => {
             removeTimer();
             let timer = Templates.getTimer();
-            GamePage.Body.timer.appendChild(Tools.setUpSpan('0:30'));
             timerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(timer);
             timerState = AnimationsPresets.ForGamePage.ForTimer.drawIndicator(timer);
             GamePage.Body.timer.appendChild(timer);
@@ -73,9 +72,10 @@ const GameHandler = (() => {
         }
 
         const viewSeconds = () => {
-            let seconds = 30;
+            GamePage.Body.displayTimer.textContent = `0:30`;
+            let seconds = 29;
             interval = setInterval(() => {
-                GamePage.Body.timer.querySelector('span').textContent = `0:${seconds}`;
+                GamePage.Body.displayTimer.textContent = `0:${seconds}`;
                 if (seconds === 0) {
                     nextMove();
                 }

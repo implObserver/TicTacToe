@@ -74,7 +74,7 @@ const GameBoard = (() => {
     })();
     return { cell };
 })();
-//timer.querySelector('.front-timer').animate([{ stroke: 'green' }, { stroke: 'orange' }, { stroke: 'red' }], { duration: 36000 });
+
 const Markers = (() => {
     const cross = (() => {
         const draw = (e, dur, fill, ...keyFrames) => {

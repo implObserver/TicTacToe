@@ -5,148 +5,11 @@
     --speed: 36s;
 }
 
-.game-page {
-    grid-template-columns: min-content 1fr;
-    grid-template-areas:
-        'menu body';
-}
-
-.play-wrapper {
-    padding: 1vh;
-}
-
-.game-page__burger--closed {
-    background-color: #4fadff;
-    border: 0.4vh #0086F4 solid;
-    padding: 1vh;
-    width: 9vh;
-    grid-area: menu;
-    display: none;
-}
-
-.game-page__burger--opened {
-    font-size: 100%;
-    background-color: #4fadff;
-    border: 0.4vh #0086F4 solid;
-    width: 45vh;
-    display: grid;
-    grid-template-rows: min-content min-content 1fr;
-    gap: 1vh;
-    transition: linear;
-}
-
-.game-page__burger__button--close,
-.game-page__burger__button--open {
-    position: relative;
-    display: grid;
-    padding: 1vh;
-    justify-items: center;
-    align-items: center;
-    background-color: #663399;
-}
-
-.game-page__burger__button--close {
-    right: -36vh;
-}
-
-.up,
-.middle,
-.down {
-    position: relative;
-    width: 4vh;
-    height: 0.6vh;
-    background-color: white;
-    content: "";
-}
-
-.game-page__burger__button--close .up {
-    top: 1.3vh;
-}
-
-.game-page__burger__button--close .down {
-    top: -1.4vh;
-
-}
-
-.game-page__burger__header {
-    display: grid;
-    grid-template-columns: 1fr;
-    padding: 1vh;
-}
-
-.game-page__burger__main-title {
-    display: grid;
-    grid-template-columns: min-content 1fr;
-    align-items: center;
-    justify-items: center;
-    font-size: 3rem;
-    padding: 1vh;
-    gap: 1vh;
-}
-
-.game-page__burger__score-board {
-    display: grid;
-    grid-template-rows: 10vh 1fr 10vh;
-    border-top: 0.4vh #0086F4 solid;
-}
-
-.game-page__burger__score-board__title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    border-bottom: 0.4vh #0086F4 solid;
-}
-
-.game-page__burger__score-board__container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 30vh);
-    align-content: center;
-    justify-content: center;
-    padding: 1vh;
-    gap: 2vh;
-}
-
-.game-page__burger__score-board__player-score {
-    display: grid;
-    grid-template-rows: 0.5fr 1fr;
-    font-size: 1.5rem;
-    border-radius: 1vh;
-    height: 20vh;
-    width: 30vh;
-}
-
-.game-page__burger__score-board__player-score__name,
-.game-page__burger__score-board__player-score__score {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 0.4vh #0086F4 solid;
-    background-color: aliceblue;
-    border-radius: 1vh;
-    padding: 1vh;
-}
-
-.game-page__burger__score-board__round-counter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    border-top: 0.4vh #0086F4 solid;
-}
-
-.game-exit {
-    background-image: url(../../images/burgerMenu/exit-run.svg);
-    position: relative;
-    left: 10vh;
-}
-
 .game-page__body {
     display: grid;
     grid-template-rows: min-content min-content min-content min-content;
     justify-items: center;
     align-content: start;
-    grid-area: body;
     padding: 1vh;
     gap: 3vh;
 }
@@ -158,7 +21,6 @@
     justify-content: center;
     height: min-content;
     width: 80%;
-    border: 1px red solid;
 }
 
 .template-card,
@@ -202,30 +64,33 @@
 }
 
 .items-wrapper {
-    border: 1px red solid;
     display: grid;
     grid-template-columns: min-content min-content;
-    height: min-content;
+    grid-template-areas:
+        'body';
+    min-height: 52vh;
     width: min-content;
     align-self: center;
     align-items: center;
     justify-content: center;
-    position: relative;
 }
 
 .timer {
-    display: flex;
-    width: 15vh;
-    height: 15vh;
-    align-items: center;
+    display: grid;
+    position: relative;
     justify-content: center;
+    align-items: center;
+    grid-area: body;
 }
 
-.timer>span {
+.timer-display {
+    display: flex;
     position: relative;
-    left: 7.5vh;
-    min-width: 5vh;
-    text-align: center;
+    width: 5vh;
+    height: min-content;
+    justify-content: center;
+    align-items: center;
+    grid-area: body;
 }
 
 .back-timer {
@@ -234,6 +99,7 @@
 
 .gameboard-wrapper {
     display: grid;
+    grid-area: body;
     align-self: center;
     height: min-content;
 }
@@ -263,6 +129,8 @@
     border: 0.4vh rgb(143, 251, 255) solid;
 }
 
+
+
 .rangers {
     display: grid;
     gap: 1vh;
@@ -279,7 +147,6 @@
 }
 
 .win-option {
-    border: 1px red solid;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     gap: 1vh;
@@ -396,6 +263,55 @@
 }
 
 @media screen and (max-aspect-ratio:1/1.0001) {
+
+    .play-wrapper,
+    .game-page__burger--closed,
+    .game-page__burger__button--close,
+    .game-page__burger__button--open,
+    .game-page__burger__button--close,
+    .up,
+    .middle,
+    .down,
+    .game-page__burger__button--close .up,
+    .game-page__burger__button--close .down,
+    .game-page__burger--opened,
+    .game-page__burger__header,
+    .game-page__burger__main-title,
+    .game-page__burger__score-board,
+    .game-page__burger__score-board__title,
+    .game-page__burger__score-board__container,
+    .game-page__burger__score-board__player-score,
+    .game-page__burger__score-board__player-score__name,
+    .game-page__burger__score-board__player-score__score,
+    .game-page__burger__score-board__round-counter,
+    .game-exit {
+        display: none;
+    }
+
+    .play-btn__mobile {
+        grid-area: body;
+        display: flex;
+        justify-self: center;
+        width: 40%;
+        height: 30%;
+        background-image: url(../../images/play2.svg);
+        background-size: 100% 100%;
+        opacity: 0.5;
+        z-index: 100;
+    }
+
+    .timer {
+        width:20vh;
+        height: 20vh;
+        top: 47vh;
+        left: 22vh;
+    }
+
+    .timer-display {
+        top: 47vh;
+        left: 29.5vh;
+    }
+
     .win-option {
         width: 40vh;
         height: 3vh;
@@ -403,6 +319,15 @@
 }
 
 @media screen and (min-aspect-ratio: 1/1) {
+    .play-wrapper {
+        padding: 1vh;
+    }
+
+    .game-page {
+        grid-template-columns: min-content 1fr;
+        grid-template-areas: 'burger body';
+    }
+
     .game-page__play {
         width: 10vh;
         height: 10vh;
@@ -410,6 +335,149 @@
         opacity: 0.7;
         border-radius: 0.5vh;
         background-image: url(../../images/play.svg);
+    }
+
+    .game-page__burger--closed {
+        grid-area: burger;
+        background-color: #4fadff;
+        border: 0.4vh #0086F4 solid;
+        padding: 1vh;
+        width: 9vh;
+    }
+
+    .game-page__burger__button--close,
+    .game-page__burger__button--open {
+        position: relative;
+        display: grid;
+        padding: 1vh;
+        justify-items: center;
+        align-items: center;
+        background-color: #663399;
+    }
+
+    .game-page__burger__button--close {
+        right: -36vh;
+    }
+
+    .up,
+    .middle,
+    .down {
+        position: relative;
+        width: 4vh;
+        height: 0.6vh;
+        background-color: white;
+        content: "";
+    }
+
+    .game-page__burger__button--close .up {
+        top: 1.3vh;
+    }
+
+    .game-page__burger__button--close .down {
+        top: -1.4vh;
+
+    }
+
+    .game-page__burger--opened {
+        font-size: 100%;
+        background-color: #4fadff;
+        border: 0.4vh #0086F4 solid;
+        width: 45vh;
+        display: grid;
+        grid-template-rows: min-content min-content 1fr;
+        gap: 1vh;
+        transition: linear;
+    }
+
+    .game-page__burger__header {
+        display: grid;
+        grid-template-columns: 1fr;
+        padding: 1vh;
+    }
+
+    .game-page__burger__main-title {
+        display: grid;
+        grid-template-columns: min-content 1fr;
+        align-items: center;
+        justify-items: center;
+        font-size: 3rem;
+        padding: 1vh;
+        gap: 1vh;
+    }
+
+    .game-page__burger__score-board {
+        display: grid;
+        grid-template-rows: 10vh 1fr 10vh;
+        border-top: 0.4vh #0086F4 solid;
+    }
+
+    .game-page__burger__score-board__title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        border-bottom: 0.4vh #0086F4 solid;
+    }
+
+    .game-page__burger__score-board__container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 30vh);
+        align-content: center;
+        justify-content: center;
+        padding: 1vh;
+        gap: 2vh;
+    }
+
+    .game-page__burger__score-board__player-score {
+        display: grid;
+        grid-template-rows: 0.5fr 1fr;
+        font-size: 1.5rem;
+        border-radius: 1vh;
+        height: 20vh;
+        width: 30vh;
+    }
+
+    .game-page__burger__score-board__player-score__name,
+    .game-page__burger__score-board__player-score__score {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 0.4vh #0086F4 solid;
+        background-color: aliceblue;
+        border-radius: 1vh;
+        padding: 1vh;
+    }
+
+    .game-page__burger__score-board__round-counter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        border-top: 0.4vh #0086F4 solid;
+    }
+
+    .game-exit {
+        background-image: url(../../images/burgerMenu/exit-run.svg);
+        position: relative;
+        left: 10vh;
+    }
+
+    .play-btn__mobile {
+        display: none;
+    }
+
+    .game-page__body {
+        grid-area: body;
+    }
+
+    .timer {
+        left: 75vh;
+        width: 15vh;
+        height: 15vh;
+    }
+
+    .timer-display {
+        left: 80vh;
     }
 
     .win-option {

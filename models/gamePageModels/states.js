@@ -82,22 +82,23 @@ const BeforeStartPlay = () => {
 };
 
 const AfterStartPlay = () => {
+    GamePage.Wrapper.appendChild(GamePage.BurgerMenu.closed);
+    GamePage.Body.playMobile.style.display = 'none';
     GamePage.Body.gameBoard.style.pointerEvents = 'auto';
     let tutorials = Array.from(GamePage.Body.tutorials);
     for (let msg of tutorials) {
         msg.style.display = 'none';
     }
     GamePage.Body.timer.style.display = 'flex';
-    GamePage.Body.itemsWrapper.style.gap = '2vh';
-    GamePage.Body.itemsWrapper.style.left = '9vh';
+    //GamePage.Body.itemsWrapper.style.gap = '2vh';
+    //GamePage.Body.itemsWrapper.style.left = '9vh';
     GamePage.Body.rangers.style.display = 'none';
     GamePage.BurgerMenu.opened.style.display = 'grid';
     GamePage.Body.playWrapper.style.display = 'none';
-    GamePage.BurgerMenu.closed.style.display = 'grid';
     GamePage.Body.winlineBar.style.pointerEvents = 'none';
     GamePage.Body.templateCard.style.display = 'none';
-    GamePage.Body.playerCards.style.bottom = '7vh';
-    GamePage.Body.winlineBar.style.top = '3vh';
+    //GamePage.Body.playerCards.style.bottom = '7vh';
+    //GamePage.Body.winlineBar.style.top = '3vh';
     GameBoard.setOverAllSize(60);
     NodeGameBoard.draw();
     addPlayScore();
@@ -106,6 +107,8 @@ const AfterStartPlay = () => {
 
 const AfterEndPlay = () => {
     GameHandler.move.endGame();
+    GamePage.Wrapper.removeChild(GamePage.BurgerMenu.closed);
+    GamePage.Body.playMobile.style.display = 'flex';
     GamePage.Body.gameBoard.style.pointerEvents = 'none';
     let tutorials = Array.from(GamePage.Body.tutorials);
     for (let msg of tutorials) {
@@ -116,7 +119,6 @@ const AfterEndPlay = () => {
     GamePage.Body.itemsWrapper.style.left = null;
     GamePage.Body.rangers.style.display = 'grid';
     GamePage.Body.playWrapper.style.display = 'grid';
-    GamePage.BurgerMenu.closed.style.display = 'none';
     GamePage.BurgerMenu.opened.style.display = 'none';
     GamePage.Body.winlineBar.style.pointerEvents = 'auto';
     GamePage.Body.playerCards.style.bottom = null;

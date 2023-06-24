@@ -1,4 +1,4 @@
-import { BurgerMenu as BM } from "../gamePageModels/burgerMenuModel.js";
+import { BurgerMenu as BM, BurgerMenuClosed as BMC } from "../gamePageModels/burgerMenuModel.js";
 
 const GamePage = (() => {
     const Wrapper = (() => {
@@ -8,9 +8,9 @@ const GamePage = (() => {
     const BurgerMenu = (() => {
         const mainTitle = BM.querySelector('.game-page__burger__main-title');
         const scoreBoard = BM.querySelector('.game-page__burger__score-board');
-        const closed = document.querySelector('.game-page__burger--closed');
+        const closed = BMC;
         const opened = BM;
-        const openButton = document.querySelector('.game-page__burger__button--open');
+        const openButton = BMC.querySelector('.game-page__burger__button--open');
         const closeButton = BM.querySelector('.game-page__burger__button--close');
         const scoresContainer = BM.querySelector('.game-page__burger__score-board__container');
         const roundCounter = BM.querySelector('.game-page__burger__score-board__round-counter > span');
@@ -32,9 +32,11 @@ const GamePage = (() => {
         const winlineBar = document.querySelector('.win-option');
         const closePopup = document.querySelector('.close-popup');
         const play = document.querySelector('.game-page__play');
+        const displayTimer = document.querySelector('.timer-display')
         const tutorials = document.querySelectorAll('.tutor');
         const root = document.querySelector(':root');
-        return { root, allCards, itemsWrapper, timer, playWrapper, templateCard, gameBoard, heightRange, widthRange, playerCards, winlineBar, closePopup, play, tutorials, rangers };
+        const playMobile = document.querySelector('.play-btn__mobile');
+        return { displayTimer, playMobile, root, allCards, itemsWrapper, timer, playWrapper, templateCard, gameBoard, heightRange, widthRange, playerCards, winlineBar, closePopup, play, tutorials, rangers };
     })();
 
     const Popups = (() => {

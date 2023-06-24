@@ -9,6 +9,7 @@ import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay, Session, Af
 import { NodeGameBoard, GameBoard, MoveHandler, winlineBar } from '../../models/gamePageModels/gameBoardModel.js';
 import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
 const DefaultListeners = () => {
+
     const burgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
         open();
     });
@@ -72,6 +73,17 @@ const DefaultListeners = () => {
         addPlayer(Player(), name.value);
         GamePage.Popups.addPlayer.popup.style.visibility = 'hidden';
         GamePage.Popups.addPlayer.popup.style.opacity = 0;
+    });
+
+    const mobileStartPlay = GamePage.Body.playMobile.addEventListener('click', e => {
+        if (window.matchMedia('(max-aspect-ratio:1/1.0001)').matches) {
+            if (Session.getPlayers().length < 2) {
+                alert('Добавьте минимум 2 игроков');
+            } else {
+                AfterStartPlay('mobile');
+                GameHandler.play();
+            }
+        }
     });
 
     const startPlay = GamePage.Body.play.addEventListener('click', e => {

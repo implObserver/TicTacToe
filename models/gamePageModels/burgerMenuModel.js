@@ -59,6 +59,20 @@ const BurgerMenu = (() => {
     return burgerMenu;
 })();
 
+const BurgerMenuClosed = (() => {
+    let burgerMenu = Tools.createNode('div', 'game-page__burger--closed');
+    const opening = () => {
+        let opening = Tools.createNode('div', 'icon-wrapper', 'game-page__burger__button--open');
+        let spanUp = Tools.createNode('span', 'up');
+        let spanMiddle = Tools.createNode('span', 'middle');
+        let spanDown = Tools.createNode('span', 'down');
+        Tools.appendChilds(opening, spanUp, spanMiddle, spanDown);
+        return opening;
+    }
+    burgerMenu.appendChild(opening());
+    return burgerMenu
+})();
+
 const DynamicNode = (() => {
     const playerScore = (name, number) => {
         let playerScore = Tools.createNode('div', 'game-page__burger__score-board__player-score');
@@ -108,4 +122,4 @@ const open = () => {
     });
 }
 
-export { BurgerMenu, DynamicNode, addPlayScore, close, open }
+export { BurgerMenu, BurgerMenuClosed, DynamicNode, addPlayScore, close, open }
