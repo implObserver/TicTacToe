@@ -283,4 +283,24 @@ const winlineBar = (() => {
     return { fill, setting };
 })();
 
-export { GameBoard, NodeGameBoard, MoveHandler, winlineBar }
+const MobilePageOptions = (() => {
+    let card = Tools.createNode('div', 'options-wrapper');
+    const counter = () => {
+        let counter = Tools.createNode('div', 'round-number__mobile');
+        let span = Tools.setUpSpan('Round: 1');
+        Tools.appendChilds(counter, span);
+        return counter;
+    }
+
+    const exit = () => {
+        let wrapper = Tools.createNode('div', 'mobile-exit__wrapper');
+        let icon = Tools.createNode('div', 'icon-wrapper', 'mobile-exit');
+        wrapper.appendChild(icon);
+        return wrapper;
+    }
+
+    Tools.appendChilds(card, counter(), exit());
+    return card;
+})();
+
+export { GameBoard, NodeGameBoard, MoveHandler, winlineBar, MobilePageOptions }

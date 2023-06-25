@@ -6,7 +6,7 @@ import { BurgerMenu, DynamicNode, close, open } from '../../models/gamePageModel
 import { Player, Profiles } from '../../models/gamePageModels/playerModel.js';
 import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
 import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay } from '../../models/gamePageModels/states.js';
-import { NodeGameBoard, GameBoard, MoveHandler, winlineBar } from '../../models/gamePageModels/gameBoardModel.js';
+import { NodeGameBoard, GameBoard, MoveHandler, winlineBar, MobilePageOptions } from '../../models/gamePageModels/gameBoardModel.js';
 import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
 
 const DefaultListeners = () => {
@@ -75,6 +75,15 @@ const DefaultListeners = () => {
         GamePage.Popups.addPlayer.popup.style.visibility = 'hidden';
         GamePage.Popups.addPlayer.popup.style.opacity = 0;
     });
+
+    const mobileExit = MobilePageOptions.addEventListener('click', e => {
+            if (confirm('Are you sure you want to exit game?')) {
+                Session.endSession();
+                AfterEndPlay();
+            } else {
+
+            }
+        });
 
     const mobileStartPlay = GamePage.Body.playMobile.addEventListener('click', e => {
         if (window.matchMedia('(max-aspect-ratio:1/1.0001)').matches) {

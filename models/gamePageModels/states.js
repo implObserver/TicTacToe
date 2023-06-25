@@ -1,5 +1,5 @@
 import { GamePage } from "../selectors/gamePageSelectors.js";
-import { GameBoard, NodeGameBoard, winlineBar } from "./gameBoardModel.js";
+import { GameBoard, MobilePageOptions, NodeGameBoard, winlineBar } from "./gameBoardModel.js";
 import { addPlayScore } from "./burgerMenuModel.js";
 import { Templates } from "../../views/images/markers/markers.js";
 import { Animations } from "../../views/animations/animations.js";
@@ -97,9 +97,8 @@ const BeforeStartPlay = () => {
 };
 
 const AfterStartPlay = () => {
-    let counter = Tools.createNode('div', 'round-number__mobile');
-    counter.textContent = `Round: 1`;
-    GamePage.Body.body.appendChild(counter);
+    
+    GamePage.Body.body.appendChild(MobilePageOptions);
     GamePage.Body.playerCards.style.pointerEvents = 'none';
     GamePage.Body.winlineBar.style.width = '40vh';
     GamePage.Body.winlineBar.style.height = '3vh';
@@ -135,6 +134,7 @@ const AfterStartPlay = () => {
 
 const AfterEndPlay = () => {
     GameHandler.move.endGame();
+    GamePage.Body.body.removeChild(MobilePageOptions);
     GamePage.Wrapper.removeChild(GamePage.Wrapper.children[2]);
     GamePage.Body.playerCards.style.pointerEvents = 'auto';
     GamePage.Body.displayTimer.style.display = 'none';

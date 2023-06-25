@@ -193,6 +193,7 @@
     opacity: 0;
     visibility: hidden;
     padding: 1vh;
+    z-index: 100;
 }
 
 .close-popup {
@@ -370,6 +371,12 @@
         height: 3vh;
     }
 
+    .options-wrapper {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        gap: 7vh;
+    }
+
     .round-number__mobile {
         display: flex;
         align-items: center;
@@ -377,6 +384,17 @@
         font-size: 3rem;
         opacity: 1;
         visibility: visible;
+    }
+
+    .mobile-exit__wrapper {
+        display: flex;
+        justify-content: end;
+    }
+
+    .mobile-exit {
+        padding-bottom: 1vh;
+        background-image: url(../../images/burgerMenu/exit-run.svg);
+        align-self: center;
     }
 }
 
