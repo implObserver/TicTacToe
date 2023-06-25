@@ -8,6 +8,7 @@ import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
 import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay } from '../../models/gamePageModels/states.js';
 import { NodeGameBoard, GameBoard, MoveHandler, winlineBar } from '../../models/gamePageModels/gameBoardModel.js';
 import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
+
 const DefaultListeners = () => {
 
     const burgerOpen = GamePage.BurgerMenu.openButton.addEventListener('click', e => {
@@ -93,7 +94,8 @@ const DefaultListeners = () => {
             AfterStartPlay();
             GameHandler.play();
         }
-    })
+    });
+
 };
 
 const AddListener = (() => {
@@ -101,23 +103,30 @@ const AddListener = (() => {
         cell.getNode().addEventListener('click', e => {
             cell.getNode().style.pointerEvents = 'none';
             let node = cell.getNode();
-            let idPlayer = Session.getid();
-            let marker = Profiles.getMarker(idPlayer);
+            let idMove = Session.getid();
+            let player = Session.getPlayer(idMove);
+            let idMarker = player.getId();
+            let marker = Profiles.getMarker(idMarker);
+
+            node.appendChild(marker);
             let x = cell.getX();
             let y = cell.getY();
 
             cell.fill();
-            GameBoard.getGameBoard()[y][x] = idPlayer;
+            GameBoard.getGameBoard()[y][x] = idMarker;
 
             Tools.removeChilds(node);
             node.appendChild(marker);
-            let isWinnable = MoveHandler.checkWinnable(x, y, idPlayer);
-            if (isWinnable) {
-                GameHandler.move.winnableMoveInit();
-            } else {
-                GameHandler.move.nextMove();
-
-            }
+            let isWinnable = MoveHandler.checkWinnable(x, y, idMarker);
+            GamePage.Body.gameBoard.style.pointerEvents = 'none';
+            setTimeout(() => {
+                GamePage.Body.gameBoard.style.pointerEvents = 'auto';
+                if (isWinnable) {
+                    GameHandler.move.winnableMoveInit();
+                } else {
+                    GameHandler.move.nextMove();
+                }
+            }, 650);
         });
     }
 
@@ -128,7 +137,31 @@ const AddListener = (() => {
         });
     }
 
-    return { cell, optionalCell };
+    const mobileDeleteCard = (card, player) => {
+        card.querySelector('.delete').addEventListener('click', e => {
+            GamePage.Body.playerCards.removeChild(card);
+            Session.returnId(player.getId());
+            Session.deletePlayer(player);
+            if (Session.getPlayers().length < 4) {
+                GamePage.Body.templateCard.style.display = 'grid';
+            }
+        });
+    }
+
+    const deleteCard = (card, player) => {
+        card.querySelector('.marker').addEventListener('click', e => {
+            if (window.matchMedia('(min-aspect-ratio: 1/1)').matches) {
+                GamePage.Body.playerCards.removeChild(card);
+                Session.returnId(player.getId());
+                Session.deletePlayer(player);
+                if (Session.getPlayers().length < 4) {
+                    GamePage.Body.templateCard.style.display = 'grid';
+                }
+            }
+        });
+    }
+
+    return { cell, optionalCell, mobileDeleteCard, deleteCard };
 })();
 
 const viewPage = () => {
@@ -137,7 +170,7 @@ const viewPage = () => {
             const GameBoardPreset = (() => {
                 GameBoard.setWidth(3);
                 GameBoard.setHeigth(3);
-                GameBoard.setOverAllSize(40);
+                GameBoard.setOverAllSize(38);
                 MoveHandler.setWinLine(3);
             })();
             return { GameBoardPreset };

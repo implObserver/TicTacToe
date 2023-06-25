@@ -167,11 +167,11 @@ const AnimationsPresets = (() => {
 
         const ForTimer = (() => {
             const colorIndicator = (timer) => {
-                return Timer.colorIndicator.colors(timer.lastChild, 36000, 'none', [{ stroke: 'green' }, { stroke: 'orange' }, { stroke: 'red' }]);
+                return Timer.colorIndicator.colors(timer.lastChild, 30000, 'none', [{ stroke: 'green' }, { stroke: 'orange' }, { stroke: 'red' }]);
             }
 
             const drawIndicator = (timer) => {
-                return Timer.colorIndicator.draw(timer.lastChild, 36000, 'none', [{ strokeDashoffset: '188.4%' }, { strokeDashoffset: '0' }]);
+                return Timer.colorIndicator.draw(timer.lastChild, 30000, 'none', [{ strokeDashoffset: '188.4%' }, { strokeDashoffset: '0' }]);
             }
             return { drawIndicator, colorIndicator };
         })();

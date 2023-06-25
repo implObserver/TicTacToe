@@ -24,18 +24,33 @@ const Attributes = (() => {
             { name: 'x1', val: '20%' },
             { name: 'y1', val: '20%' },
             { name: 'x2', val: '80%' },
-            { name: 'y2', val: '80%' }
+            { name: 'y2', val: '80%' },
         ];
 
         const rightDiag = [
             { name: 'x2', val: '20%' },
             { name: 'y2', val: '80%' },
             { name: 'x1', val: '80%' },
-            { name: 'y1', val: '20%' }
+            { name: 'y1', val: '20%' },
         ];
         return { line, leftDiag, rightDiag };
     })();
-    return { circle, Cross }
+
+    const HorizontalLine = (() => {
+        const horizontal = [
+            { name: 'stroke', val: 'red' },
+            { name: 'stroke-width', val: '5%' },
+            { name: 'stroke-linecap', val: 'round' },
+            { name: 'stroke-dasharray', val: '143%' },
+            { name: 'stroke-dashoffset', val: '143%' },
+            { name: 'x1', val: '0.5%' },
+            { name: 'y1', val: '0.5%' },
+            { name: 'x2', val: '99.5%' },
+            { name: 'y2', val: '0.5%' },
+        ]
+        return { horizontal };
+    })();
+    return { circle, Cross, HorizontalLine }
 })();
 
 export { Attributes };

@@ -4,32 +4,37 @@ import { addPlayScore } from "./burgerMenuModel.js";
 import { Templates } from "../../views/images/markers/markers.js";
 import { Animations } from "../../views/animations/animations.js";
 import { GameHandler } from "./gameHandlerModels.js";
+import { Tools } from "../../helper/tools.js";
 
 const Session = (() => {
-    let playerId;
-    let rounds = 2;
+    let moveId;
+    let idList = [0, 1, 2, 3];
+    let rounds = 3;
     let currentRound = 1;
     let players = [];
-    let scores = [0, 0, 0, 0];
 
     const setScore = (id) => {
-        ++scores[id];
+        players[id].setScore();
     }
 
     const getScore = (id) => {
-        return scores[id];
+        return players[id].getScore();
     }
 
     const setId = (id) => {
-        playerId = id;
+        moveId = id;
     }
 
     const getid = () => {
-        return playerId;
+        return moveId;
     }
 
     const addPlayer = (player) => {
         players.push(player);
+    }
+
+    const deletePlayer = (delPlayer) => {
+        players = players.filter((player) => player !== delPlayer);
     }
 
     const getPlayer = (id) => {
@@ -57,14 +62,24 @@ const Session = (() => {
     }
 
     const endSession = () => {
-        console.log('www');
-        playerId = 0;
+        moveId = 0;
         rounds = 3;
         currentRound = 1;
-        scores = [0, 0, 0, 0];
     }
 
-    return { endSession, setScore, getScore, setId, getid, addPlayer, getPlayer, getPlayers, getRounds, setRounds, getCurrentRound, setCurrentRound };
+    const getIdList = () => {
+        return idList;
+    }
+
+    const removeId = () => {
+        return idList.shift();
+    }
+
+    const returnId = (id) => {
+        idList.unshift(id);
+    }
+
+    return { getIdList, removeId, returnId, deletePlayer, endSession, setScore, getScore, setId, getid, addPlayer, getPlayer, getPlayers, getRounds, setRounds, getCurrentRound, setCurrentRound };
 })();
 
 const gamePage = (() => {
@@ -77,29 +92,42 @@ const BeforeStartPlay = () => {
     document.querySelector('.gif').style.pointerEvents = 'none';
     document.querySelector('.gif2').style.pointerEvents = 'none';
     document.querySelector('.gif3').style.pointerEvents = 'none';
-    GamePage.Body.playerCards.style.bottom = null;
     GamePage.Body.timer.style.display = 'none';
+    GamePage.Body.displayTimer.style.display = 'none';
 };
 
 const AfterStartPlay = () => {
+    let counter = Tools.createNode('div', 'round-number__mobile');
+    counter.textContent = `Round: 1`;
+    GamePage.Body.body.appendChild(counter);
+    GamePage.Body.playerCards.style.pointerEvents = 'none';
+    GamePage.Body.winlineBar.style.width = '40vh';
+    GamePage.Body.winlineBar.style.height = '3vh';
+    GamePage.Body.body.insertBefore(Tools.createNode('div', 'mobile-timer'), GamePage.Body.body.firstChild);
     GamePage.Wrapper.appendChild(GamePage.BurgerMenu.closed);
+    GamePage.Body.displayTimer.style.display = 'flex';
     GamePage.Body.playMobile.style.display = 'none';
     GamePage.Body.gameBoard.style.pointerEvents = 'auto';
     let tutorials = Array.from(GamePage.Body.tutorials);
     for (let msg of tutorials) {
         msg.style.display = 'none';
     }
+    let baskets = document.querySelectorAll('.delete');
+    for (let basket of baskets) {
+        basket.style.opacity = 0;
+        basket.style.visibility = 'hidden';
+    }
+    let scores = document.querySelectorAll('.score');
+    for (let score of scores) {
+        score.style.opacity = 1;
+        score.style.visibility = 'visible';
+    }
     GamePage.Body.timer.style.display = 'flex';
-    //GamePage.Body.itemsWrapper.style.gap = '2vh';
-    //GamePage.Body.itemsWrapper.style.left = '9vh';
     GamePage.Body.rangers.style.display = 'none';
     GamePage.BurgerMenu.opened.style.display = 'grid';
     GamePage.Body.playWrapper.style.display = 'none';
     GamePage.Body.winlineBar.style.pointerEvents = 'none';
     GamePage.Body.templateCard.style.display = 'none';
-    //GamePage.Body.playerCards.style.bottom = '7vh';
-    //GamePage.Body.winlineBar.style.top = '3vh';
-    GameBoard.setOverAllSize(60);
     NodeGameBoard.draw();
     addPlayScore();
     GamePage.BurgerMenu.roundCounter.textContent = `Round:${Session.getCurrentRound()}`;
@@ -107,28 +135,35 @@ const AfterStartPlay = () => {
 
 const AfterEndPlay = () => {
     GameHandler.move.endGame();
-    GamePage.Wrapper.removeChild(GamePage.BurgerMenu.closed);
+    GamePage.Wrapper.removeChild(GamePage.Wrapper.children[2]);
+    GamePage.Body.playerCards.style.pointerEvents = 'auto';
+    GamePage.Body.displayTimer.style.display = 'none';
     GamePage.Body.playMobile.style.display = 'flex';
     GamePage.Body.gameBoard.style.pointerEvents = 'none';
     let tutorials = Array.from(GamePage.Body.tutorials);
     for (let msg of tutorials) {
         msg.style.display = 'grid';
     }
+
+    let baskets = document.querySelectorAll('.delete');
+    for (let basket of baskets) {
+        basket.style.opacity = 1;
+        basket.style.visibility = 'visible';
+    }
+    let scores = document.querySelectorAll('.score');
+    for (let score of scores) {
+        score.style.opacity = 0;
+        score.style.visibility = 'hidden';
+    }
     GamePage.Body.timer.style.display = 'none';
-    GamePage.Body.itemsWrapper.style.gap = null;
-    GamePage.Body.itemsWrapper.style.left = null;
     GamePage.Body.rangers.style.display = 'grid';
     GamePage.Body.playWrapper.style.display = 'grid';
-    GamePage.BurgerMenu.opened.style.display = 'none';
     GamePage.Body.winlineBar.style.pointerEvents = 'auto';
-    GamePage.Body.playerCards.style.bottom = null;
-    GamePage.Body.winlineBar.style.top = null;
     if (Session.getPlayers().length <= 3) {
         GamePage.Body.templateCard.style.display = 'grid';
     }
     GameBoard.setOverAllSize(40);
     NodeGameBoard.draw();
-
 }
 
 export { gamePage, BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay };

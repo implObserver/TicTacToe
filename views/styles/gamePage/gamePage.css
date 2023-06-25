@@ -5,9 +5,27 @@
     --speed: 36s;
 }
 
+.mobile-timer {
+    display: grid;
+    width: 100%;
+    height: min-content;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.mobile-timer>svg {
+    width: 100%;
+    height: 1vh;
+}
+
+.mobile-timer>span {
+    padding-left: 1vh;
+    font-size: 2rem;
+}
+
 .game-page__body {
     display: grid;
-    grid-template-rows: min-content min-content min-content min-content;
+    grid-template-rows: repeat(auto-fit, min-content);
     justify-items: center;
     align-content: start;
     padding: 1vh;
@@ -20,7 +38,12 @@
     gap: 1vh;
     justify-content: center;
     height: min-content;
-    width: 80%;
+    width: 70%;
+}
+
+.score {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .template-card,
@@ -43,7 +66,7 @@
 }
 
 .player-card {
-    grid-template-columns: 1fr 6vh;
+    grid-template-columns: 1fr 6vh min-content;
     height: min-content;
 }
 
@@ -68,8 +91,8 @@
     grid-template-columns: min-content min-content;
     grid-template-areas:
         'body';
-    min-height: 52vh;
-    width: min-content;
+    min-height: 42vh;
+    min-width: 42vh;
     align-self: center;
     align-items: center;
     justify-content: center;
@@ -84,7 +107,7 @@
 }
 
 .timer-display {
-    display: flex;
+    display: none;
     position: relative;
     width: 5vh;
     height: min-content;
@@ -100,8 +123,10 @@
 .gameboard-wrapper {
     display: grid;
     grid-area: body;
+    justify-self: center;
     align-self: center;
     height: min-content;
+    width: max-content;
 }
 
 .game-page__gameboard {
@@ -110,7 +135,9 @@
     justify-content: center;
     gap: 1vh;
     padding: 1vh;
+    height: min-content;
     transition: all ease 200ms;
+    width: max-content;
 }
 
 .cell {
@@ -128,8 +155,6 @@
     opacity: 0.8;
     border: 0.4vh rgb(143, 251, 255) solid;
 }
-
-
 
 .rangers {
     display: grid;
@@ -246,6 +271,7 @@
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    text-align: center;
 }
 
 .round-winner {
@@ -264,6 +290,12 @@
 
 @media screen and (max-aspect-ratio:1/1.0001) {
 
+    .mobile-timer {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+    .game-page__play,
     .play-wrapper,
     .game-page__burger--closed,
     .game-page__burger__button--close,
@@ -288,6 +320,10 @@
         display: none;
     }
 
+    .items-wrapper {
+        max-width: 38vh;
+    }
+
     .play-btn__mobile {
         grid-area: body;
         display: flex;
@@ -301,24 +337,51 @@
     }
 
     .timer {
-        width:20vh;
-        height: 20vh;
-        top: 47vh;
-        left: 22vh;
+        visibility: hidden !important;
+        opacity: 0 !important;
     }
 
     .timer-display {
-        top: 47vh;
-        left: 29.5vh;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+
+
+    .score,
+    .delete {
+        width: 3vh;
+        height: 3vh;
+    }
+
+    .score {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.3rem;
+        color: green;
+    }
+
+    .delete {
+        background-image: url(../../images/delete-empty.svg);
     }
 
     .win-option {
         width: 40vh;
         height: 3vh;
     }
+
+    .round-number__mobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        opacity: 1;
+        visibility: visible;
+    }
 }
 
 @media screen and (min-aspect-ratio: 1/1) {
+
     .play-wrapper {
         padding: 1vh;
     }
@@ -468,20 +531,39 @@
 
     .game-page__body {
         grid-area: body;
+        overflow: hidden;
+    }
+
+    .marker:hover {
+        background-image: url(../../images/delete-empty.svg);
+    }
+
+    .marker>svg:hover {
+        opacity: 0;
     }
 
     .timer {
-        left: 75vh;
+        left: 53vh;
         width: 15vh;
         height: 15vh;
     }
 
     .timer-display {
-        left: 80vh;
+        left: 58vh;
     }
 
     .win-option {
         width: 60vh;
         height: 5vh;
+    }
+
+    .score {
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+
+    .round-number__mobile {
+        opacity: 0;
+        visibility: hidden;
     }
 }

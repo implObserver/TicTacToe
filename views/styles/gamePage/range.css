@@ -2,7 +2,6 @@
 .width-range {
     display: flex;
     width: 90%;
-
 }
 
 input[type='range'] {

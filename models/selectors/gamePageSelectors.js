@@ -19,7 +19,9 @@ const GamePage = (() => {
     })();
 
     const Body = (() => {
+        const body = document.querySelector('.game-page__body');
         const itemsWrapper = document.querySelector('.items-wrapper');
+        const mobileTimer = document.querySelector('.mobile-timer');
         const timer = document.querySelector('.timer');
         const playWrapper = document.querySelector('.play-wrapper');
         const playerCards = document.querySelector('.player-cards');
@@ -36,7 +38,14 @@ const GamePage = (() => {
         const tutorials = document.querySelectorAll('.tutor');
         const root = document.querySelector(':root');
         const playMobile = document.querySelector('.play-btn__mobile');
-        return { displayTimer, playMobile, root, allCards, itemsWrapper, timer, playWrapper, templateCard, gameBoard, heightRange, widthRange, playerCards, winlineBar, closePopup, play, tutorials, rangers };
+        const deletesCard = document.querySelectorAll('.delete');
+        return {
+            deletesCard, body, mobileTimer, displayTimer, playMobile, root,
+            allCards, itemsWrapper, timer, playWrapper,
+            templateCard, gameBoard, heightRange,
+            widthRange, playerCards, winlineBar,
+            closePopup, play, tutorials, rangers
+        };
     })();
 
     const Popups = (() => {

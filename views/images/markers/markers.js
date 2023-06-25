@@ -26,24 +26,29 @@ const Templates = (() => {
     const getTimer = () => {
         let timer = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         let circle1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        let circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');       
+        let circle2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         Tools.addClasses(circle2, 'front-timer');
 
-        Tools.setAttributes(circle1, Attributes.circle);
-
-        Tools.setAttributes(circle1, [{ name: 'stroke-dasharray', val: '0' },
+        Tools.setAttributes(circle1, Attributes.circle.concat([{ name: 'stroke-dasharray', val: '0' },
         { name: 'stroke-dashoffset', val: '0' },
         { name: 'stroke', val: 'grey' },
-        { name: 'opacity', val: 0.2 }]);
+        { name: 'opacity', val: 0.2 }]));
 
-        Tools.setAttributes(circle2, Attributes.circle);
-        
-        Tools.setAttributes(circle2, [{ name: 'stroke', val: 'green' }]);
+        Tools.setAttributes(circle2, Attributes.circle.concat([{ name: 'stroke', val: 'green' }]));
+
         Tools.appendChilds(timer, circle1, circle2);
         return timer;
     }
 
-    return { getCircle, getCross, getTimer };
+    const getMobileTimer = () => {
+        let timer = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        Tools.setAttributes(line, Attributes.HorizontalLine.horizontal);
+        Tools.appendChilds(timer, line);
+        return timer;
+    }
+
+    return { getMobileTimer, getCircle, getCross, getTimer };
 })();
 
 const Marker = (() => {

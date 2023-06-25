@@ -1,6 +1,6 @@
 import { Marker, Templates } from "../../views/images/markers/markers.js";
 const Player = () => {
-    let name, score, id, marker;
+    let name, score = 0, id, marker, color;
 
     const setId = (val) => {
         id = val;
@@ -26,14 +26,23 @@ const Player = () => {
         return name;
     }
 
-    const setScore = (val) => {
-        score = val;
+    const setScore = () => {
+        ++score;
     }
 
     const getScore = () => {
         return score;
     }
-    return { setId, getId, setMarker, getMarker, setName, getName, setScore, getScore };
+
+    const setColor = (val) => {
+        color = val;
+    }
+
+    const getColor = () => {
+        return color;
+    }
+
+    return { setColor, getColor, setId, getId, setMarker, getMarker, setName, getName, setScore, getScore };
 }
 
 const Profiles = (() => {

@@ -112,6 +112,12 @@ const close = () => {
     AnimationsPresets.ForGamePage.ForBurgerMenu.close(300).finished.then(() => {
         GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
     });
+    document.querySelector('.mobile-timer').style.visible = 'hidden';
+    document.querySelector('.mobile-timer').style.opacity = '0';
+    GamePage.Body.timer.style.visibility = 'visible';
+    GamePage.Body.timer.style.opacity = '1';
+    GamePage.Body.displayTimer.style.visibility = 'visible';
+    GamePage.Body.displayTimer.style.opacity = '1';
 }
 
 const open = () => {
@@ -120,6 +126,12 @@ const open = () => {
     AnimationsPresets.ForGamePage.ForBurgerMenu.open(300).finished.then(e => {
         GamePage.BurgerMenu.opened.style.overflow = 'visible';
     });
+    GamePage.Body.timer.style.visibility = 'hidden';
+    GamePage.Body.timer.style.opacity = '0';
+    GamePage.Body.displayTimer.style.visibility = 'hidden';
+    GamePage.Body.displayTimer.style.opacity = '0';
+    document.querySelector('.mobile-timer').style.visibility = 'visible';
+    document.querySelector('.mobile-timer').style.opacity = '1';
 }
 
 export { BurgerMenu, BurgerMenuClosed, DynamicNode, addPlayScore, close, open }

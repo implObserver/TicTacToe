@@ -14,6 +14,8 @@ const GameHandler = (() => {
         let interval;
         let timerColor;
         let timerState;
+        let mobileTimerColor;
+        let mobileTimerState;
 
         const nextMove = (flag = 'regular') => {
             resetTimer();
@@ -35,8 +37,10 @@ const GameHandler = (() => {
             clearInterval(interval);
         }
 
-        const removeTimer = () => {
+        const removeTimers = () => {
+            let mobileTimer = document.querySelector('.mobile-timer');
             Tools.removeChilds(GamePage.Body.timer);
+            Tools.removeChilds(mobileTimer);
         }
 
         const currentMove = () => {
@@ -63,7 +67,8 @@ const GameHandler = (() => {
         }
 
         const addTimer = () => {
-            removeTimer();
+            removeTimers();
+            addMobileTimer();
             let timer = Templates.getTimer();
             timerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(timer);
             timerState = AnimationsPresets.ForGamePage.ForTimer.drawIndicator(timer);
@@ -71,11 +76,23 @@ const GameHandler = (() => {
             viewSeconds();
         }
 
+        const addMobileTimer = () => {
+            let mobileTimer = Templates.getMobileTimer();
+            mobileTimerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(mobileTimer);
+            mobileTimerState = mobileTimer.firstChild.animate([{ strokeDashoffset: '142%' }, { strokeDashoffset: '0' }], { duration: 30000 });
+            document.querySelector('.mobile-timer').appendChild(mobileTimer);
+            document.querySelector('.mobile-timer').appendChild(Tools.setUpSpan(''));
+        }
+
         const viewSeconds = () => {
-            GamePage.Body.displayTimer.textContent = `0:30`;
+            let mobileTimer = document.querySelector('.mobile-timer');
+            mobileTimer.querySelector('span').textContent = '0:30';
+            GamePage.Body.displayTimer.textContent = '0:30';
             let seconds = 29;
             interval = setInterval(() => {
-                GamePage.Body.displayTimer.textContent = `0:${seconds}`;
+                let curSecond = seconds >= 10 ? `0:${seconds}` : `0:0${seconds}`;
+                GamePage.Body.displayTimer.textContent = curSecond;
+                mobileTimer.querySelector('span').textContent = curSecond;
                 if (seconds === 0) {
                     nextMove();
                 }
@@ -99,6 +116,8 @@ const GameHandler = (() => {
             if (flag === 'endRound') {
                 timerColor.pause();
                 timerState.pause();
+                mobileTimerColor.pause();
+                mobileTimerState.pause();
                 GamePage.Popups.applouseRound.popup.style.opacity = 1;
                 GamePage.Popups.applouseRound.popup.style.visibility = 'visible';
                 GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
@@ -113,10 +132,12 @@ const GameHandler = (() => {
             Tools.removeChilds(GamePage.Popups.applouseRound.scorePreView);
             let players = Session.getPlayers();
             let scores = Array.from(BurgerMenu.querySelectorAll('.game-page__burger__score-board__player-score__score > span'));
+            let mobileScores = Array.from(document.querySelectorAll('.score > span'));
             Session.setScore(id);
             scores[id].textContent = Session.getScore(id);
+            mobileScores[id].textContent = Session.getScore(id);
             for (let player of players) {
-                let span = Tools.setUpSpan(`${player.getName()} - ${Session.getScore(player.getId())}`);
+                let span = Tools.setUpSpan(`${player.getName()} - ${player.getScore()}`);
                 GamePage.Popups.applouseRound.scorePreView.appendChild(span);
             }
         }
@@ -125,11 +146,14 @@ const GameHandler = (() => {
             GamePage.Popups.applouseRound.roundPreview.textContent = `Round: ${Session.getCurrentRound()}`;
             Session.setCurrentRound();
             GamePage.BurgerMenu.roundCounter.textContent = `Round: ${Session.getCurrentRound()}`;
+            document.querySelector('.round-number__mobile').textContent = `Round: ${Session.getCurrentRound()}`;
         }
 
         const gameOver = () => {
             timerColor.pause();
             timerState.pause();
+            mobileTimerColor.pause();
+            mobileTimerState.pause();
             GamePage.Popups.gameOver.popup.style.opacity = 1;
             GamePage.Popups.gameOver.popup.style.visibility = 'visible';
             GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`;
@@ -139,6 +163,8 @@ const GameHandler = (() => {
         const draw = () => {
             timerColor.pause();
             timerState.pause();
+            mobileTimerColor.pause();
+            mobileTimerState.pause();
             GamePage.Popups.draw.popup.style.opacity = 1;
             GamePage.Popups.draw.popup.style.visibility = 'visible';
         }
@@ -156,12 +182,22 @@ const GameHandler = (() => {
             return draw;
         }
 
+        const removeScores = () => {
+            let mobileScores = Array.from(document.querySelectorAll('.score > span'));
+            for (let score of mobileScores) {
+                score.textContent = 0;
+            }
+        }
+
         const endGame = () => {
             resetTimer();
-            removeTimer();
+            removeTimers();
             setPlayer(1, 1);
+            removeScores();
             id = -1;
         }
+
+
 
         return { nextMove, winnableMoveInit, newRound, endGame };
     })();

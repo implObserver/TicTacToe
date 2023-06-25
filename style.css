@@ -45,6 +45,6 @@ span {
 }
 
 .logo {
-    background-image: url(./images/burgerMenu/logo.png);
+    background-image: url(./views/images/burgerMenu/logo.png);
     background-size: 100% 100%;  
 }
