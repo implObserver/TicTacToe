@@ -303,4 +303,75 @@ const MobilePageOptions = (() => {
     return card;
 })();
 
-export { GameBoard, NodeGameBoard, MoveHandler, winlineBar, MobilePageOptions }
+const AudioEffects = (() => {
+    const cross = (() => {
+        let audio = new Audio('../audio/cross.mp3');
+        audio.playbackRate = 3;
+        return audio;
+    })();
+
+    const circle = (() => {
+        let audio = new Audio('../audio/zero.mp3');
+        audio.playbackRate = 2;
+        return audio;
+    })();
+
+    const winRound = (() => {
+        let audio = new Audio('../audio/winRound.mp3');
+        audio.volume = 0.5;
+        return audio;
+    })();
+
+    const draw = (() => {
+        let audio = new Audio('../audio/draw.mp3');
+        audio.volume = 0.5;
+        return audio;
+    })();
+
+    const win = (() => {
+        let audio = new Audio('../audio/win.mp3');
+        return audio;
+    })();
+
+    const timer = (() => {
+        let audio = new Audio('../audio/timer.mp3');
+        return audio;
+    })();
+
+    const nextMove = (() => {
+        let audio = new Audio('../audio/nextMove.mp3');
+        audio.playbackRate = 2;
+        return audio;
+    })();
+
+    const openBurger = (() => {
+        let audio = new Audio('../audio/openBurger.mp3');
+        return audio;
+    })();
+
+    const closeBurger = (() => {
+        let audio = new Audio('../audio/closeBurger.mp3');
+        audio.playbackRate = 2;
+        return audio;
+    })();
+
+    const addPlayer = (() => {
+        let audio = new Audio('../audio/addPlayer.mp3');
+        audio.playbackRate = 1.5;
+        return audio;
+    })();
+
+    const deletePlayer = (() => {
+        let audio = new Audio('../audio/deletePlayer.mp3');
+        audio.playbackRate = 1.5;
+        return audio;
+    })();
+
+    const choisWinLine = (() => {
+        let audio = new Audio('../audio/winLine.mp3');
+        return audio;
+    })();
+
+    return { cross, circle, winRound, draw, win, timer, nextMove, openBurger, closeBurger, addPlayer, deletePlayer, choisWinLine };
+})();
+export { GameBoard, NodeGameBoard, MoveHandler, winlineBar, MobilePageOptions, AudioEffects }

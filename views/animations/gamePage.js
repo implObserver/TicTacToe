@@ -57,7 +57,7 @@ const AnimationsPresets = (() => {
             const addCircle = (circle) => {
                 return Markers.circle.draw(circle, 400, 'forwards', [{ strokeDashoffset: '188.4%' }, { strokeDashoffset: '0' }]);
             }
-
+            
             const addCross = (cross) => {
                 return Markers.cross.draw(cross, 200, 'forwards', [{ strokeDashoffset: '100%' }, { strokeDashoffset: '0' }]);
             }

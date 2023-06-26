@@ -1,4 +1,5 @@
 import { Marker, Templates } from "../../views/images/markers/markers.js";
+import { AudioEffects } from "./gameBoardModel.js";
 const Player = () => {
     let name, score = 0, id, marker, color;
 
@@ -45,7 +46,6 @@ const Player = () => {
     const resetScore = () => {
         score = 0;
     }
-
     return { resetScore, setColor, getColor, setId, getId, setMarker, getMarker, setName, getName, setScore, getScore };
 }
 
@@ -59,11 +59,18 @@ const Profiles = (() => {
                     : Marker.getMarker(Templates.getCircle(), [{ name: 'stroke', val: '#c51bdb' }]);
     }
 
+    const playbackMarkerAudio = (id) => {
+        id === 0 ? AudioEffects.cross.play()
+            : id === 1 ? AudioEffects.circle.play()
+                : id === 2 ? AudioEffects.cross.play()
+                    : AudioEffects.circle.play();
+    }
+
     const getColor = (id) => {
         return colors[id];
     }
 
-    return { getMarker, getColor };
+    return { getMarker, getColor, playbackMarkerAudio };
 })();
 
 export { Player, Profiles }

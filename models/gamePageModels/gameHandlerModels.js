@@ -3,7 +3,7 @@ import { Templates } from "../../views/images/markers/markers.js";
 import { Session, gamePage as stateGamePage } from "./states.js";
 import { Tools } from "../../helper/tools.js";
 import { AnimationsPresets, UniversalAnimations } from "../../views/animations/gamePage.js";
-import { NodeGameBoard } from "./gameBoardModel.js";
+import { AudioEffects, NodeGameBoard } from "./gameBoardModel.js";
 import { BurgerMenu } from "./burgerMenuModel.js";
 const GameHandler = (() => {
     const play = () => {
@@ -50,6 +50,7 @@ const GameHandler = (() => {
         }
 
         const nextMove = (flag = 'regular') => {
+            
             resetTimer();
             if (flag === 'round') {
                 newRound();
@@ -109,6 +110,9 @@ const GameHandler = (() => {
 
             interval = setInterval(() => {
                 let curSecond = seconds >= 10 ? `0:${seconds}` : `0:0${seconds}`;
+                if (seconds === 5) {
+                    AudioEffects.timer.play();
+                }
                 GamePage.Body.displayTimer.textContent = curSecond;
                 GamePage.Body.mobileTimer().querySelector('span').textContent = curSecond;
                 if (seconds === 0) {
@@ -128,6 +132,7 @@ const GameHandler = (() => {
 
         const newRound = (flag = 'endRound') => {
             if (flag === 'endRound') {
+                AudioEffects.winRound.play();
                 allTimerPause();
                 UniversalAnimations.SmoothVisibility.open(GamePage.Popups.applouseRound.popup, 0, 1, 200, 'forwards');
                 GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
@@ -139,6 +144,7 @@ const GameHandler = (() => {
         }
 
         const gameOver = () => {
+            AudioEffects.win.play();
             allTimerPause();
             UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOver.popup, 0, 1, 200, 'forwards');
             GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`;
@@ -146,6 +152,7 @@ const GameHandler = (() => {
         }
 
         const draw = () => {
+            AudioEffects.draw.play();
             allTimerPause();
             UniversalAnimations.SmoothVisibility.open(GamePage.Popups.draw.popup, 0, 1, 200, 'forwards');
         }

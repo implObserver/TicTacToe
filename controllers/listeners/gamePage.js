@@ -5,7 +5,7 @@ import { close, open } from '../../models/gamePageModels/burgerMenuModel.js';
 import { Player, Profiles } from '../../models/gamePageModels/playerModel.js';
 import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
 import { BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay } from '../../models/gamePageModels/states.js';
-import { NodeGameBoard, GameBoard, MoveHandler, winlineBar, MobilePageOptions } from '../../models/gamePageModels/gameBoardModel.js';
+import { NodeGameBoard, GameBoard, MoveHandler, winlineBar, MobilePageOptions, AudioEffects } from '../../models/gamePageModels/gameBoardModel.js';
 import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
 
 const DefaultListeners = () => {
@@ -83,6 +83,7 @@ const DefaultListeners = () => {
         if (Session.getPlayers().length < 2) {
             alert('Добавьте минимум 2 игроков');
         } else {
+            AudioEffects.addPlayer.play();
             AfterStartPlay('mobile');
             GameHandler.play();
         }
@@ -102,7 +103,7 @@ const AddListener = (() => {
             let player = Session.getPlayer(idMove);
             let idMarker = player.getId();
             let marker = Profiles.getMarker(idMarker);
-
+            Profiles.playbackMarkerAudio(idMarker);
             node.appendChild(marker);
             let x = cell.getX();
             let y = cell.getY();
@@ -127,6 +128,7 @@ const AddListener = (() => {
 
     const optionalCell = (cell) => {
         cell.getNode().addEventListener('click', e => {
+            AudioEffects.choisWinLine.play();
             winlineBar.setting(cell.getX());
             MoveHandler.setWinLine(cell.getX() + 1);
         });
@@ -134,6 +136,7 @@ const AddListener = (() => {
 
     const mobileDeleteCard = (card, player) => {
         card.querySelector('.delete').addEventListener('click', e => {
+            AudioEffects.deletePlayer.play();
             GamePage.Body.playerCards.removeChild(card);
             Session.returnId(player.getId());
             Session.deletePlayer(player);
@@ -146,6 +149,7 @@ const AddListener = (() => {
     const deleteCard = (card, player) => {
         card.querySelector('.marker').addEventListener('click', e => {
             if (window.matchMedia('(min-aspect-ratio: 1/1)').matches) {
+                AudioEffects.deletePlayer.play();
                 GamePage.Body.playerCards.removeChild(card);
                 Session.returnId(player.getId());
                 Session.deletePlayer(player);

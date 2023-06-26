@@ -2,6 +2,7 @@ import { Tools } from "../../helper/tools.js";
 import { Session, gamePage as stateGamePage } from "./states.js";
 import { GamePage } from "../selectors/gamePageSelectors.js";
 import { AnimationsPresets, UniversalAnimations } from "../../views/animations/gamePage.js";
+import { AudioEffects } from "./gameBoardModel.js";
 const BurgerMenu = (() => {
     let burgerMenu = Tools.createNode('div', 'game-page__burger--opened');
     const header = () => {
@@ -108,6 +109,7 @@ const addPlayScore = () => {
 }
 
 const close = () => {
+    AudioEffects.closeBurger.play();
     GamePage.BurgerMenu.opened.style.overflow = 'hidden';
     AnimationsPresets.ForGamePage.ForBurgerMenu.close(300).finished.then(() => {
         GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.closed, GamePage.BurgerMenu.opened);
@@ -115,6 +117,7 @@ const close = () => {
 }
 
 const open = () => {
+    AudioEffects.openBurger.play();
     GamePage.BurgerMenu.opened.style.overflow = 'hidden';
     GamePage.Wrapper.replaceChild(GamePage.BurgerMenu.opened, GamePage.BurgerMenu.closed);
     AnimationsPresets.ForGamePage.ForBurgerMenu.open(300).finished.then(e => {

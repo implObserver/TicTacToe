@@ -3,6 +3,7 @@ import { GamePage } from "../selectors/gamePageSelectors.js";
 import { Session, gamePage as stateGamePage } from "./states.js";
 import { Player, Profiles } from "./playerModel.js";
 import { AddListener } from "../../controllers/listeners/gamePage.js";
+import { AudioEffects } from "./gameBoardModel.js";
 
 const DynamicNode = (() => {
     const playerCard = () => {
@@ -52,6 +53,7 @@ const addPlayer = (name) => {
     let card = createCard(player);
     AddListener.mobileDeleteCard(card, player);
     AddListener.deleteCard(card, player);
+    AudioEffects.addPlayer.play();
     GamePage.Body.playerCards.appendChild(card);
 }
 
