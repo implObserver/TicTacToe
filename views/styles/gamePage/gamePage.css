@@ -98,12 +98,26 @@
     justify-content: center;
 }
 
+.play-btn__mobile {
+    grid-area: body;
+    display: flex;
+    justify-self: center;
+    width: 40%;
+    height: 30%;
+    background-image: url(../../images/play2.svg);
+    background-size: 100% 100%;
+    opacity: 0.5;
+    z-index: 100;
+}
+
 .timer {
     display: grid;
     position: relative;
     justify-content: center;
     align-items: center;
     grid-area: body;
+    visibility: hidden;
+    opacity: 0;
 }
 
 .timer-display {
@@ -183,6 +197,7 @@
 .popup4 {
     position: fixed;
     display: grid;
+    grid-template-rows: repeat(auto-fit, min-content);
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
@@ -245,7 +260,7 @@
 }
 
 .gif-container {
-    width: 50vh;
+    width: 40vh;
     justify-content: center;
 }
 
@@ -266,7 +281,7 @@
     display: grid;
     grid-template-rows: repeat(auto-fit, min-content);
     gap: 1vh;
-    width: 100%;
+    width: 80%;
     height: min-content;
     color: white;
     justify-content: center;
@@ -285,7 +300,7 @@
 }
 
 .congratulations {
-    font-size: 4rem;
+    font-size: 2rem;
     padding-bottom: 2vh;
 }
 
@@ -323,18 +338,6 @@
 
     .items-wrapper {
         max-width: 38vh;
-    }
-
-    .play-btn__mobile {
-        grid-area: body;
-        display: flex;
-        justify-self: center;
-        width: 40%;
-        height: 30%;
-        background-image: url(../../images/play2.svg);
-        background-size: 100% 100%;
-        opacity: 0.5;
-        z-index: 100;
     }
 
     .timer {
@@ -399,23 +402,10 @@
 }
 
 @media screen and (min-aspect-ratio: 1/1) {
-
-    .play-wrapper {
-        padding: 1vh;
-    }
-
     .game-page {
         grid-template-columns: min-content 1fr;
-        grid-template-areas: 'burger body';
-    }
-
-    .game-page__play {
-        width: 10vh;
-        height: 10vh;
-        background-color: rgb(45, 255, 45);
-        opacity: 0.7;
-        border-radius: 0.5vh;
-        background-image: url(../../images/play.svg);
+        grid-template-areas:
+            'burger body';
     }
 
     .game-page__burger--closed {
@@ -541,10 +531,6 @@
         background-image: url(../../images/burgerMenu/exit-run.svg);
         position: relative;
         left: 10vh;
-    }
-
-    .play-btn__mobile {
-        display: none;
     }
 
     .game-page__body {

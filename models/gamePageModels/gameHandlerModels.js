@@ -2,7 +2,7 @@ import { GamePage } from "../selectors/gamePageSelectors.js";
 import { Templates } from "../../views/images/markers/markers.js";
 import { Session, gamePage as stateGamePage } from "./states.js";
 import { Tools } from "../../helper/tools.js";
-import { AnimationsPresets } from "../../views/animations/gamePage.js";
+import { AnimationsPresets, UniversalAnimations } from "../../views/animations/gamePage.js";
 import { NodeGameBoard } from "./gameBoardModel.js";
 import { BurgerMenu } from "./burgerMenuModel.js";
 const GameHandler = (() => {
@@ -16,45 +16,7 @@ const GameHandler = (() => {
         let timerState;
         let mobileTimerColor;
         let mobileTimerState;
-
-        const nextMove = (flag = 'regular') => {
-            resetTimer();
-
-            if (flag === 'round') {
-                newRound();
-            } if (flag === 'win') {
-                gameOver();
-            } if (flag === 'regular') {
-                if (drawTest()) {
-                    draw();
-                } else {
-                    currentMove();
-                }
-            }
-        }
-
-        const resetTimer = () => {
-            clearInterval(interval);
-        }
-
-        const removeTimers = () => {
-            let mobileTimer = document.querySelector('.mobile-timer');
-            Tools.removeChilds(GamePage.Body.timer);
-            Tools.removeChilds(mobileTimer);
-        }
-
-        const currentMove = () => {
-
-            if (id >= Session.getPlayers().length - 1) {
-                id = 0;
-            } else {
-                ++id;
-            }
-
-            Session.setId(id);
-            addTimer();
-            setPlayer(0.2, 1);
-        }
+        let activePlayer;
 
         const winnableMoveInit = () => {
             addScores();
@@ -63,68 +25,6 @@ const GameHandler = (() => {
                 nextMove('win');
             } else {
                 nextMove('round');
-            }
-        }
-
-        const addTimer = () => {
-            removeTimers();
-            addMobileTimer();
-            let timer = Templates.getTimer();
-            timerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(timer);
-            timerState = AnimationsPresets.ForGamePage.ForTimer.drawIndicator(timer);
-            GamePage.Body.timer.appendChild(timer);
-            viewSeconds();
-        }
-
-        const addMobileTimer = () => {
-            let mobileTimer = Templates.getMobileTimer();
-            mobileTimerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(mobileTimer);
-            mobileTimerState = mobileTimer.firstChild.animate([{ strokeDashoffset: '142%' }, { strokeDashoffset: '0' }], { duration: 30000 });
-            document.querySelector('.mobile-timer').appendChild(mobileTimer);
-            document.querySelector('.mobile-timer').appendChild(Tools.setUpSpan(''));
-        }
-
-        const viewSeconds = () => {
-            let mobileTimer = document.querySelector('.mobile-timer');
-            mobileTimer.querySelector('span').textContent = '0:30';
-            GamePage.Body.displayTimer.textContent = '0:30';
-            let seconds = 29;
-            interval = setInterval(() => {
-                let curSecond = seconds >= 10 ? `0:${seconds}` : `0:0${seconds}`;
-                GamePage.Body.displayTimer.textContent = curSecond;
-                mobileTimer.querySelector('span').textContent = curSecond;
-                if (seconds === 0) {
-                    nextMove();
-                }
-                --seconds;
-            }, 1000);
-        }
-
-        const setPlayer = (op1, op2) => {
-            let playerQuantity = Session.getPlayers().length;
-            let cards = document.querySelectorAll('.player-card');
-            for (let i = 0; i < playerQuantity; i++) {
-                if (i != id) {
-                    cards[i].style.opacity = op1;
-                } else {
-                    cards[i].style.opacity = op2;
-                }
-            }
-        }
-
-        const newRound = (flag = 'endRound') => {
-            if (flag === 'endRound') {
-                timerColor.pause();
-                timerState.pause();
-                mobileTimerColor.pause();
-                mobileTimerState.pause();
-                GamePage.Popups.applouseRound.popup.style.opacity = 1;
-                GamePage.Popups.applouseRound.popup.style.visibility = 'visible';
-                GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
-            }
-            if (flag === 'startRound') {
-                NodeGameBoard.draw();
-                nextMove();
             }
         }
 
@@ -146,27 +46,115 @@ const GameHandler = (() => {
             GamePage.Popups.applouseRound.roundPreview.textContent = `Round: ${Session.getCurrentRound()}`;
             Session.setCurrentRound();
             GamePage.BurgerMenu.roundCounter.textContent = `Round: ${Session.getCurrentRound()}`;
-            document.querySelector('.round-number__mobile').textContent = `Round: ${Session.getCurrentRound()}`;
+            GamePage.Body.mobileRoundsCounter().textContent = `Round: ${Session.getCurrentRound()}`;
+        }
+
+        const nextMove = (flag = 'regular') => {
+            resetTimer();
+            if (flag === 'round') {
+                newRound();
+            } if (flag === 'win') {
+                gameOver();
+            } if (flag === 'regular') {
+                if (drawTest()) {
+                    draw();
+                } else {
+                    currentMove();
+                }
+            }
+        }
+
+        const resetTimer = () => {
+            clearInterval(interval);
+        }
+
+        const currentMove = () => {
+            if (id >= Session.getPlayers().length - 1) {
+                id = 0;
+            } else {
+                ++id;
+            }
+
+            Session.setId(id);
+            addTimer();
+            setPlayer();
+        }
+
+        const addTimer = () => {
+            removeTimers();
+            addMobileTimer();
+            let timer = Templates.getTimer();
+            timerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(timer);
+            timerState = AnimationsPresets.ForGamePage.ForTimer.drawIndicator(timer);
+            GamePage.Body.timer.appendChild(timer);
+            viewSeconds();
+        }
+
+        const removeTimers = () => {
+            Tools.removeChilds(GamePage.Body.timer);
+            Tools.removeChilds(GamePage.Body.mobileTimer());
+        }
+
+        const addMobileTimer = () => {
+            let mobileTimer = Templates.getMobileTimer();
+            mobileTimerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(mobileTimer);
+            mobileTimerState = mobileTimer.firstChild.animate([{ strokeDashoffset: '142%' }, { strokeDashoffset: '0' }], { duration: 30000 });
+            Tools.appendChilds(GamePage.Body.mobileTimer(), mobileTimer, Tools.setUpSpan(''));
+        }
+
+        const viewSeconds = () => {
+            GamePage.Body.mobileTimer().querySelector('span').textContent = '0:30';
+            GamePage.Body.displayTimer.textContent = '0:30';
+            let seconds = 29;
+
+            interval = setInterval(() => {
+                let curSecond = seconds >= 10 ? `0:${seconds}` : `0:0${seconds}`;
+                GamePage.Body.displayTimer.textContent = curSecond;
+                GamePage.Body.mobileTimer().querySelector('span').textContent = curSecond;
+                if (seconds === 0) {
+                    nextMove();
+                }
+                --seconds;
+            }, 1000);
+        }
+
+        const setPlayer = () => {
+            let cards = GamePage.Body.getAllPlayerCards();
+            if (activePlayer !== undefined) {
+                activePlayer.reverse();
+            }
+            activePlayer = cards[id].animate([{ opacity: 0.2 }, { opacity: 1 }], { duration: 200, fill: 'forwards' });
+        }
+
+        const newRound = (flag = 'endRound') => {
+            if (flag === 'endRound') {
+                allTimerPause();
+                UniversalAnimations.SmoothVisibility.open(GamePage.Popups.applouseRound.popup, 0, 1, 200, 'forwards');
+                GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
+            }
+            if (flag === 'startRound') {
+                NodeGameBoard.draw();
+                nextMove();
+            }
         }
 
         const gameOver = () => {
-            timerColor.pause();
-            timerState.pause();
-            mobileTimerColor.pause();
-            mobileTimerState.pause();
-            GamePage.Popups.gameOver.popup.style.opacity = 1;
-            GamePage.Popups.gameOver.popup.style.visibility = 'visible';
+            allTimerPause();
+            UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOver.popup, 0, 1, 200, 'forwards');
             GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`;
             GamePage.Body.gameBoard.style.pointerEvents = 'none';
         }
 
         const draw = () => {
+            allTimerPause();
+            UniversalAnimations.SmoothVisibility.open(GamePage.Popups.draw.popup, 0, 1, 200, 'forwards');
+        }
+
+        const allTimerPause = () => {
             timerColor.pause();
             timerState.pause();
             mobileTimerColor.pause();
             mobileTimerState.pause();
-            GamePage.Popups.draw.popup.style.opacity = 1;
-            GamePage.Popups.draw.popup.style.visibility = 'visible';
         }
 
         const drawTest = () => {
@@ -182,22 +170,20 @@ const GameHandler = (() => {
             return draw;
         }
 
+        const endGame = () => {
+            GamePage.Body.mobileRoundsCounter().textContent = `Round: 1`;
+            resetTimer();
+            removeTimers();
+            removeScores();
+            id = -1;
+        }
+
         const removeScores = () => {
             let mobileScores = Array.from(document.querySelectorAll('.score > span'));
             for (let score of mobileScores) {
                 score.textContent = 0;
             }
         }
-
-        const endGame = () => {
-            resetTimer();
-            removeTimers();
-            setPlayer(1, 1);
-            removeScores();
-            id = -1;
-        }
-
-
 
         return { nextMove, winnableMoveInit, newRound, endGame };
     })();

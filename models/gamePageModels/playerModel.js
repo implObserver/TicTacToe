@@ -42,7 +42,11 @@ const Player = () => {
         return color;
     }
 
-    return { setColor, getColor, setId, getId, setMarker, getMarker, setName, getName, setScore, getScore };
+    const resetScore = () => {
+        score = 0;
+    }
+
+    return { resetScore, setColor, getColor, setId, getId, setMarker, getMarker, setName, getName, setScore, getScore };
 }
 
 const Profiles = (() => {

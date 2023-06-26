@@ -5,6 +5,8 @@ import { Templates } from "../../views/images/markers/markers.js";
 import { Animations } from "../../views/animations/animations.js";
 import { GameHandler } from "./gameHandlerModels.js";
 import { Tools } from "../../helper/tools.js";
+import { UniversalAnimations } from "../../views/animations/gamePage.js";
+import { changeOpacityCards } from "./playerCardModel.js";
 
 const Session = (() => {
     let moveId;
@@ -65,6 +67,9 @@ const Session = (() => {
         moveId = 0;
         rounds = 3;
         currentRound = 1;
+        for (let player of players) {
+            player.resetScore();
+        }
     }
 
     const getIdList = () => {
@@ -83,7 +88,17 @@ const Session = (() => {
 })();
 
 const gamePage = (() => {
-    let gameBoard;
+    let globalState = {
+        pointers: {
+            gameBoard: 'none',
+            gif: 'none',
+            gif2: 'none',
+            gif3: 'none',
+            playerCards: 'none',
+            winlineBar: 'none',
+        }
+
+    }
 })();
 
 const BeforeStartPlay = () => {
@@ -92,12 +107,10 @@ const BeforeStartPlay = () => {
     document.querySelector('.gif').style.pointerEvents = 'none';
     document.querySelector('.gif2').style.pointerEvents = 'none';
     document.querySelector('.gif3').style.pointerEvents = 'none';
-    GamePage.Body.timer.style.display = 'none';
-    GamePage.Body.displayTimer.style.display = 'none';
 };
 
 const AfterStartPlay = () => {
-    
+    changeOpacityCards(0.2);
     GamePage.Body.body.appendChild(MobilePageOptions);
     GamePage.Body.playerCards.style.pointerEvents = 'none';
     GamePage.Body.winlineBar.style.width = '40vh';
@@ -105,6 +118,10 @@ const AfterStartPlay = () => {
     GamePage.Body.body.insertBefore(Tools.createNode('div', 'mobile-timer'), GamePage.Body.body.firstChild);
     GamePage.Wrapper.appendChild(GamePage.BurgerMenu.closed);
     GamePage.Body.displayTimer.style.display = 'flex';
+    GamePage.Body.timer.style.display = 'flex';
+
+    UniversalAnimations.SmoothVisibility.open(GamePage.Body.timer, 0, 1, 200, 'forwards');
+    UniversalAnimations.SmoothVisibility.open(GamePage.Body.displayTimer, 0, 1, 200, 'forwards');
     GamePage.Body.playMobile.style.display = 'none';
     GamePage.Body.gameBoard.style.pointerEvents = 'auto';
     let tutorials = Array.from(GamePage.Body.tutorials);
@@ -121,10 +138,8 @@ const AfterStartPlay = () => {
         score.style.opacity = 1;
         score.style.visibility = 'visible';
     }
-    GamePage.Body.timer.style.display = 'flex';
     GamePage.Body.rangers.style.display = 'none';
     GamePage.BurgerMenu.opened.style.display = 'grid';
-    GamePage.Body.playWrapper.style.display = 'none';
     GamePage.Body.winlineBar.style.pointerEvents = 'none';
     GamePage.Body.templateCard.style.display = 'none';
     NodeGameBoard.draw();
@@ -133,9 +148,12 @@ const AfterStartPlay = () => {
 };
 
 const AfterEndPlay = () => {
+    Session.endSession();
+    changeOpacityCards(1);
     GameHandler.move.endGame();
+    GamePage.Body.body.removeChild(GamePage.Body.body.firstChild);
     GamePage.Body.body.removeChild(MobilePageOptions);
-    GamePage.Wrapper.removeChild(GamePage.Wrapper.children[2]);
+    GamePage.Wrapper.removeChild(GamePage.Wrapper.children[1]);
     GamePage.Body.playerCards.style.pointerEvents = 'auto';
     GamePage.Body.displayTimer.style.display = 'none';
     GamePage.Body.playMobile.style.display = 'flex';
@@ -157,7 +175,6 @@ const AfterEndPlay = () => {
     }
     GamePage.Body.timer.style.display = 'none';
     GamePage.Body.rangers.style.display = 'grid';
-    GamePage.Body.playWrapper.style.display = 'grid';
     GamePage.Body.winlineBar.style.pointerEvents = 'auto';
     if (Session.getPlayers().length <= 3) {
         GamePage.Body.templateCard.style.display = 'grid';

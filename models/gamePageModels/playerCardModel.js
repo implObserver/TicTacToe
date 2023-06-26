@@ -1,7 +1,7 @@
 import { Tools } from "../../helper/tools.js";
 import { GamePage } from "../selectors/gamePageSelectors.js";
 import { Session, gamePage as stateGamePage } from "./states.js";
-import { Profiles } from "./playerModel.js";
+import { Player, Profiles } from "./playerModel.js";
 import { AddListener } from "../../controllers/listeners/gamePage.js";
 
 const DynamicNode = (() => {
@@ -41,24 +41,30 @@ const DynamicNode = (() => {
     return { playerCard };
 })();
 
-const addPlayer = (player, name) => {
+const addPlayer = (name) => {
     if (Session.getPlayers().length === 3) {
         GamePage.Body.templateCard.style.display = 'none';
     }
 
-    player.setName(name);
-    player.setId(Session.removeId());
-    player.setColor(Profiles.getColor(player.getId()));
-    player.setMarker(Profiles.getMarker(player.getId()));
+    let player = createPlayer(name);
     Session.addPlayer(player);
 
-    let card = addCard(player);
+    let card = createCard(player);
     AddListener.mobileDeleteCard(card, player);
     AddListener.deleteCard(card, player);
     GamePage.Body.playerCards.appendChild(card);
 }
 
-const addCard = (player) => {
+const createPlayer = (name) => {
+    let player = Player();
+    player.setName(name);
+    player.setId(Session.removeId());
+    player.setColor(Profiles.getColor(player.getId()));
+    player.setMarker(Profiles.getMarker(player.getId()));
+    return player;
+}
+
+const createCard = (player) => {
     let card = DynamicNode.playerCard();
     card.querySelector('.name').style.backgroundColor = player.getColor();
     card.querySelector('span').textContent = player.getName();
@@ -66,4 +72,11 @@ const addCard = (player) => {
     return card;
 }
 
-export { DynamicNode, addPlayer };
+const changeOpacityCards = (op) => {
+    let cards = GamePage.Body.getAllPlayerCards();
+    for (let card of cards) {
+        card.style.opacity = op;
+    }
+}
+
+export { DynamicNode, addPlayer, changeOpacityCards };

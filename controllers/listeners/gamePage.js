@@ -1,11 +1,10 @@
 import { GamePage } from '../../models/selectors/gamePageSelectors.js';
-import { AnimationsPresets } from '../../views/animations/gamePage.js';
-import { Templates } from '../../views/images/markers/markers.js';
+import { UniversalAnimations } from '../../views/animations/gamePage.js';
 import { Tools } from '../../helper/tools.js';
-import { BurgerMenu, DynamicNode, close, open } from '../../models/gamePageModels/burgerMenuModel.js';
+import { close, open } from '../../models/gamePageModels/burgerMenuModel.js';
 import { Player, Profiles } from '../../models/gamePageModels/playerModel.js';
 import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
-import { gamePage as stateGamePage, BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay } from '../../models/gamePageModels/states.js';
+import { BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay } from '../../models/gamePageModels/states.js';
 import { NodeGameBoard, GameBoard, MoveHandler, winlineBar, MobilePageOptions } from '../../models/gamePageModels/gameBoardModel.js';
 import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
 
@@ -40,70 +39,57 @@ const DefaultListeners = () => {
     });
 
     const closePopupApplouseRound = GamePage.Popups.applouseRound.popup.addEventListener('click', e => {
-        GamePage.Popups.applouseRound.popup.style.opacity = 0;
-        GamePage.Popups.applouseRound.popup.style.visibility = 'hidden';
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.applouseRound.popup, 1, 0, 200, 'forwards');
         GameHandler.move.newRound('startRound');
     });
 
     const closePopupDraw = GamePage.Popups.draw.popup.addEventListener('click', e => {
-        GamePage.Popups.draw.popup.style.opacity = 0;
-        GamePage.Popups.draw.popup.style.visibility = 'hidden';
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.draw.popup, 1, 0, 200, 'forwards');
         GameHandler.move.newRound('startRound');
     });
 
     const closePopupGameOver = GamePage.Popups.gameOver.popup.addEventListener('click', e => {
-        GamePage.Popups.gameOver.popup.style.opacity = 0;
-        GamePage.Popups.gameOver.popup.style.visibility = 'hidden';
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.gameOver.popup, 1, 0, 200, 'forwards');
         Session.endSession();
         AfterEndPlay();
     });
 
     const openPopupAddPlayer = GamePage.Body.templateCard.addEventListener('click', e => {
-        GamePage.Popups.addPlayer.popup.style.opacity = 1;
-        GamePage.Popups.addPlayer.popup.style.visibility = 'visible';
+        UniversalAnimations.SmoothVisibility.open(GamePage.Popups.addPlayer.popup, 0, 1, 200, 'forwards');
     });
 
     const closePopupAddPlayer = GamePage.Body.closePopup.addEventListener('click', e => {
-        GamePage.Popups.addPlayer.popup.style.opacity = 0;
-        GamePage.Popups.addPlayer.popup.style.visibility = 'hidden';
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
     });
 
     const addPlayerCard = GamePage.Popups.addPlayer.popup.addEventListener('submit', e => {
         e.preventDefault();
         let name = document.querySelector('.nickname');
-        addPlayer(Player(), name.value);
-        GamePage.Popups.addPlayer.popup.style.visibility = 'hidden';
-        GamePage.Popups.addPlayer.popup.style.opacity = 0;
+        addPlayer(name.value);
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
     });
 
     const mobileExit = MobilePageOptions.addEventListener('click', e => {
-            if (confirm('Are you sure you want to exit game?')) {
-                Session.endSession();
-                AfterEndPlay();
-            } else {
+        if (confirm('Are you sure you want to exit game?')) {
+            Session.endSession();
+            AfterEndPlay();
+        } else {
 
-            }
-        });
-
-    const mobileStartPlay = GamePage.Body.playMobile.addEventListener('click', e => {
-        if (window.matchMedia('(max-aspect-ratio:1/1.0001)').matches) {
-            if (Session.getPlayers().length < 2) {
-                alert('Добавьте минимум 2 игроков');
-            } else {
-                AfterStartPlay('mobile');
-                GameHandler.play();
-            }
         }
     });
 
-    const startPlay = GamePage.Body.play.addEventListener('click', e => {
+    const mobileStartPlay = GamePage.Body.playMobile.addEventListener('click', e => {
+
         if (Session.getPlayers().length < 2) {
             alert('Добавьте минимум 2 игроков');
         } else {
-            AfterStartPlay();
+            AfterStartPlay('mobile');
             GameHandler.play();
         }
+
     });
+
+
 
 };
 

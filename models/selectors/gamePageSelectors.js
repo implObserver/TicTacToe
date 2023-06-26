@@ -1,3 +1,4 @@
+import { UniversalAnimations } from "../../views/animations/gamePage.js";
 import { BurgerMenu as BM, BurgerMenuClosed as BMC } from "../gamePageModels/burgerMenuModel.js";
 
 const GamePage = (() => {
@@ -21,11 +22,9 @@ const GamePage = (() => {
     const Body = (() => {
         const body = document.querySelector('.game-page__body');
         const itemsWrapper = document.querySelector('.items-wrapper');
-        const mobileTimer = document.querySelector('.mobile-timer');
         const timer = document.querySelector('.timer');
         const playWrapper = document.querySelector('.play-wrapper');
         const playerCards = document.querySelector('.player-cards');
-        const allCards = document.querySelectorAll('.player-card');
         const templateCard = document.querySelector('.template-card');
         const gameBoard = document.querySelector('.game-page__gameboard');
         const rangers = document.querySelector('.rangers');
@@ -39,9 +38,22 @@ const GamePage = (() => {
         const root = document.querySelector(':root');
         const playMobile = document.querySelector('.play-btn__mobile');
         const deletesCard = document.querySelectorAll('.delete');
+
+        const mobileRoundsCounter = () => {
+            return document.querySelector('.round-number__mobile');
+        }
+
+        const mobileTimer = () => {
+            return document.querySelector('.mobile-timer');
+        }
+
+        const getAllPlayerCards = () => {
+            return document.querySelectorAll('.player-card');
+        }
+
         return {
-            deletesCard, body, mobileTimer, displayTimer, playMobile, root,
-            allCards, itemsWrapper, timer, playWrapper,
+            deletesCard, body, mobileTimer, mobileRoundsCounter, displayTimer, playMobile, root,
+            getAllPlayerCards, itemsWrapper, timer, playWrapper,
             templateCard, gameBoard, heightRange,
             widthRange, playerCards, winlineBar,
             closePopup, play, tutorials, rangers
