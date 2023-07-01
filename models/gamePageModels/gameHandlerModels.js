@@ -158,6 +158,7 @@ const GameHandler = (() => {
                 }
             }
             if (flag === 'startRound') {
+                id = -1;
                 NodeGameBoard.draw();
                 nextMove();
             }

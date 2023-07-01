@@ -13,12 +13,20 @@ const BoardAi = (() => {
     return { getBoard, setBoard };
 })();
 
+const copyArr = (arr) => {
+    let arr2 = [];
+    for (let i = 0; i < 3; i++) {
+        arr2.push(arr[i].slice());
+    }
+    console.log(arr2);
+}
+
 const checkTie = (board) => {
     let tie = true;
     let width = GameBoard.getWidth();
     let height = GameBoard.getHeigth();
-    for (let i = 0; i < height; i++) {
-        for (let j = 0; j < width; j++) {
+    for (let i = 0; i < width; i++) {
+        for (let j = 0; j < height; j++) {
             if (board[i][j] === -1) {
                 tie = false;
             }
@@ -41,6 +49,7 @@ function bestMove() {
             if (board[j][i] === -1) {
                 board[j][i] = marker;
                 let score = minimax(board, marker, ++moveId, j, i, 0, marker, false);
+                console.log(score);
                 board[j][i] = -1;
                 if (score > bestScore) {
                     bestScore = score;
@@ -51,27 +60,24 @@ function bestMove() {
     }
     return bestMove;
 }
-
 function minimax(board, cMarker, moveId, x, y, depth, reference, isMaximizing) {
     if (moveId >= Session.getPlayers().length) {
         moveId = 0;
     }
 
-    if (checkTie(board)) {
-        return 0;
-    }
-
     BoardAi.setBoard(board);
-
     let result = MoveHandler.checkWinnable(y, x, cMarker, 'ai');
 
     if (result) {
-
         if (cMarker === reference) {
             return 1;
         } else {
             return -1;
         }
+    }
+
+    if (checkTie(board)) {
+        return 0;
     }
 
     let marker = Session.getPlayer(moveId).getId();

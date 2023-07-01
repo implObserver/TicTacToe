@@ -64,7 +64,7 @@ const Session = (() => {
     }
 
     const endSession = () => {
-        moveId = 0;
+        moveId = -1;
         rounds = 3;
         currentRound = 1;
         for (let player of players) {
