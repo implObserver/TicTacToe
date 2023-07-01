@@ -284,7 +284,7 @@ const MoveHandler = (() => {
 
 const winlineBar = (() => {
     let length = 3;
-
+    let greens = [];
     const setLength = (val) => {
         length = val;
     }
@@ -311,6 +311,31 @@ const winlineBar = (() => {
         for (let i = 0; i <= ind; i++) {
             cells[i].style.backgroundColor = 'green';
             cells[i].appendChild(Templates.getCross());
+            greens.push(i);
+        }
+    }
+
+    const opacityLow = () => {
+        let cells = document.querySelectorAll('.optional');
+        for (let i = 0; i <= 9; i++) {
+            if (greens.indexOf(i) === -1) {
+                cells[i].style.opacity = 0.2;
+                cells[i].style.pointerEvents = 'none';
+            }
+        }
+        opacityHigh();
+    }
+
+    const opacityHigh = () => {
+        let cells = document.querySelectorAll('.optional');
+        let max = Math.max(GameBoard.getHeigth(), GameBoard.getWidth());
+        for (let i = 0; i <= 9; i++) {
+            if (greens.indexOf(i) === -1) {
+                if (i < max) {
+                    cells[i].style.opacity = 1;
+                    cells[i].style.pointerEvents = 'auto';
+                }
+            }
         }
     }
 
@@ -321,7 +346,7 @@ const winlineBar = (() => {
             Tools.removeChilds(cells[i]);
         }
     }
-    return { setLength, getLength, fill, setting };
+    return { opacityLow, setLength, getLength, fill, setting };
 })();
 
 const MobilePageOptions = (() => {

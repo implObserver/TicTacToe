@@ -28,6 +28,8 @@ const DefaultListeners = () => {
             winlineBar.setting(line - 1);
             winlineBar.setLength(line);
             MoveHandler.setWinLine(line);
+        } else {
+            winlineBar.opacityLow();
         }
     });
 
@@ -41,6 +43,8 @@ const DefaultListeners = () => {
             winlineBar.setting(line - 1);
             winlineBar.setLength(line);
             MoveHandler.setWinLine(line);
+        } else {
+            winlineBar.opacityLow();
         }
     });
 
@@ -190,14 +194,12 @@ const AddListener = (() => {
     const optionalCell = (cell) => {
         cell.getNode().addEventListener('click', e => {
             let line = cell.getX() + 1;
-            if (GameBoard.getHeigth() < line && GameBoard.getWidth() < line) {
-                alert('ПОЛЕ СЛИШКОМ МАЛЕНЬКОЕ!');
-            } else {
-                AudioEffects.choisWinLine.play();
-                winlineBar.setting(cell.getX());
-                winlineBar.setLength(line);
-                MoveHandler.setWinLine(line);
-            }
+
+            AudioEffects.choisWinLine.play();
+            winlineBar.setting(cell.getX());
+            winlineBar.setLength(line);
+            MoveHandler.setWinLine(line);
+
         });
     }
 
@@ -261,6 +263,7 @@ const viewPage = () => {
         NodeGameBoard.draw();
         winlineBar.fill();
         winlineBar.setting(2);
+        winlineBar.opacityLow();
         BeforeStartPlay();
     })();
 
