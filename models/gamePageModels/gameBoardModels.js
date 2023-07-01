@@ -326,13 +326,13 @@ const MobilePageOptions = (() => {
 const AudioEffects = (() => {
     const cross = (() => {
         let audio = new Audio('../audio/cross.mp3');
-        audio.playbackRate = 2.5;
+        audio.playbackRate = 3;
         return audio;
     })();
 
     const aiCross = (() => {
         let audio = new Audio('../audio/terminatorCross.mp3');
-        audio.playbackRate = 3;
+        audio.playbackRate = 2;
         return audio;
     })();
 
