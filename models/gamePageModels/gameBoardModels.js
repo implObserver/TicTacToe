@@ -284,7 +284,7 @@ const MoveHandler = (() => {
 
 const winlineBar = (() => {
     let length = 3;
-    let greens = [];
+    let greens = [0, 1, 2];
     const setLength = (val) => {
         length = val;
     }
