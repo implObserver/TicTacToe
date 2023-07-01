@@ -209,6 +209,11 @@ const AddListener = (() => {
                     GamePage.Body.winlineBar.style.pointerEvents = 'auto';
                     GamePage.Body.rangers.style.animation = '';
                 }, 1200);
+            } else if (cell.getX() === 2) {
+                AudioEffects.choisWinLine.play();
+                winlineBar.setting(cell.getX());
+                winlineBar.setLength(line + 1);
+                MoveHandler.setWinLine(line + 1);
             }
 
         });
