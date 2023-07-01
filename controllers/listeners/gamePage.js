@@ -195,12 +195,21 @@ const AddListener = (() => {
 
     const optionalCell = (cell) => {
         cell.getNode().addEventListener('click', e => {
-            let line = cell.getX() + 1;
+            let line = cell.getX();
+            if (cell.getNode().style.opacity > 0.2) {
 
-            AudioEffects.choisWinLine.play();
-            winlineBar.setting(cell.getX());
-            winlineBar.setLength(line);
-            MoveHandler.setWinLine(line);
+                AudioEffects.choisWinLine.play();
+                winlineBar.setting(cell.getX());
+                winlineBar.setLength(line + 1);
+                MoveHandler.setWinLine(line + 1);
+            } else if (cell.getX() > 2) {
+                GamePage.Body.winlineBar.style.pointerEvents = 'none';
+                GamePage.Body.rangers.style.animation = '1.2s ease-in-out 0s normal none trambling-animation';
+                setTimeout(() => {
+                    GamePage.Body.winlineBar.style.pointerEvents = 'auto';
+                    GamePage.Body.rangers.style.animation = '';
+                }, 1200);
+            }
 
         });
     }
