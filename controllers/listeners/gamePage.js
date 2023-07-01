@@ -24,7 +24,7 @@ const DefaultListeners = () => {
         GameBoard.setWidth(width);
         NodeGameBoard.draw();
         let line = Math.max(width, height);
-        if (winlineBar.getLength() !== line) {
+        if (winlineBar.getLength() > line) {
             winlineBar.setting(line - 1);
             winlineBar.setLength(line);
             MoveHandler.setWinLine(line);
@@ -37,7 +37,7 @@ const DefaultListeners = () => {
         GameBoard.setHeigth(height);
         NodeGameBoard.draw();
         let line = Math.max(width, height);
-        if (winlineBar.getLength() !== line) {
+        if (winlineBar.getLength() > line) {
             winlineBar.setting(line - 1);
             winlineBar.setLength(line);
             MoveHandler.setWinLine(line);
