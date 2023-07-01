@@ -307,6 +307,7 @@ const winlineBar = (() => {
 
     const setting = (ind) => {
         clear();
+        greens = [];
         let cells = document.querySelectorAll('.optional');
         for (let i = 0; i <= ind; i++) {
             cells[i].style.backgroundColor = 'green';

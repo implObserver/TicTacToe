@@ -28,6 +28,7 @@ const DefaultListeners = () => {
             winlineBar.setting(line - 1);
             winlineBar.setLength(line);
             MoveHandler.setWinLine(line);
+            winlineBar.opacityLow();
         } else {
             winlineBar.opacityLow();
         }
@@ -43,6 +44,7 @@ const DefaultListeners = () => {
             winlineBar.setting(line - 1);
             winlineBar.setLength(line);
             MoveHandler.setWinLine(line);
+            winlineBar.opacityLow();
         } else {
             winlineBar.opacityLow();
         }
