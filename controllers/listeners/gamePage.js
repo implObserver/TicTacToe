@@ -59,7 +59,7 @@ const DefaultListeners = () => {
 
     const addAi = GamePage.Popups.addPlayer.ai.addEventListener('click', e => {
         if (GameBoard.getWidth() > 3 || GameBoard.getHeigth() > 3) {
-            alert('AI:Это поле слишком большое для меня!');
+            alert('AI:ЭТО ПОЛЕ СЛИШКОМ БОЛЬШОЕ ДЛЯ МЕНЯ"');
         } else {
             AddAi.addTerminator();
             UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
@@ -146,7 +146,7 @@ const DefaultListeners = () => {
 
     const mobileStartPlay = GamePage.Body.playMobile.addEventListener('click', e => {
         if (Session.getPlayers().length < 2) {
-            alert('Добавьте минимум 2 игроков');
+            alert('ДОБАВЬТЕ МИНИМУМ ДВУХ ИГРОКОВ');
         } else {
             AudioEffects.addPlayer.play();
             AfterStartPlay('mobile');
@@ -191,7 +191,7 @@ const AddListener = (() => {
         cell.getNode().addEventListener('click', e => {
             let line = cell.getX() + 1;
             if (GameBoard.getHeigth() < line && GameBoard.getWidth() < line) {
-                alert('Поле слишком маленькое!');
+                alert('ПОЛЕ СЛИШКОМ МАЛЕНЬКОЕ!');
             } else {
                 AudioEffects.choisWinLine.play();
                 winlineBar.setting(cell.getX());
