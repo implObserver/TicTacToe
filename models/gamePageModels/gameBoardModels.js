@@ -332,7 +332,7 @@ const AudioEffects = (() => {
 
     const aiCross = (() => {
         let audio = new Audio('../audio/terminatorCross.mp3');
-        audio.playbackRate = 2;
+        audio.playbackRate = 2.3;
         return audio;
     })();
 

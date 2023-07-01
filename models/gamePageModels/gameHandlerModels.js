@@ -145,12 +145,16 @@ const GameHandler = (() => {
             if (flag === 'endRound') {
                 allTimerPause();
                 if (Session.getPlayer(id).getName() === 'Terminator') {
-                    AudioEffects.lose.play();
-                    UniversalAnimations.SmoothVisibility.open(GamePage.Popups.lose.popup, 0, 1, 200, 'forwards');
+                    setTimeout(() => {
+                        AudioEffects.lose.play();
+                        UniversalAnimations.SmoothVisibility.open(GamePage.Popups.lose.popup, 0, 1, 200, 'forwards');
+                    }, 500);
                 } else {
-                    AudioEffects.winRound.play();
-                    UniversalAnimations.SmoothVisibility.open(GamePage.Popups.applouseRound.popup, 0, 1, 200, 'forwards');
-                    GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
+                    setTimeout(() => {
+                        AudioEffects.winRound.play();
+                        UniversalAnimations.SmoothVisibility.open(GamePage.Popups.applouseRound.popup, 0, 1, 200, 'forwards');
+                        GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
+                    }, 500);
                 }
             }
             if (flag === 'startRound') {
@@ -162,9 +166,11 @@ const GameHandler = (() => {
         const gameOver = () => {
             allTimerPause();
             if (Session.getPlayer(id).getName() === 'Terminator') {
-                AudioEffects.gameOverAi.play();
-                UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOverAi.popup, 0, 1, 200, 'forwards');
-                GamePage.Body.gameBoard.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    AudioEffects.gameOverAi.play();
+                    UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOverAi.popup, 0, 1, 200, 'forwards');
+                    GamePage.Body.gameBoard.style.pointerEvents = 'none';
+                }, 500);
             } else {
                 AudioEffects.win.play();
                 setTimeout(() => {
@@ -178,8 +184,10 @@ const GameHandler = (() => {
         const draw = () => {
             AudioEffects.draw.play();
             allTimerPause();
-            UniversalAnimations.SmoothVisibility.open(GamePage.Popups.draw.popup, 0, 1, 200, 'forwards');
-            addRound();
+            setTimeout(() => {
+                UniversalAnimations.SmoothVisibility.open(GamePage.Popups.draw.popup, 0, 1, 200, 'forwards');
+                addRound();
+            }, 500);
         }
 
         const allTimerPause = () => {
