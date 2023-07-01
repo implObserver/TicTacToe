@@ -94,7 +94,9 @@ const createCard = (player) => {
         card.querySelector('.marker').style.opacity = '1';
         card.querySelector('.marker').style.backgroundImage = "url('../../views/images/high.svg')";
         Tools.addClasses(card.querySelector('.marker'), 't-800');
+        Tools.addClasses(card.querySelector('.card-options'), 't-800');
         AddListener.removeTerminator(card.querySelector('.marker'));
+        AddListener.removeTerminator(card.querySelector('.card-options'));
     } else {
         card.querySelector('.marker').appendChild(player.getMarker());
     }
