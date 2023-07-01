@@ -20,14 +20,28 @@ const DefaultListeners = () => {
 
     const changeWidthGameBoard = GamePage.Body.widthRange.addEventListener('input', () => {
         let width = GamePage.Body.widthRange.value;
+        let height = GameBoard.getHeigth();
         GameBoard.setWidth(width);
         NodeGameBoard.draw();
+        let line = Math.max(width, height);
+        if (winlineBar.getLength() !== line) {
+            winlineBar.setting(line - 1);
+            winlineBar.setLength(line);
+            MoveHandler.setWinLine(line);
+        }
     });
 
     const changeHeigthGameBoard = GamePage.Body.heightRange.addEventListener('input', () => {
         let height = GamePage.Body.heightRange.value;
+        let width = GameBoard.getWidth();
         GameBoard.setHeigth(height);
         NodeGameBoard.draw();
+        let line = Math.max(width, height);
+        if (winlineBar.getLength() !== line) {
+            winlineBar.setting(line - 1);
+            winlineBar.setLength(line);
+            MoveHandler.setWinLine(line);
+        }
     });
 
     const exitGame = GamePage.BurgerMenu.exitGame.addEventListener('click', e => {
@@ -131,7 +145,6 @@ const DefaultListeners = () => {
     });
 
     const mobileStartPlay = GamePage.Body.playMobile.addEventListener('click', e => {
-        console.log(`${GameBoard.getHeigth()} / ${GameBoard.getWidth()}`)
         if (Session.getPlayers().length < 2) {
             alert('Добавьте минимум 2 игроков');
         } else {
@@ -176,9 +189,15 @@ const AddListener = (() => {
 
     const optionalCell = (cell) => {
         cell.getNode().addEventListener('click', e => {
-            AudioEffects.choisWinLine.play();
-            winlineBar.setting(cell.getX());
-            MoveHandler.setWinLine(cell.getX() + 1);
+            let line = cell.getX() + 1;
+            if (GameBoard.getHeigth() < line && GameBoard.getWidth() < line) {
+                alert('Поле слишком маленькое!');
+            } else {
+                AudioEffects.choisWinLine.play();
+                winlineBar.setting(cell.getX());
+                winlineBar.setLength(line);
+                MoveHandler.setWinLine(line);
+            }
         });
     }
 

@@ -179,10 +179,10 @@ const MoveHandler = (() => {
     const checkWinnable = (x, y, mark, thisFlag = 'move') => {
         flag = thisFlag;
         playerMark = mark;
-        return checkHorizontal(x, y) >= winLine ? win()
-            : checkVertical(x, y) >= winLine ? win()
-                : checkLeftDiagonal(x, y) >= winLine ? win()
-                    : checkRightDiagonal(x, y) >= winLine ? win()
+        return checkHorizontal(x, y) ? win()
+            : checkVertical(x, y) ? win()
+                : checkLeftDiagonal(x, y) ? win()
+                    : checkRightDiagonal(x, y) ? win()
                         : false;
     }
 
@@ -196,28 +196,38 @@ const MoveHandler = (() => {
 
     const checkHorizontal = (x, y) => {
         let result = check([x, y, minE, minE, decrement, unchanged], [++x, y, maxX, minE, increment, unchanged]);
-        //if (result >= winLine) {
-        //console.log('horizontal');
-        //}
-        return result;
+        if (result >= winLine) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     const checkVertical = (x, y) => {
         let result = check([x, y, minE, minE, unchanged, decrement], [x, ++y, maxX, maxY, unchanged, increment]);
-        //if (result >= winLine) {
-        //console.log('vertical');
-        //}
-        return result;
+        if (result >= winLine) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     const checkLeftDiagonal = (x, y) => {
         let result = check([x, y, minE, minE, decrement, decrement], [++x, ++y, maxX, maxY, increment, increment]);
-        return result;
+        if (result >= winLine) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     const checkRightDiagonal = (x, y) => {
         let result = check([x, y, maxX, minE, increment, decrement], [--x, ++y, minE, maxY, decrement, increment]);
-        return result;
+        if (result >= winLine) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     const check = (args1, args2) => {
@@ -273,6 +283,16 @@ const MoveHandler = (() => {
 })();
 
 const winlineBar = (() => {
+    let length = 3;
+
+    const setLength = (val) => {
+        length = val;
+    }
+
+    const getLength = () => {
+        return length;
+    }
+
     const fill = () => {
         Tools.removeChilds(GamePage.Body.winlineBar);
         for (let i = 0; i < 1; i++) {
@@ -301,7 +321,7 @@ const winlineBar = (() => {
             Tools.removeChilds(cells[i]);
         }
     }
-    return { fill, setting };
+    return { setLength, getLength, fill, setting };
 })();
 
 const MobilePageOptions = (() => {
