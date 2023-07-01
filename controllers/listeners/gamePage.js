@@ -71,8 +71,11 @@ const DefaultListeners = () => {
             UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
             UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.form, 1, 0, 200, 'forwards');
             UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.choisPlayer, 1, 0, 200, 'forwards');
-            GamePage.Body.rangers.style.opacity = 0.2;
-            GamePage.Body.rangers.style.pointerEvents = 'none';
+            UniversalAnimations.SmoothVisibility.close(GamePage.Body.rangers, 1, 0, 200, 'forwards');
+            setTimeout(e => {
+                GamePage.Body.rangers.style.display = 'none';
+                UniversalAnimations.SmoothVisibility.open(document.querySelector('.terminated'), 0, 1, 200, 'forwards');
+            }, 300);
             GamePage.Popups.addPlayer.ai.style.opacity = 0.2;
             GamePage.Popups.addPlayer.ai.style.pointerEvents = 'none';
         }
@@ -251,10 +254,13 @@ const AddListener = (() => {
 
     const removeTerminator = (terminator) => {
         terminator.addEventListener('click', e => {
-            GamePage.Body.rangers.style.opacity = 1;
-            GamePage.Body.rangers.style.pointerEvents = 'auto';
             GamePage.Popups.addPlayer.ai.style.opacity = 1;
             GamePage.Popups.addPlayer.ai.style.pointerEvents = 'auto';
+            UniversalAnimations.SmoothVisibility.close(document.querySelector('.terminated'), 1, 0, 200, 'forwards');
+            setTimeout(() => {
+                GamePage.Body.rangers.style.display = 'grid';
+                UniversalAnimations.SmoothVisibility.open(GamePage.Body.rangers, 0, 1, 200, 'forwards');
+            }, 300);
         });
     }
 
