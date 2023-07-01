@@ -116,6 +116,7 @@ const NodeGameBoard = (() => {
     const draw = () => {
         width = GameBoard.getWidth();
         height = GameBoard.getHeigth();
+        drawnCells = [];
         clear();
         setSize();
         fill();

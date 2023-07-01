@@ -199,11 +199,13 @@ const GameHandler = (() => {
         }
 
         const drawTest = () => {
+            console.log('/////')
             let draw = true;
             let cells = NodeGameBoard.getDrawnCells();
             for (let line of cells) {
                 for (let cell of line) {
                     if (cell.isEmpty()) {
+                        console.log(cell.isEmpty());
                         draw = false;
                     }
                 }

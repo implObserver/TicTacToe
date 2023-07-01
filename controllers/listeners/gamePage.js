@@ -131,6 +131,7 @@ const DefaultListeners = () => {
     });
 
     const mobileStartPlay = GamePage.Body.playMobile.addEventListener('click', e => {
+        console.log(`${GameBoard.getHeigth()} / ${GameBoard.getWidth()}`)
         if (Session.getPlayers().length < 2) {
             alert('Добавьте минимум 2 игроков');
         } else {
