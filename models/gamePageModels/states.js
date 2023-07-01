@@ -1,6 +1,6 @@
 import { GamePage } from "../selectors/gamePageSelectors.js";
-import { GameBoard, MobilePageOptions, NodeGameBoard, winlineBar } from "./gameBoardModel.js";
-import { addPlayScore } from "./burgerMenuModel.js";
+import { GameBoard, MobilePageOptions, NodeGameBoard, winlineBar } from "./gameBoardModels.js";
+import { addPlayScore } from "./burgerMenuModels.js";
 import { Templates } from "../../views/images/markers/markers.js";
 import { Animations } from "../../views/animations/animations.js";
 import { GameHandler } from "./gameHandlerModels.js";
@@ -87,26 +87,14 @@ const Session = (() => {
     return { getIdList, removeId, returnId, deletePlayer, endSession, setScore, getScore, setId, getid, addPlayer, getPlayer, getPlayers, getRounds, setRounds, getCurrentRound, setCurrentRound };
 })();
 
-const gamePage = (() => {
-    let globalState = {
-        pointers: {
-            gameBoard: 'none',
-            gif: 'none',
-            gif2: 'none',
-            gif3: 'none',
-            playerCards: 'none',
-            winlineBar: 'none',
-        }
-
-    }
-})();
-
 const BeforeStartPlay = () => {
     winlineBar.setting(2);
     GamePage.Body.gameBoard.style.pointerEvents = 'none';
     document.querySelector('.gif').style.pointerEvents = 'none';
     document.querySelector('.gif2').style.pointerEvents = 'none';
     document.querySelector('.gif3').style.pointerEvents = 'none';
+    document.querySelector('.gif4').style.pointerEvents = 'none';
+    document.querySelector('.gif5').style.pointerEvents = 'none';
 };
 
 const AfterStartPlay = () => {
@@ -183,4 +171,4 @@ const AfterEndPlay = () => {
     NodeGameBoard.draw();
 }
 
-export { gamePage, BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay };
+export { BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay };

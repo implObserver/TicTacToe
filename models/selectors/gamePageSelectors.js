@@ -1,5 +1,5 @@
 import { UniversalAnimations } from "../../views/animations/gamePage.js";
-import { BurgerMenu as BM, BurgerMenuClosed as BMC } from "../gamePageModels/burgerMenuModel.js";
+import { BurgerMenu as BM, BurgerMenuClosed as BMC } from "../gamePageModels/burgerMenuModels.js";
 
 const GamePage = (() => {
     const Wrapper = (() => {
@@ -64,8 +64,17 @@ const GamePage = (() => {
         const addPlayer = (() => {
             const popup = document.querySelector('.popup');
             const form = document.querySelector('.add-player');
+            const choisPlayer = document.querySelector('.chois-player');
+            const choisAi = document.querySelector('.chois-ai');
+            const human = document.querySelector('.human');
+            const ai = document.querySelector('.AI');
             const buttonOK = document.querySelector('.add-player-btn');
-            return { popup, buttonOK, form };
+            const closeChoiseAi = document.querySelector('.close-chois-ai');
+            const closeChoisePlayer = document.querySelector('.close-chois-player');
+            const highAi = document.querySelector('.high');
+            const mediumAi = document.querySelector('.medium');
+            const easyAi = document.querySelector('.easy');
+            return { highAi, mediumAi, easyAi, popup, buttonOK, form, choisPlayer, human, ai, choisAi, closeChoiseAi, closeChoisePlayer };
         })();
 
         const applouseRound = (() => {
@@ -87,7 +96,17 @@ const GamePage = (() => {
             return { popup };
         })();
 
-        return { addPlayer, applouseRound, gameOver, draw };
+        const lose = (() => {
+            const popup = document.querySelector('.popup5');
+            return { popup };
+        })();
+
+        const gameOverAi = (() => {
+            const popup = document.querySelector('.popup6');
+            return { popup };
+        })();
+
+        return { gameOverAi, addPlayer, applouseRound, gameOver, draw, lose };
     })();
 
     return { Wrapper, BurgerMenu, Body, Popups };

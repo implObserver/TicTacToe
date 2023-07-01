@@ -3,6 +3,7 @@ import { AddListener } from "../../controllers/listeners/gamePage.js";
 import { Templates } from "../../views/images/markers/markers.js";
 import { GamePage } from "../selectors/gamePageSelectors.js";
 import { GameHandler } from "./gameHandlerModels.js";
+import { BoardAi } from "../aiModels.js";
 
 const GameBoard = (() => {
     let width = 0;
@@ -62,7 +63,11 @@ const GameBoard = (() => {
         gameBoard = fillGameBoard();
     }
 
-    return { getGameBoard, resetGameBoard, setGameBoard, setGameBoardVal, setWidth, setHeigth, getWidth, getHeigth, setOverAllSize, getOverAllSize }
+    const getGameBoardVal = (x, y) => {
+        return gameBoard[x][y];
+    }
+
+    return { getGameBoardVal, getGameBoard, resetGameBoard, setGameBoard, setGameBoardVal, setWidth, setHeigth, getWidth, getHeigth, setOverAllSize, getOverAllSize }
 })();
 
 const Cell = () => {
@@ -164,12 +169,14 @@ const MoveHandler = (() => {
     let playerMark;
     let winLine = 3;
     let buff = [];
+    let flag;
 
     const setWinLine = (length) => {
         winLine = length;
     }
 
-    const checkWinnable = (x, y, mark) => {
+    const checkWinnable = (x, y, mark, thisFlag = 'move') => {
+        flag = thisFlag;
         playerMark = mark;
         return checkHorizontal(x, y) >= winLine ? win()
             : checkVertical(x, y) >= winLine ? win()
@@ -179,18 +186,26 @@ const MoveHandler = (() => {
     }
 
     const win = () => {
-        console.log(buff);
-        NodeGameBoard.victoryLineMarking(buff);
+        if (flag === 'move') {
+            NodeGameBoard.victoryLineMarking(buff);
+            return true;
+        }
         return true;
     }
 
     const checkHorizontal = (x, y) => {
         let result = check([x, y, minE, minE, decrement, unchanged], [++x, y, maxX, minE, increment, unchanged]);
+        //if (result >= winLine) {
+        //console.log('horizontal');
+        //}
         return result;
     }
 
     const checkVertical = (x, y) => {
         let result = check([x, y, minE, minE, unchanged, decrement], [x, ++y, maxX, maxY, unchanged, increment]);
+        //if (result >= winLine) {
+        //console.log('vertical');
+        //}
         return result;
     }
 
@@ -212,7 +227,12 @@ const MoveHandler = (() => {
     }
 
     const measuringDeviceFabric = (x, y, xBool, yBool, functionX, functionY, score = 0) => {
-        let gameBoard = GameBoard.getGameBoard();
+        let gameBoard;
+        if (flag === 'ai') {
+            gameBoard = BoardAi.getBoard();
+        } else {
+            gameBoard = GameBoard.getGameBoard();
+        }
         if (xBool(x) && yBool(y)) {
             if (gameBoard[y][x] === playerMark) {
                 ++score;
@@ -323,7 +343,7 @@ const AudioEffects = (() => {
     })();
 
     const draw = (() => {
-        let audio = new Audio('../audio/draw.mp3');
+        let audio = new Audio('../audio/wow.mp3');
         audio.volume = 0.5;
         return audio;
     })();
@@ -372,6 +392,21 @@ const AudioEffects = (() => {
         return audio;
     })();
 
-    return { cross, circle, winRound, draw, win, timer, nextMove, openBurger, closeBurger, addPlayer, deletePlayer, choisWinLine };
+    const getTerminator = (() => {
+        let audio = new Audio('../audio/terminator.mp3');
+        return audio;
+    })();
+
+    const lose = (() => {
+        let audio = new Audio('../audio/hasta-la-vista.mp3');
+        return audio;
+    })();
+
+    const gameOverAi = (() => {
+        let audio = new Audio('../audio/terminatorEnd.mp3');
+        return audio;
+    })();
+
+    return { gameOverAi, lose, getTerminator, cross, circle, winRound, draw, win, timer, nextMove, openBurger, closeBurger, addPlayer, deletePlayer, choisWinLine };
 })();
 export { GameBoard, NodeGameBoard, MoveHandler, winlineBar, MobilePageOptions, AudioEffects }

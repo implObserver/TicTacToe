@@ -1,8 +1,8 @@
 import { Tools } from "../../helper/tools.js";
-import { Session, gamePage as stateGamePage } from "./states.js";
+import { Session } from "./states.js";
 import { GamePage } from "../selectors/gamePageSelectors.js";
 import { AnimationsPresets, UniversalAnimations } from "../../views/animations/gamePage.js";
-import { AudioEffects } from "./gameBoardModel.js";
+import { AudioEffects } from "./gameBoardModels.js";
 const BurgerMenu = (() => {
     let burgerMenu = Tools.createNode('div', 'game-page__burger--opened');
     const header = () => {

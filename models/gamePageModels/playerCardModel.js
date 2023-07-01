@@ -1,9 +1,9 @@
 import { Tools } from "../../helper/tools.js";
 import { GamePage } from "../selectors/gamePageSelectors.js";
-import { Session, gamePage as stateGamePage } from "./states.js";
-import { Player, Profiles } from "./playerModel.js";
+import { Session } from "./states.js";
+import { Player, Profiles, aiProfiles } from "./playersModels.js";
 import { AddListener } from "../../controllers/listeners/gamePage.js";
-import { AudioEffects } from "./gameBoardModel.js";
+import { AudioEffects } from "./gameBoardModels.js";
 
 const DynamicNode = (() => {
     const playerCard = () => {
@@ -42,6 +42,23 @@ const DynamicNode = (() => {
     return { playerCard };
 })();
 
+const AddAi = (() => {
+    const addTerminator = () => {
+        if (Session.getPlayers().length === 3) {
+            GamePage.Body.templateCard.style.display = 'none';
+        }
+        let terminator = aiProfiles.terminator();
+        Session.addPlayer(terminator);
+        let card = createCard(terminator);
+        AddListener.mobileDeleteCard(card, terminator);
+        AddListener.deleteCard(card, terminator);
+        AudioEffects.getTerminator.play();
+        GamePage.Body.playerCards.appendChild(card);
+    }
+
+    return { addTerminator };
+})();
+
 const addPlayer = (name) => {
     if (Session.getPlayers().length === 3) {
         GamePage.Body.templateCard.style.display = 'none';
@@ -53,6 +70,7 @@ const addPlayer = (name) => {
     let card = createCard(player);
     AddListener.mobileDeleteCard(card, player);
     AddListener.deleteCard(card, player);
+
     AudioEffects.addPlayer.play();
     GamePage.Body.playerCards.appendChild(card);
 }
@@ -62,7 +80,9 @@ const createPlayer = (name) => {
     player.setName(name);
     player.setId(Session.removeId());
     player.setColor(Profiles.getColor(player.getId()));
-    player.setMarker(Profiles.getMarker(player.getId()));
+    let marker = Profiles.getMarker(player.getId());
+    player.setMarketTemplate(marker[0]);
+    player.setMarkerAttrs(marker[1]);
     return player;
 }
 
@@ -70,7 +90,12 @@ const createCard = (player) => {
     let card = DynamicNode.playerCard();
     card.querySelector('.name').style.backgroundColor = player.getColor();
     card.querySelector('span').textContent = player.getName();
-    card.querySelector('.marker').appendChild(player.getMarker());
+    if (player.getName() === 'Terminator') {
+        card.querySelector('.marker').style.opacity = '1';
+        card.querySelector('.marker').style.backgroundImage = "url('../../views/images/high.svg')";
+    } else {
+        card.querySelector('.marker').appendChild(player.getMarker());
+    }
     return card;
 }
 
@@ -81,4 +106,4 @@ const changeOpacityCards = (op) => {
     }
 }
 
-export { DynamicNode, addPlayer, changeOpacityCards };
+export { DynamicNode, addPlayer, changeOpacityCards, AddAi };

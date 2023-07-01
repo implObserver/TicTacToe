@@ -194,7 +194,9 @@
 .popup,
 .popup2,
 .popup3,
-.popup4 {
+.popup4,
+.popup5,
+.popup6 {
     position: fixed;
     display: grid;
     grid-template-rows: repeat(auto-fit, min-content);
@@ -211,6 +213,11 @@
     z-index: 100;
 }
 
+.popup {
+    grid-template-areas:
+        'popup';
+}
+
 .close-popup {
     display: grid;
     grid-template-columns: 1fr min-content;
@@ -223,15 +230,60 @@
     padding-right: 1vh;
 }
 
-.add-player {
-    width: 30vh;
-    height: 20vh;
+.add-player,
+.chois-player,
+.chois-ai {
     display: grid;
-    grid-template-rows: min-content 5vh 2vh;
     background-color: #4fadff;
     padding: 1vh;
     border-radius: 1vh;
+    grid-area: popup;
+}
+
+.chois-player {
+    grid-template-columns: 1fr 1fr min-content;
+    justify-items: center;
+    align-content: center;
+    width: 20vh;
+    height: 10vh;
+}
+
+.human {
+    border-radius: 0.4vh;
+    background-image: url(../../images/human.gif);
+    cursor: pointer;
+}
+
+.AI {
+    border-radius: 0.4vh;
+    background-image: url(../../images/ai.gif);
+    cursor: pointer;
+}
+
+.close-chois-player {
+    position: relative;
+    height: min-content;
+    bottom: 2vh;
+    font-size: 1.5rem;
+    color: red;
+    cursor: pointer;
+    text-align: end;
+}
+
+.high {
+    cursor: pointer;
+    background-color: white;
+    border-radius: 0.4vh;
+    background-image: url(../../images/high.svg);
+}
+
+.add-player {
+    grid-template-rows: min-content 5vh 2vh;
+    width: 30vh;
+    height: 20vh;
     gap: 2vh;
+    visibility: hidden;
+    opacity: 0;
 }
 
 .close-popup>h1 {

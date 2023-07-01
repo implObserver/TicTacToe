@@ -1,10 +1,11 @@
 import { GamePage } from "../selectors/gamePageSelectors.js";
 import { Templates } from "../../views/images/markers/markers.js";
-import { Session, gamePage as stateGamePage } from "./states.js";
+import { Session } from "./states.js";
 import { Tools } from "../../helper/tools.js";
 import { AnimationsPresets, UniversalAnimations } from "../../views/animations/gamePage.js";
-import { AudioEffects, NodeGameBoard } from "./gameBoardModel.js";
-import { BurgerMenu } from "./burgerMenuModel.js";
+import { AudioEffects, NodeGameBoard } from "./gameBoardModels.js";
+import { BurgerMenu } from "./burgerMenuModels.js";
+import { bestMove } from "../aiModels.js";
 const GameHandler = (() => {
     const play = () => {
         move.nextMove();
@@ -50,7 +51,7 @@ const GameHandler = (() => {
         }
 
         const nextMove = (flag = 'regular') => {
-            
+            GamePage.Body.gameBoard.style.pointerEvents = 'auto';
             resetTimer();
             if (flag === 'round') {
                 newRound();
@@ -82,9 +83,9 @@ const GameHandler = (() => {
         }
 
         const addTimer = () => {
+            let timer = Templates.getTimer();
             removeTimers();
             addMobileTimer();
-            let timer = Templates.getTimer();
             timerColor = AnimationsPresets.ForGamePage.ForTimer.colorIndicator(timer);
             timerState = AnimationsPresets.ForGamePage.ForTimer.drawIndicator(timer);
             GamePage.Body.timer.appendChild(timer);
@@ -104,12 +105,22 @@ const GameHandler = (() => {
         }
 
         const viewSeconds = () => {
+            let isAi = Session.getPlayer(Session.getid()).isAi();
+            let move;
+            if (isAi) {
+                GamePage.Body.gameBoard.style.pointerEvents = 'none';
+                move = bestMove();
+            }
             GamePage.Body.mobileTimer().querySelector('span').textContent = '0:30';
             GamePage.Body.displayTimer.textContent = '0:30';
             let seconds = 29;
 
             interval = setInterval(() => {
                 let curSecond = seconds >= 10 ? `0:${seconds}` : `0:0${seconds}`;
+                if (isAi && seconds === 29) {
+                    let cell = NodeGameBoard.getDrawnCells()[move.j][move.i].getNode();
+                    cell.click();
+                }
                 if (seconds === 5) {
                     AudioEffects.timer.play();
                 }
@@ -132,10 +143,15 @@ const GameHandler = (() => {
 
         const newRound = (flag = 'endRound') => {
             if (flag === 'endRound') {
-                AudioEffects.winRound.play();
                 allTimerPause();
-                UniversalAnimations.SmoothVisibility.open(GamePage.Popups.applouseRound.popup, 0, 1, 200, 'forwards');
-                GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
+                if (Session.getPlayer(id).getName() === 'Terminator') {
+                    AudioEffects.lose.play();
+                    UniversalAnimations.SmoothVisibility.open(GamePage.Popups.lose.popup, 0, 1, 200, 'forwards');
+                } else {
+                    AudioEffects.winRound.play();
+                    UniversalAnimations.SmoothVisibility.open(GamePage.Popups.applouseRound.popup, 0, 1, 200, 'forwards');
+                    GamePage.Popups.applouseRound.roundWinner.textContent = `${Session.getPlayer(id).getName()} WINS THIS ROUND!!`
+                }
             }
             if (flag === 'startRound') {
                 NodeGameBoard.draw();
@@ -144,11 +160,17 @@ const GameHandler = (() => {
         }
 
         const gameOver = () => {
-            AudioEffects.win.play();
             allTimerPause();
-            UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOver.popup, 0, 1, 200, 'forwards');
-            GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`;
-            GamePage.Body.gameBoard.style.pointerEvents = 'none';
+            if (Session.getPlayer(id).getName() === 'Terminator') {
+                AudioEffects.gameOverAi.play();
+                UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOverAi.popup, 0, 1, 200, 'forwards');
+                GamePage.Body.gameBoard.style.pointerEvents = 'none';
+            } else {
+                AudioEffects.win.play();
+                UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOver.popup, 0, 1, 200, 'forwards');
+                GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`;
+                GamePage.Body.gameBoard.style.pointerEvents = 'none';
+            }
         }
 
         const draw = () => {

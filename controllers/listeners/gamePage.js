@@ -1,11 +1,11 @@
 import { GamePage } from '../../models/selectors/gamePageSelectors.js';
 import { UniversalAnimations } from '../../views/animations/gamePage.js';
 import { Tools } from '../../helper/tools.js';
-import { close, open } from '../../models/gamePageModels/burgerMenuModel.js';
-import { Player, Profiles } from '../../models/gamePageModels/playerModel.js';
-import { addPlayer } from '../../models/gamePageModels/playerCardModel.js';
+import { close, open } from '../../models/gamePageModels/burgerMenuModels.js';
+import { Player, Profiles } from '../../models/gamePageModels/playersModels.js';
+import { AddAi, addPlayer } from '../../models/gamePageModels/playerCardModel.js';
 import { BeforeStartPlay, AfterStartPlay, Session, AfterEndPlay } from '../../models/gamePageModels/states.js';
-import { NodeGameBoard, GameBoard, MoveHandler, winlineBar, MobilePageOptions, AudioEffects } from '../../models/gamePageModels/gameBoardModel.js';
+import { NodeGameBoard, GameBoard, MoveHandler, winlineBar, MobilePageOptions, AudioEffects } from '../../models/gamePageModels/gameBoardModels.js';
 import { GameHandler } from '../../models/gamePageModels/gameHandlerModels.js';
 
 const DefaultListeners = () => {
@@ -38,6 +38,16 @@ const DefaultListeners = () => {
         }, 400);
     });
 
+    const choisHuman = GamePage.Popups.addPlayer.human.addEventListener('click', e => {
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.choisPlayer, 1, 0, 200, 'forwards');
+        UniversalAnimations.SmoothVisibility.open(GamePage.Popups.addPlayer.form, 0, 1, 200, 'forwards');
+    });
+
+    const addAi = GamePage.Popups.addPlayer.ai.addEventListener('click', e => {
+        AddAi.addTerminator();
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
+    });
+
     const closePopupApplouseRound = GamePage.Popups.applouseRound.popup.addEventListener('click', e => {
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.applouseRound.popup, 1, 0, 200, 'forwards');
         GameHandler.move.newRound('startRound');
@@ -48,17 +58,40 @@ const DefaultListeners = () => {
         GameHandler.move.newRound('startRound');
     });
 
+    const closePopLose = GamePage.Popups.lose.popup.addEventListener('click', e => {
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.lose.popup, 1, 0, 200, 'forwards');
+        GameHandler.move.newRound('startRound');
+    });
+
     const closePopupGameOver = GamePage.Popups.gameOver.popup.addEventListener('click', e => {
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.gameOver.popup, 1, 0, 200, 'forwards');
         Session.endSession();
         AfterEndPlay();
     });
 
-    const openPopupAddPlayer = GamePage.Body.templateCard.addEventListener('click', e => {
-        UniversalAnimations.SmoothVisibility.open(GamePage.Popups.addPlayer.popup, 0, 1, 200, 'forwards');
+    const closePopupGameOverAi = GamePage.Popups.gameOverAi.popup.addEventListener('click', e => {
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.gameOverAi.popup, 1, 0, 200, 'forwards');
+        Session.endSession();
+        AfterEndPlay();
     });
 
-    const closePopupAddPlayer = GamePage.Body.closePopup.addEventListener('click', e => {
+    const openPopupAddPlayer = GamePage.Body.templateCard.addEventListener('click', e => {
+        if (GameBoard.getWidth() > 3 || GameBoard.getHeigth() > 3) {
+
+        }
+        UniversalAnimations.SmoothVisibility.open(GamePage.Popups.addPlayer.popup, 0, 1, 200, 'forwards');
+        UniversalAnimations.SmoothVisibility.open(GamePage.Popups.addPlayer.choisPlayer, 0, 1, 200, 'forwards');
+    });
+
+    const closeFormAddPlayer = GamePage.Body.closePopup.addEventListener('click', e => {
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.form, 1, 0, 200, 'forwards');
+        setTimeout(() => {
+            UniversalAnimations.SmoothVisibility.open(GamePage.Popups.addPlayer.choisPlayer, 0, 1, 200, 'forwards');
+        }, 100);
+    });
+
+    const closePopupChoisPlayer = GamePage.Popups.addPlayer.closeChoisePlayer.addEventListener('click', e => {
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.choisPlayer, 1, 0, 200, 'forwards');
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
     });
 
@@ -66,6 +99,7 @@ const DefaultListeners = () => {
         e.preventDefault();
         let name = document.querySelector('.nickname');
         addPlayer(name.value);
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.form, 1, 0, 200, 'forwards');
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
     });
 
@@ -79,7 +113,6 @@ const DefaultListeners = () => {
     });
 
     const mobileStartPlay = GamePage.Body.playMobile.addEventListener('click', e => {
-
         if (Session.getPlayers().length < 2) {
             alert('Добавьте минимум 2 игроков');
         } else {
@@ -87,10 +120,7 @@ const DefaultListeners = () => {
             AfterStartPlay('mobile');
             GameHandler.play();
         }
-
     });
-
-
 
 };
 
@@ -102,14 +132,14 @@ const AddListener = (() => {
             let idMove = Session.getid();
             let player = Session.getPlayer(idMove);
             let idMarker = player.getId();
-            let marker = Profiles.getMarker(idMarker);
+            let marker = player.getMarker();
             Profiles.playbackMarkerAudio(idMarker);
             node.appendChild(marker);
             let x = cell.getX();
             let y = cell.getY();
 
             cell.fill();
-            GameBoard.getGameBoard()[y][x] = idMarker;
+            GameBoard.setGameBoardVal(x, y, idMarker);
 
             Tools.removeChilds(node);
             node.appendChild(marker);
@@ -151,7 +181,9 @@ const AddListener = (() => {
             if (window.matchMedia('(min-aspect-ratio: 1/1)').matches) {
                 AudioEffects.deletePlayer.play();
                 GamePage.Body.playerCards.removeChild(card);
-                Session.returnId(player.getId());
+                if (Number.isInteger(player.getId())) {
+                    Session.returnId(player.getId());
+                }
                 Session.deletePlayer(player);
                 if (Session.getPlayers().length < 4) {
                     GamePage.Body.templateCard.style.display = 'grid';
