@@ -44,41 +44,56 @@ const DefaultListeners = () => {
     });
 
     const addAi = GamePage.Popups.addPlayer.ai.addEventListener('click', e => {
-        AddAi.addTerminator();
-        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
+        if (GameBoard.getWidth() > 3 || GameBoard.getHeigth() > 3) {
+            alert('AI:Это поле слишком большое для меня!');
+        } else {
+            AddAi.addTerminator();
+            UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
+            GamePage.Body.rangers.style.opacity = 0.2;
+            GamePage.Body.rangers.style.pointerEvents = 'none';
+            GamePage.Popups.addPlayer.ai.style.opacity = 0.2;
+            GamePage.Popups.addPlayer.ai.style.pointerEvents = 'none';
+        }
     });
 
     const closePopupApplouseRound = GamePage.Popups.applouseRound.popup.addEventListener('click', e => {
+        AudioEffects.winRound.pause();
+        AudioEffects.winRound.currentTime = 0;
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.applouseRound.popup, 1, 0, 200, 'forwards');
         GameHandler.move.newRound('startRound');
     });
 
     const closePopupDraw = GamePage.Popups.draw.popup.addEventListener('click', e => {
+        AudioEffects.draw.pause();
+        AudioEffects.draw.currentTime = 0;
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.draw.popup, 1, 0, 200, 'forwards');
         GameHandler.move.newRound('startRound');
     });
 
     const closePopLose = GamePage.Popups.lose.popup.addEventListener('click', e => {
+        AudioEffects.lose.pause();
+        AudioEffects.lose.currentTime = 0;
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.lose.popup, 1, 0, 200, 'forwards');
         GameHandler.move.newRound('startRound');
     });
 
     const closePopupGameOver = GamePage.Popups.gameOver.popup.addEventListener('click', e => {
+        AudioEffects.win.pause();
+        AudioEffects.win.currentTime = 0;
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.gameOver.popup, 1, 0, 200, 'forwards');
         Session.endSession();
         AfterEndPlay();
     });
 
     const closePopupGameOverAi = GamePage.Popups.gameOverAi.popup.addEventListener('click', e => {
+        AudioEffects.gameOverAi.pause();
+        AudioEffects.gameOverAi.currentTime = 0;
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.gameOverAi.popup, 1, 0, 200, 'forwards');
         Session.endSession();
         AfterEndPlay();
     });
 
     const openPopupAddPlayer = GamePage.Body.templateCard.addEventListener('click', e => {
-        if (GameBoard.getWidth() > 3 || GameBoard.getHeigth() > 3) {
-
-        }
         UniversalAnimations.SmoothVisibility.open(GamePage.Popups.addPlayer.popup, 0, 1, 200, 'forwards');
         UniversalAnimations.SmoothVisibility.open(GamePage.Popups.addPlayer.choisPlayer, 0, 1, 200, 'forwards');
     });
@@ -134,7 +149,6 @@ const AddListener = (() => {
             let idMarker = player.getId();
             let marker = player.getMarker();
             Profiles.playbackMarkerAudio(idMarker);
-            node.appendChild(marker);
             let x = cell.getX();
             let y = cell.getY();
 
@@ -192,7 +206,16 @@ const AddListener = (() => {
         });
     }
 
-    return { cell, optionalCell, mobileDeleteCard, deleteCard };
+    const removeTerminator = (terminator) => {
+        terminator.addEventListener('click', e => {
+            GamePage.Body.rangers.style.opacity = 1;
+            GamePage.Body.rangers.style.pointerEvents = 'auto';
+            GamePage.Popups.addPlayer.ai.style.opacity = 1;
+            GamePage.Popups.addPlayer.ai.style.pointerEvents = 'auto';
+        });
+    }
+
+    return { removeTerminator, cell, optionalCell, mobileDeleteCard, deleteCard };
 })();
 
 const viewPage = () => {

@@ -83,7 +83,6 @@
     display: flex;
     background-color: #d1eeec;
     opacity: 0.7;
-    transition: 1s;
 }
 
 .items-wrapper {

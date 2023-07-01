@@ -83,7 +83,7 @@ const Profiles = (() => {
             : id === 1 ? AudioEffects.circle.play()
                 : id === 2 ? AudioEffects.cross.play()
                     : id === 3 ? AudioEffects.circle.play()
-                        : id === 'terminator' ? AudioEffects.cross.play()
+                        : id === 'terminator' ? AudioEffects.aiCross.play()
                             : id === 'toaster' ? AudioEffects.circle.play()
                                 : AudioEffects.cross.play();
 

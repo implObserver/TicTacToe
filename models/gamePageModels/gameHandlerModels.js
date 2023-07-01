@@ -167,9 +167,11 @@ const GameHandler = (() => {
                 GamePage.Body.gameBoard.style.pointerEvents = 'none';
             } else {
                 AudioEffects.win.play();
-                UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOver.popup, 0, 1, 200, 'forwards');
-                GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`;
-                GamePage.Body.gameBoard.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    UniversalAnimations.SmoothVisibility.open(GamePage.Popups.gameOver.popup, 0, 1, 200, 'forwards');
+                    GamePage.Popups.gameOver.winner.textContent = `${Session.getPlayer(id).getName()} is WON!!`;
+                    GamePage.Body.gameBoard.style.pointerEvents = 'none';
+                }, 1000);
             }
         }
 
@@ -177,6 +179,7 @@ const GameHandler = (() => {
             AudioEffects.draw.play();
             allTimerPause();
             UniversalAnimations.SmoothVisibility.open(GamePage.Popups.draw.popup, 0, 1, 200, 'forwards');
+            addRound();
         }
 
         const allTimerPause = () => {

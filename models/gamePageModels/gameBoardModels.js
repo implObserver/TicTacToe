@@ -326,6 +326,12 @@ const MobilePageOptions = (() => {
 const AudioEffects = (() => {
     const cross = (() => {
         let audio = new Audio('../audio/cross.mp3');
+        audio.playbackRate = 2.5;
+        return audio;
+    })();
+
+    const aiCross = (() => {
+        let audio = new Audio('../audio/terminatorCross.mp3');
         audio.playbackRate = 3;
         return audio;
     })();
@@ -407,6 +413,6 @@ const AudioEffects = (() => {
         return audio;
     })();
 
-    return { gameOverAi, lose, getTerminator, cross, circle, winRound, draw, win, timer, nextMove, openBurger, closeBurger, addPlayer, deletePlayer, choisWinLine };
+    return { aiCross, gameOverAi, lose, getTerminator, cross, circle, winRound, draw, win, timer, nextMove, openBurger, closeBurger, addPlayer, deletePlayer, choisWinLine };
 })();
 export { GameBoard, NodeGameBoard, MoveHandler, winlineBar, MobilePageOptions, AudioEffects }

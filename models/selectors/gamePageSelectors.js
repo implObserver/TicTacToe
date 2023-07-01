@@ -39,6 +39,10 @@ const GamePage = (() => {
         const playMobile = document.querySelector('.play-btn__mobile');
         const deletesCard = document.querySelectorAll('.delete');
 
+        const t800 = () => {
+            return document.querySelector('.t-800');
+        }
+
         const mobileRoundsCounter = () => {
             return document.querySelector('.round-number__mobile');
         }
@@ -56,7 +60,7 @@ const GamePage = (() => {
             getAllPlayerCards, itemsWrapper, timer, playWrapper,
             templateCard, gameBoard, heightRange,
             widthRange, playerCards, winlineBar,
-            closePopup, play, tutorials, rangers
+            closePopup, play, tutorials, rangers, t800
         };
     })();
 
