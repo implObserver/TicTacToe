@@ -49,6 +49,8 @@ const DefaultListeners = () => {
         } else {
             AddAi.addTerminator();
             UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
+            UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.form, 1, 0, 200, 'forwards');
+            UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.choisPlayer, 1, 0, 200, 'forwards');
             GamePage.Body.rangers.style.opacity = 0.2;
             GamePage.Body.rangers.style.pointerEvents = 'none';
             GamePage.Popups.addPlayer.ai.style.opacity = 0.2;
@@ -116,6 +118,7 @@ const DefaultListeners = () => {
         addPlayer(name.value);
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.form, 1, 0, 200, 'forwards');
         UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.popup, 1, 0, 200, 'forwards');
+        UniversalAnimations.SmoothVisibility.close(GamePage.Popups.addPlayer.choisPlayer, 1, 0, 200, 'forwards');
     });
 
     const mobileExit = MobilePageOptions.addEventListener('click', e => {
@@ -182,7 +185,9 @@ const AddListener = (() => {
         card.querySelector('.delete').addEventListener('click', e => {
             AudioEffects.deletePlayer.play();
             GamePage.Body.playerCards.removeChild(card);
-            Session.returnId(player.getId());
+            if (player.getId() !== 'terminator') {
+                Session.returnId(player.getId());
+            }
             Session.deletePlayer(player);
             if (Session.getPlayers().length < 4) {
                 GamePage.Body.templateCard.style.display = 'grid';
