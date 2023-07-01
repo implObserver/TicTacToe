@@ -208,9 +208,11 @@ const AddListener = (() => {
             } else if (cell.getX() > 2) {
                 GamePage.Body.winlineBar.style.pointerEvents = 'none';
                 GamePage.Body.rangers.style.animation = '1.2s ease-in-out 0s normal none trambling-animation';
+                document.querySelector('.terminated').style.animation = '1.2s ease-in-out 0s normal none trambling-animation';
                 setTimeout(() => {
                     GamePage.Body.winlineBar.style.pointerEvents = 'auto';
                     GamePage.Body.rangers.style.animation = '';
+                    document.querySelector('.terminated').style.animation = '';
                 }, 1200);
             } else if (cell.getX() === 2) {
                 AudioEffects.choisWinLine.play();
